@@ -1,7 +1,9 @@
 import axios from 'axios';
 import React, { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { axiosInstance } from '../../proxySettings';
 import styles from './Register.module.css';
+
 const Register = () => {
   const email = useRef();
   const username = useRef();
