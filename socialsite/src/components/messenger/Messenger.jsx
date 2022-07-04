@@ -54,7 +54,7 @@ const Messenger = ({ show }) => {
         <input placeholder="Search Messenger" className={style.searchInput} />
 
         <ul className={style.friendsList}>
-          {friends.map((u) => (
+          {friends?.map((u) => (
             <FriendsOnline key={u.id} user={u} handleClickUp={handleClick} />
           ))}
         </ul>
