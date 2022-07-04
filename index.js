@@ -63,5 +63,3 @@ app.get('/', (req, res) => {
 app.get('/users', (req, res) => {
   res.send('welcome homeusers');
 });
-
-
