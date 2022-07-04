@@ -36,10 +36,10 @@ function Topmenu() {
         </div>
       </div>
       <div className={styles.topmenuRight}>
-        {/* <div className="topmenuLinks">
-          <span className={styles.toplink}>HomePage</span>
-          <span className={styles.toplink}>Timeline</span>
-        </div> */}
+        <div className="topmenuLinks">
+          <span className={styles.toplink}> </span>
+          <span className={styles.toplink}> </span>
+        </div>
         <div className={styles.topmenuIcons}>
           <div className={styles.topmenuIconItem}>
             <PersonIcon />
