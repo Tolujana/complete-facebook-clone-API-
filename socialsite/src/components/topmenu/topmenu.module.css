@@ -1,0 +1,96 @@
+.topmenuContainer {
+  height: 50px;
+  width: 100%;
+  background-color: #1877f2;
+  display: flex;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+.topmenuLeft {
+  flex: 3;
+  margin-left: 5px;
+}
+
+.topmenuCenter {
+  flex: 4;
+}
+.topmenuRight {
+  flex: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  color: white;
+}
+.topmenuLinks {
+  margin-right: 10px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.topmenuIcons {
+  display: flex;
+
+  justify-content: space-around;
+}
+.topmenuIconItem {
+  margin-right: 15px;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+}
+
+.logo {
+  font-size: 23px;
+  color: white;
+  margin-left: 10px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.topmenuIconValue {
+  width: 15px;
+  height: 15px;
+  background-color: red;
+  border-radius: 50%;
+  color: white;
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.searchBar {
+  width: 100%;
+  height: 30px;
+  background-color: white;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+}
+.SearchIcon {
+  font-size: 12px !important;
+  margin-left: 5px;
+}
+
+.searchInput {
+  border: none;
+  width: 80%;
+}
+.searchInput:focus {
+  outline: none;
+}
+.profilepic {
+  width: 30px;
+
+  height: 30px;
+  border-radius: 50px;
+  object-fit: cover;
+}
+.messenger {
+  position: absolute;
+  right: 80px;
+  top: 40px;
+  z-index: 999;
+}

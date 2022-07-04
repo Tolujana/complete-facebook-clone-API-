@@ -1,0 +1,10 @@
+.menu {
+  border-radius: 50%;
+  padding: 4px;
+  display: flex;
+  align-content: center;
+  max-width: max-content;
+}
+.menu:hover {
+  background-color: #d6d4d4;
+}

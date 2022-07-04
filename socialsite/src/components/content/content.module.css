@@ -1,0 +1,9 @@
+.content {
+  flex: 4.5;
+}
+.wrapper {
+  display: flex;
+  padding: 36px;
+  margin: 0px 72.6px;
+  flex-direction: column;
+}

@@ -1,0 +1,117 @@
+.profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+.profileRightBottom {
+  /* max-width: 892px; */
+  display: flex;
+  justify-content: center;
+}
+.profileCoverImg {
+  width: 940px;
+  height: 348px;
+  object-fit: cover;
+  /* justify-self: center; */
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+.profileRight {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  background-image: linear-gradient(360deg, white 55%, darkblue);
+}
+.profileRightTop {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.profileImg {
+  width: 168px;
+  height: 168px;
+  border-radius: 50%;
+  position: absolute;
+  border: 4px solid white;
+  bottom: -35%;
+  left: 5%;
+  object-fit: cover;
+}
+.profileCover {
+  width: 948px;
+  display: flex;
+  justify-self: center;
+  align-items: center;
+  justify-content: center;
+}
+.profileName {
+  font-size: 2em;
+  /* justify-self: flex-start; */
+}
+.profileInfo {
+  flex: 4;
+  display: flex;
+  flex-direction: column;
+}
+.profileInfos {
+  display: flex;
+  align-items: center;
+  width: 948px;
+  justify-content: space-between;
+  height: 148px;
+}
+.profileButtons {
+  flex: 2;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  height: 100%;
+}
+.imaged {
+  flex: 2;
+}
+.Action {
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  padding: 8px;
+  margin: 2px;
+  border-radius: 8px;
+  background-color: rgb(139, 139, 145);
+  /* margin-right: 15px; */
+  cursor: pointer;
+}
+.Action2 {
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  color: white;
+  padding: 8px;
+  margin: 2px;
+  border-radius: 8px;
+  background-color: #1877f2;
+  /* margin-right: 15px; */
+  cursor: pointer;
+}
+
+.Action:hover {
+  background-color: #e5e4e2;
+}
+.dividingline {
+  margin: 10px;
+  padding: 1px;
+  width: 948px;
+}
+.profileMenu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 648px;
+}
+.imaged {
+  position: relative;
+}
