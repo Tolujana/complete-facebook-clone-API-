@@ -7,8 +7,7 @@ import Topmenu from '../../components/topmenu/topmenu';
 import styles from './Profile.module.css';
 import { useParams } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
-import { axiosInstance } from '../../../proxySettings';
-
+import { axiosInstance } from '../../proxySettings';
 const PF = process.env.REACT_APP_PUBLIC_FOLDER;
 
 const Profile = () => {

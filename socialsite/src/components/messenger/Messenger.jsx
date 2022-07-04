@@ -7,8 +7,7 @@ import { AuthContext } from '../../context/AuthContext';
 import axios from 'axios';
 import SingleMessage from '../singlemessage/SingleMessage';
 import { formLabelClasses } from '@mui/material';
-import { axiosInstance } from '../../../proxySettings';
-
+import { axiosInstance } from '../../proxySettings';
 const Messenger = ({ show }) => {
   const { user, chats, dispatch } = useContext(AuthContext);
 

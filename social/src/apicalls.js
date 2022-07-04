@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { axiosInstance } from './proxySettings';
+import { axiosInstance } from 'proxySettings';
 export const loginCall = async (userCredentials, dispatch) => {
   dispatch({ type: 'LOGIN_START' });
   try {

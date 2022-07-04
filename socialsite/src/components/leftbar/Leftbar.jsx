@@ -9,7 +9,7 @@ import CloseFriends from '../closeFriend/CloseFriends';
 
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { axiosInstance } from '../../../proxySettings';
+import { axiosInstance } from '../../proxySettings';
 
 export const LeftbarHome = () => {
   return (

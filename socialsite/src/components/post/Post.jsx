@@ -9,7 +9,7 @@ import axios from 'axios';
 import { format } from 'timeago.js';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
-import { axiosInstance } from '../../../proxySettings';
+import { axiosInstance } from '../../proxySettings';
 const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
 const EXTERNAL_FOLDER = process.env.REACT_APP_EXTERNAL_FOLDER;
 

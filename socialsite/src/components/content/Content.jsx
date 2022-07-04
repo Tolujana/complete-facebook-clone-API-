@@ -4,7 +4,7 @@ import Share from '../share/Share';
 import Post from '../post/Post';
 import axios from 'axios';
 import { AuthContext } from '../../context/AuthContext';
-import { axiosInstance } from '../../../proxySettings';
+import { axiosInstance } from '../../proxySettings';
 
 function Content({ username }) {
   const [posts, setPost] = useState([]);

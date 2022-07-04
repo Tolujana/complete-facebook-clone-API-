@@ -6,7 +6,7 @@ import MoodIcon from '@mui/icons-material/Mood';
 import VideoCameraFrontIcon from '@mui/icons-material/VideoCameraFront';
 import { AuthContext } from '../../context/AuthContext';
 import axios from 'axios';
-import { axiosInstance } from '../../../proxySettings';
+import { axiosInstance } from '../../proxySettings';
 const PF = process.env.REACT_APP_PUBLIC_FOLDER;
 function Share() {
   const { user } = useContext(AuthContext);
