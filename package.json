@@ -7,7 +7,7 @@
     "node": "17.6.0"
   },
   "scripts": {
-    "heroku-postbuild": "cd social && npm install && npm run build",
+    "heroku-postbuild": "cd socialsite && npm install && npm run build",
     "start": "node index.js"
    
   },
