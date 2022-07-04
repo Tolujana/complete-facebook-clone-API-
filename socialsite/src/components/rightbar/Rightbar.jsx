@@ -1,13 +1,13 @@
-import React from "react";
-import styles from "./rightbar.module.css";
-import VideoCallIcon from "@mui/icons-material/VideoCall";
-import SearchIcon from "@mui/icons-material/Search";
+import React from 'react';
+import styles from './rightbar.module.css';
+import VideoCallIcon from '@mui/icons-material/VideoCall';
+import SearchIcon from '@mui/icons-material/Search';
 
-import MoreMenu from "../moreMenu/MoreMenu";
-import GroupIcon from "@mui/icons-material/Group";
-import { Users } from "../../dummyData";
-import { FriendsOnline } from "../friends/FriendsOnline";
-const Folder= process.env.REACT_APP_PUBLIC_FOLDER;
+import MoreMenu from '../moreMenu/MoreMenu';
+import GroupIcon from '@mui/icons-material/Group';
+import { Users } from '../../dummyData';
+import { FriendsOnline } from '../friends/FriendsOnline';
+const Folder = process.env.REACT_APP_PUBLIC_FOLDER;
 
 function Rightbar() {
   return (
@@ -27,23 +27,19 @@ function Rightbar() {
           <div className={styles.middle}>
             <div className={styles.middleTop}>
               <div className={styles.imgdiv}>
-                <img
-                  src="/assets/persons/2.jpg"
-                  alt=""
-                  className={styles.friend}
-                />
+                <img src="/persons/2.jpg" alt="" className={styles.friend} />
               </div>
 
               <div className={styles.info}>
                 <span className={styles.friendName}> DamiLola Olofinjana</span>
                 <div className={styles.imgMutualFriends}>
                   <img
-                    src="/assets/persons/1.jpg"
+                    src="/persons/1.jpg"
                     alt=""
                     className={styles.imgMutualFriend}
                   />
                   <img
-                    src="/assets/persons/1.jpg"
+                    src="/persons/1.jpg"
                     alt=""
                     className={styles.imgMutualFriend}
                   />
@@ -60,10 +56,10 @@ function Rightbar() {
       <div className={styles.sponsored}>
         <span className={styles.title}>Sponsored</span>
         <div className={styles.Rightads}>
-          <img src="assets/ads/1.jpg" alt="" className={styles.Rightad} />
+          <img src="/ads/1.jpg" alt="" className={styles.Rightad} />
         </div>
         <div className={styles.Rightads}>
-          <img src="assets/ads/1.jpg" alt="" className={styles.Rightad} />
+          <img src="ads/1.jpg" alt="" className={styles.Rightad} />
         </div>
       </div>
       <hr className={styles.line} />

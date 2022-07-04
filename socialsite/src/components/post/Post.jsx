@@ -83,7 +83,7 @@ const Post = ({ post }) => {
             <div className={styles.likes}>
               <img
                 className={styles.postLike}
-                src={EXTERNAL_FOLDER + 'assets/likes.png'}
+                src={EXTERNAL_FOLDER + '/likes.png'}
                 alt=""
               />
               <span className={styles.likesCounter}>{likes}</span>

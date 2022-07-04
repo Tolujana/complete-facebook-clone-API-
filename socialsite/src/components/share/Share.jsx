@@ -104,22 +104,22 @@ function Share() {
         </div>
         <div className={styles.friends}>
           <div className={styles.imgContainer}>
-            <img src="assets/persons/1.jpg" alt="" className={styles.chatImg} />
+            <img src="/persons/1.jpg" alt="" className={styles.chatImg} />
           </div>
           <div className={styles.imgContainer}>
-            <img src="assets/persons/1.jpg" alt="" className={styles.chatImg} />
+            <img src="/persons/1.jpg" alt="" className={styles.chatImg} />
           </div>
           <div className={styles.imgContainer}>
-            <img src="assets/persons/1.jpg" alt="" className={styles.chatImg} />
+            <img src="/persons/1.jpg" alt="" className={styles.chatImg} />
           </div>
           <div className={styles.imgContainer}>
-            <img src="assets/persons/1.jpg" alt="" className={styles.chatImg} />
+            <img src="/persons/1.jpg" alt="" className={styles.chatImg} />
           </div>
           <div className={styles.imgContainer}>
-            <img src="assets/persons/1.jpg" alt="" className={styles.chatImg} />
+            <img src="/persons/1.jpg" alt="" className={styles.chatImg} />
           </div>
           <div className={styles.imgContainer}>
-            <img src="assets/persons/1.jpg" alt="" className={styles.chatImg} />
+            <img src="/persons/1.jpg" alt="" className={styles.chatImg} />
           </div>
         </div>
       </div>
