@@ -10,10 +10,12 @@
 }
 .topmenuLeft {
   flex: 2;
+  display: flex;
   margin-left: 5px;
 }
 
 .topmenuCenter {
+  display: flex;
   flex: 4.5;
 }
 .topmenuRight {
