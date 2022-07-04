@@ -24,9 +24,7 @@ const Register = () => {
       try {
         await axiosInstance.post('/auth/register', user);
         navigate('/');
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     }
   };
 

@@ -29,7 +29,7 @@ const Post = ({ post }) => {
       const res = axiosInstance.put(`/posts/${post._id}/like`, {
         userId: userinfo._id,
       });
-      console.log(res.data);
+
       setLike(isliked ? likes - 1 : likes + 1);
       setisLiked(!isliked);
     } catch (error) {

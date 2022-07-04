@@ -55,7 +55,6 @@ export const LeftbarProfile = ({ user }) => {
       try {
         const res = await axiosInstance.get('/users/friend/' + user._id);
         setFriends(res.data);
-        console.log(res.data);
       } catch (error) {
         console.log(error);
       }

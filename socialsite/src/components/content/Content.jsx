@@ -15,7 +15,7 @@ function Content({ username }) {
       const res = username
         ? await axiosInstance.get('/posts/profile/' + username)
         : await axiosInstance.get(`posts/timeline/${user._id}`);
-      console.log(res.data);
+
       setPost(
         res.data.sort((p1, p2) => {
           return new Date(p2.createdAt) - new Date(p1.createdAt);

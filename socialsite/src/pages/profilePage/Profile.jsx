@@ -35,7 +35,7 @@ const Profile = () => {
             '/users/' + user._id + '/request',
             data
           );
-          console.log(res.data);
+
           setButtonText(res.data);
         }
       } else {
