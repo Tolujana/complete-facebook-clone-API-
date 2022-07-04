@@ -8,7 +8,7 @@
   },
   "scripts": {
     "heroku-postbuild": "cd social && npm install && npm run build",
-    "start": "node index.js",
+    "start": "node index.js"
    
   },
   "author": "",
