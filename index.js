@@ -50,16 +50,16 @@ app.use('/api/users', userRoute);
 app.use('/api/posts', postRoute);
 app.use('/api/conversation', conversationRoute);
 app.use('/api/message', messageRoute);
-app.use(express.static(path.join(__dirname, '/social/build')));
+app.use(express.static(path.join(__dirname, '/socialsite/build')));
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '/social/build', 'index.html'));
+  res.sendFile(path.join(__dirname, '/socialsite/build', 'index.html'));
 });
 app.listen(process.env.PORT || 8800, () => console.log('server runnings '));
 
-app.get('/', (req, res) => {
-  res.send('welcome home');
-});
-app.get('/users', (req, res) => {
-  res.send('welcome homeusers');
-});
+// app.get('/', (req, res) => {
+//   res.send('welcome home');
+// });
+// app.get('/users', (req, res) => {
+//   res.send('welcome homeusers');
+// });
