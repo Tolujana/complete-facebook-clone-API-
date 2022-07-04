@@ -9,7 +9,7 @@
   "scripts": {
     "heroku-postbuild": "cd social && npm install && npm run build",
     "start": "node index.js",
-    "build":"npm run build"
+   
   },
   "author": "",
   "license": "ISC",
