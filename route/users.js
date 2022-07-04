@@ -85,6 +85,50 @@ router.put('/:id/unfollow', async (req, res) => {
     res.status(403).json('you cannot follow yourself');
   }
 });
+//send friend request
+
+router.put('/:id/request', async (req, res) => {
+  if (req.params.id !== req.body.id) {
+    try {
+      const currentUser = await User.findById(req.body.id);
+      const user = await User.findById(req.params.id);
+      if (!user.friendRequest.includes(req.body.id)) {
+        await user.updateOne({
+          $push: { friendRequest: req.body.id },
+        });
+        res.status(200).json("friend added");
+      } else {
+        await user.updateOne({ $pull: { friendRequest: req.body.id } });
+        res.status(200).json('friend request cancelled');
+      }
+    } catch (err) {
+      res.status(500).json(err.message);
+    }
+  } else {
+    res.status(403).json('you cannot friend yoursel');
+  }
+});
+
+// cancel Friend request
+
+router.put('/:id/cancelrequest', async (req, res) => {
+  if (req.params.id !== req.body.id) {
+    try {
+      const currentUser = await User.findById(req.body.id);
+      const user = await User.findById(req.params.id);
+      if (user.friendRequest.includes(req.body.id)) {
+        await user.updateOne({ $pull: { friendRequest: req.body.id } });
+        res.status(200).json(user);
+      } else {
+        res.status(200).json('Friendrequest already cancelled');
+      }
+    } catch (err) {
+      res.status(500).json(err.message);
+    }
+  } else {
+    res.status(403).json('you cannot friend yoursel');
+  }
+});
 
 // delete a user
 

@@ -50,6 +50,10 @@ const UserSchema = new mongoose.Schema(
       type: Array,
       default: [],
     },
+    friendRequest: {
+      type: Array,
+      default: [],
+    },
     isAdmin: { type: Boolean, required: true, default: false },
   },
   { timestamps: true }
