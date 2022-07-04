@@ -4,8 +4,8 @@
   "description": "My Facebook Clone",
   "main": "index.js",
   "scripts": {
-    "heroku-postbuild": "cd client && npm install && npm run build",
-    "start": "nodemon index.js"
+    "heroku-postbuild": "cd social && npm install && npm run build",
+    "start": "node index.js"
   },
   "author": "",
   "license": "ISC",
