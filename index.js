@@ -20,6 +20,10 @@ mongoose.connect(process.env.MONGO_DB, (err) => {
 });
 // middleware
 app.use('/images', express.static(path.join(__dirname, 'public/images')));
+app.use(
+  '/images/assets',
+  express.static(path.join(__dirname, 'public/images/assets'))
+);
 
 app.use(express.json());
 app.use(helmet());
