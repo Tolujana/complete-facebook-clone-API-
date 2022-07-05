@@ -17,6 +17,8 @@
 .topmenuCenter {
   display: flex;
   flex: 4.5;
+  align-items: center;
+  justify-content: center;
 }
 .topmenuRight {
   flex: 2;
