@@ -75,6 +75,7 @@ const Profile = () => {
                   alt=""
                   className={styles.profileImg}
                 />
+                <button>Edit</button>
               </div>
               <div className={styles.profileInfo}>
                 <span className={styles.profileName}>{user.username}</span>
