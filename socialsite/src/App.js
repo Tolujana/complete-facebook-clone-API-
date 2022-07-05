@@ -1,15 +1,15 @@
-import logo from "./logo.svg";
-import "./App.css";
-import Home from "./pages/home/Home";
-import Accessibility from "@mui/icons-material/Accessibility";
-import Profile from "./pages/profilePage/Profile";
-import Login from "./pages/login/Login";
-import { BrowserRouter, Navigate } from "react-router-dom";
-import Register from "./pages/register/Register";
-import { Route, Routes } from "react-router-dom";
-import { useContext } from "react";
+import logo from './logo.svg';
+import './App.css';
+import Home from './pages/home/Home';
+import Accessibility from '@mui/icons-material/Accessibility';
+import Profile from './pages/profilePage/Profile';
+import Login from './pages/login/Login';
+import { BrowserRouter, Navigate } from 'react-router-dom';
+import Register from './pages/register/Register';
+import { Route, Routes } from 'react-router-dom';
+import { useContext } from 'react';
 
-import { AuthContextProvider, AuthContext } from "./context/AuthContext";
+import { AuthContextProvider, AuthContext } from './context/AuthContext';
 
 function App() {
   const { user } = useContext(AuthContext);
@@ -17,7 +17,7 @@ function App() {
     <div className="wrapper">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={user ? <Home /> : <Login />} />
+          <Route path="/" element={user === null ? <Login /> : <Home />} />
           <Route
             path="/login"
             element={user ? <Navigate replace to="/" /> : <Login />}
