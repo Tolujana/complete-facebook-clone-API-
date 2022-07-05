@@ -24,6 +24,10 @@ const Login = () => {
           <span className={styles.loginDesc}>
             Connect with Friends and the world around you on Finjana
           </span>
+          <span className={styles.loginDesc}>
+            please use username: jane, password:123456. Do not refresh as
+            session not stored on localstorage
+          </span>
         </div>
         <div className={styles.loginRight}>
           <div className={styles.loginBox}>
