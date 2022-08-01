@@ -27,19 +27,23 @@ function Rightbar() {
           <div className={styles.middle}>
             <div className={styles.middleTop}>
               <div className={styles.imgdiv}>
-                <img src="/persons/2.jpg" alt="" className={styles.friend} />
+                <img
+                  src="images/persons/2.jpg"
+                  alt=""
+                  className={styles.friend}
+                />
               </div>
 
               <div className={styles.info}>
                 <span className={styles.friendName}> DamiLola Olofinjana</span>
                 <div className={styles.imgMutualFriends}>
                   <img
-                    src="/persons/1.jpg"
+                    src="images/persons/1.jpg"
                     alt=""
                     className={styles.imgMutualFriend}
                   />
                   <img
-                    src="/persons/1.jpg"
+                    src="images/persons/1.jpg"
                     alt=""
                     className={styles.imgMutualFriend}
                   />
@@ -56,10 +60,10 @@ function Rightbar() {
       <div className={styles.sponsored}>
         <span className={styles.title}>Sponsored</span>
         <div className={styles.Rightads}>
-          <img src="/ads/1.jpg" alt="" className={styles.Rightad} />
+          <img src="images/ads/1.jpg" alt="" className={styles.Rightad} />
         </div>
         <div className={styles.Rightads}>
-          <img src="ads/1.jpg" alt="" className={styles.Rightad} />
+          <img src="images/ads/1.jpg" alt="" className={styles.Rightad} />
         </div>
       </div>
       <hr className={styles.line} />

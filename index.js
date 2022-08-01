@@ -1,5 +1,8 @@
 const express = require('express');
+var cors = require('cors');
+
 const app = express();
+const http = require('http').Server(app);
 const bcrypt = require('bcryptjs');
 const multer = require('multer');
 const mongoose = require('mongoose');
@@ -12,6 +15,12 @@ const messageRoute = require('./route/message');
 const authRoute = require('./route/auth');
 const postRoute = require('./route/posts');
 const path = require('path');
+const io = require('socket.io')(http, {
+  cors: {
+    origin: 'http://localhost:3000',
+    methods: ['GET', 'POST'],
+  },
+});
 dotenv.config();
 
 mongoose.connect(process.env.MONGO_DB, (err) => {
@@ -24,7 +33,8 @@ app.use(
   '/images/assets',
   express.static(path.join(__dirname, 'public/images/assets'))
 );
-
+// cors
+app.use(cors());
 app.use(express.json());
 app.use(helmet());
 app.use(morgan('common'));
@@ -55,11 +65,56 @@ app.use('/api/posts', postRoute);
 app.use('/api/conversation', conversationRoute);
 app.use('/api/message', messageRoute);
 app.use(express.static(path.join(__dirname, '/socialsite/build')));
+let users = [];
+
+const addUser = (userId, socketId) => {
+  !users.some((user) => user.userId === userId) &&
+    users.push({ userId, socketId });
+};
+const removeUser = (socketId) => {
+  users = users.filter((user) => {
+    user.socketId !== socketId;
+  });
+};
+
+const getUser = (receiverId) => {
+  return users.find((user) => user.userId === receiverId);
+};
+io.on('connection', (socket) => {
+  io.emit('rebroadcastUser', socket.id);
+  //get users id and socket id from user
+  socket.on('addUser', (userId) => {
+    addUser(userId, socket.id);
+    console.log('see users', users);
+    io.emit('users', users);
+  });
+  socket.on('readdUser', (userId) => {
+    addUser(userId, socket.id);
+    console.log('see users', users);
+    io.emit('users', users);
+  });
+  io.emit('welcome', 'welcome to Finjana. now you can chat');
+
+  //when disconnectecd
+
+  // Send and receive messages
+  socket.on('sendMessage', ({ senderId, receiverId, message }) => {
+    const user = getUser(receiverId);
+    console.log('user i am looking for', user, user?.socketId);
+
+    io.to(user?.socketId).emit('getMessage', { senderId, message });
+  });
+  socket.on('disconnect', (reason) => {
+    socket.removeAllListeners();
+    removeUser(socket.id);
+    io.emit('users', users);
+  });
+});
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '/socialsite/build', 'index.html'));
 });
-app.listen(process.env.PORT || 8800, () => console.log('server runnings '));
+http.listen(process.env.PORT || 8800, () => console.log('server runnings '));
 
 // app.get('/', (req, res) => {
 //   res.send('welcome home');

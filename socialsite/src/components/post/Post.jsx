@@ -54,7 +54,10 @@ const Post = ({ post }) => {
         <div className={styles.postTop}>
           <Link to={`profile/${user.username}`}>
             <img
-              src={user.profilePicture || PUBLIC_FOLDER + 'noimage.png'}
+              src={
+                PUBLIC_FOLDER + '/' + user.profilePicture ||
+                PUBLIC_FOLDER + 'noimage.png'
+              }
               alt=""
               className={styles.postImg}
             />

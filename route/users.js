@@ -49,13 +49,15 @@ router.put('/:id/follow', async (req, res) => {
     try {
       const user2 = await User.findById(req.params.id);
       const currentUser2 = await User.findById(req.body.userId);
-      if (!user2.followers.includes(req.params.id)) {
-        await user2.updateOne({ $push: { followers: req.body.userId } });
+      if (!currentUser2.following.includes(req.params.id)) {
         await currentUser2.updateOne({ $push: { following: req.params.id } });
+        if (!user2.following.includes(req.body.userId)) {
+          await user2.updateOne({ $push: { following: req.body.userId } });
+        }
 
         res.status(200).json('succesfully followed ');
       } else {
-        res.status(403).json('notch is not good enough');
+        res.status(200).json('already a friend');
       }
     } catch (error) {}
   } else {
@@ -96,7 +98,7 @@ router.put('/:id/request', async (req, res) => {
         await user.updateOne({
           $push: { friendRequest: req.body.id },
         });
-        res.status(200).json("friend added");
+        res.status(200).json('friend added');
       } else {
         await user.updateOne({ $pull: { friendRequest: req.body.id } });
         res.status(200).json('friend request cancelled');
@@ -115,12 +117,14 @@ router.put('/:id/cancelrequest', async (req, res) => {
   if (req.params.id !== req.body.id) {
     try {
       const currentUser = await User.findById(req.body.id);
-      const user = await User.findById(req.params.id);
-      if (user.friendRequest.includes(req.body.id)) {
-        await user.updateOne({ $pull: { friendRequest: req.body.id } });
-        res.status(200).json(user);
+      //const user = await User.findById(req.params.id);
+      if (currentUser.friendRequest.includes(req.params.id)) {
+        await currentUser.updateOne({
+          $pull: { friendRequest: req.params.id },
+        });
+        res.status(200).json(currentUser.friendRequest);
       } else {
-        res.status(200).json('Friendrequest already cancelled');
+        res.status(200).json(currentUser.friendRequest);
       }
     } catch (err) {
       res.status(500).json(err.message);

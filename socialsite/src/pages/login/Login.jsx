@@ -6,7 +6,7 @@ import { CircularProgress } from '@mui/material';
 const Login = () => {
   const email = useRef();
   const password = useRef();
-  const { user, isFetching, error, dispatch } = useContext(AuthContext);
+  const { isFetching, dispatch } = useContext(AuthContext);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -21,13 +21,10 @@ const Login = () => {
       <form className={styles.loginWrapper} onSubmit={handleSubmit}>
         <div className={styles.loginLeft}>
           <h3 className={styles.loginLogo}>Finjana</h3>
-          <span className={styles.loginDesc}>
-            Connect with Friends and the world around you on Finjana
-          </span>
-          <span className={styles.loginDesc}>
-            please use username: jane@gmail.com, password:123456. Do not refresh
-            as session not stored on localstorage
-          </span>
+          <div className={styles.loginDesc}>
+            Connect with Friends and the world
+          </div>
+          <div className={styles.loginDesc2}>Logon to Finjana</div>
         </div>
         <div className={styles.loginRight}>
           <div className={styles.loginBox}>
@@ -49,13 +46,13 @@ const Login = () => {
             <button className={styles.loginButton}>
               {isFetching ? <CircularProgress color="success" /> : 'Log In'}
             </button>
-            <span className={styles.forgotPassword}>FOrgot Password?</span>
+            <span className={styles.forgotPassword}>
+              {
+                "Login with username: jane@test.com, password:123456 \n \n login as jane's friend like so username:{friend's name}@test.com, password:123456 "
+              }
+            </span>
             <button className={styles.registerButton}>
-              {isFetching ? (
-                <CircularProgress color="success" />
-              ) : (
-                'Create New Account'
-              )}
+              Create New Account
             </button>
           </div>
         </div>

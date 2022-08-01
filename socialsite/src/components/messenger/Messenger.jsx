@@ -10,6 +10,7 @@ import { formLabelClasses } from '@mui/material';
 import { axiosInstance } from '../../proxySettings';
 const Messenger = ({ show }) => {
   const { user, chats, dispatch } = useContext(AuthContext);
+  const PF = process.env.REACT_APP_EXTERNAL_FOLDER;
 
   const [friends, setFriends] = useState([]);
   //const [chats, setChat] = useState([]);
@@ -24,9 +25,9 @@ const Messenger = ({ show }) => {
   //   }
   // };
 
-  const handleClick = (userid) => {
-    if (!chats.includes(userid)) {
-      dispatch({ type: 'CHAT_START', payload: userid });
+  const handleClick = (user) => {
+    if (!chats?.includes(user)) {
+      dispatch({ type: 'CHAT_START', payload: user });
     }
   };
 
@@ -35,6 +36,7 @@ const Messenger = ({ show }) => {
       try {
         const res = await axiosInstance.get('/users/friend/' + user._id);
         setFriends(res.data);
+        console.log(res.data);
       } catch (error) {
         console.log(error);
       }
@@ -54,8 +56,8 @@ const Messenger = ({ show }) => {
         <input placeholder="Search Messenger" className={style.searchInput} />
 
         <ul className={style.friendsList}>
-          {friends?.map((u) => (
-            <FriendsOnline key={u.id} user={u} handleClickUp={handleClick} />
+          {friends?.map((u, id) => (
+            <FriendsOnline key={id} user={u} handleClickUp={handleClick} />
           ))}
         </ul>
       </div>
@@ -70,7 +72,16 @@ const Messenger = ({ show }) => {
         </ul>
         <div className={style.remainingChats}>
           {chats?.slice(3).map((u) => (
-            <div className={style.remainingChat}>{u.username}</div>
+            <div
+              className={style.remainingChat}
+              key={u._id}
+              style={{
+                backgroundSize: 'contain',
+                backgroundImage: `url(${PF + '/' + u.profilePicture})`,
+              }}
+            >
+              {u.username}
+            </div>
           ))}
         </div>
       </div>

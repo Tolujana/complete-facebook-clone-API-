@@ -50,16 +50,20 @@ function Share() {
         <div className={styles.shareTop}>
           <img
             src={
-              !user.profilePicture ? PF + 'noimage.png' : user.profilePicture
+              !user.profilePicture
+                ? PF + '/noimage.png'
+                : PF + '/' + user.profilePicture
             }
             alt=""
             className={styles.sharepics}
           />
-          <input
-            ref={userInput}
-            placeholder={"what's on your " + user.username + '?'}
-            className={styles.shareInput}
-          />
+          <div className={styles.inputContainer}>
+            <input
+              ref={userInput}
+              placeholder={"what's on your " + user.username + '?'}
+              className={styles.shareInput}
+            />
+          </div>
         </div>
         <hr className={styles.shareHr} />
         <div className={styles.shareBottom}>
@@ -104,22 +108,46 @@ function Share() {
         </div>
         <div className={styles.friends}>
           <div className={styles.imgContainer}>
-            <img src="/persons/1.jpg" alt="" className={styles.chatImg} />
+            <img
+              src="/images/persons/1.jpg"
+              alt=""
+              className={styles.chatImg}
+            />
           </div>
           <div className={styles.imgContainer}>
-            <img src="/persons/1.jpg" alt="" className={styles.chatImg} />
+            <img
+              src="/images/persons/1.jpg"
+              alt=""
+              className={styles.chatImg}
+            />
           </div>
           <div className={styles.imgContainer}>
-            <img src="/persons/1.jpg" alt="" className={styles.chatImg} />
+            <img
+              src="/images/persons/1.jpg"
+              alt=""
+              className={styles.chatImg}
+            />
           </div>
           <div className={styles.imgContainer}>
-            <img src="/persons/1.jpg" alt="" className={styles.chatImg} />
+            <img
+              src="/images/persons/1.jpg"
+              alt=""
+              className={styles.chatImg}
+            />
           </div>
           <div className={styles.imgContainer}>
-            <img src="/persons/1.jpg" alt="" className={styles.chatImg} />
+            <img
+              src="/images/persons/1.jpg"
+              alt=""
+              className={styles.chatImg}
+            />
           </div>
           <div className={styles.imgContainer}>
-            <img src="/persons/1.jpg" alt="" className={styles.chatImg} />
+            <img
+              src="/images/persons/1.jpg"
+              alt=""
+              className={styles.chatImg}
+            />
           </div>
         </div>
       </div>

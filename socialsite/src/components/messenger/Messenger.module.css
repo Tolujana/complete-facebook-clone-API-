@@ -2,7 +2,9 @@
   background: none;
 }
 .messengerContent {
+  position: absolute;
   background-color: white;
+  right: 15%;
   color: black;
   border-radius: 5px;
   width: 343px;
@@ -61,11 +63,13 @@
 .chatlist {
   position: absolute;
   display: flex;
+  top: 300px;
   justify-content: end;
-  top: 40vh;
-  right: 20px;
-  min-height: 600vh;
+  align-items: flex-end;
 
+  right: 20px;
+
+  margin-right: 20px;
   background: none;
 }
 .chats > li {
@@ -74,23 +78,24 @@
 
 .chats {
   display: flex;
-  display: flex;
-  justify-content: end;
-  top: 40vh;
+  align-items: flex-end;
+
   right: 10px;
-  max-height: 52vh;
+  height: 100%;
+  margin-bottom: 20px;
 }
 .remainingChats {
   display: flex;
   flex-direction: column;
-  justify-content: end;
-  max-height: 50vh;
+  justify-content: flex-start;
+  max-height: 70vh;
   margin-left: 20px;
 }
 .remainingChat {
   border-radius: 40px;
-  background-color: blue;
+  background-color: transparent;
   width: 50px;
   height: 50px;
+
   margin-bottom: 10px;
 }

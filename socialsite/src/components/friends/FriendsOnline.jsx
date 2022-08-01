@@ -3,9 +3,9 @@ import { AuthContext } from '../../context/AuthContext';
 import { SingleMessage } from '../messenger/Messenger';
 import styles from './FriendsOnline.module.css';
 const Folder = process.env.REACT_APP_PUBLIC_FOLDER;
-export const FriendsOnline = ({ user, chats, handleClickUp }) => {
+export const FriendsOnline = ({ user, handleClickUp }) => {
   //const [chat, setChat] = useState(false);
-  const { state, dispatch } = useContext(AuthContext);
+  // const { state, dispatch } = useContext(AuthContext);
   const handleClick = () => {
     handleClickUp(user);
   };
@@ -16,7 +16,7 @@ export const FriendsOnline = ({ user, chats, handleClickUp }) => {
           <img
             src={
               user.profilePicture
-                ? Folder + user.profilePicture
+                ? Folder + '/'+ user.profilePicture
                 : Folder + '/noimage.png'
             }
             alt=""

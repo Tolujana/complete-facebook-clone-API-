@@ -98,3 +98,9 @@
   top: 40px;
   z-index: 999;
 }
+.friendrequest {
+  position: absolute;
+  right: 100px;
+  top: 40px;
+  z-index: 999;
+}

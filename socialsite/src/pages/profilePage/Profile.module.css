@@ -115,3 +115,21 @@
 .imaged {
   position: relative;
 }
+label > div {
+  border: 1px solid rgb(175, 172, 172);
+  background-color: var(--main);
+  border-radius: 4px;
+  padding: 4px;
+  color: white;
+  width: fit-content;
+  cursor: pointer;
+  position: absolute;
+  top: -6.5em;
+  left: 5em;
+}
+label > div:hover {
+  background-color: rgb(116, 161, 228);
+}
+.none {
+  display: none;
+}

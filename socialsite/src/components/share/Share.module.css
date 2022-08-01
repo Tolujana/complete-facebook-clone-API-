@@ -22,23 +22,37 @@
 }
 .sharepics {
   height: 40px;
-  /* width: 40px; */
+  width: 40px;
   border-radius: 50%;
   object-fit: cover;
-  /* margin-right: 10px; */
+  margin-right: 4px;
 }
 .shareTop {
   display: flex;
   align-items: center;
 }
-.shareInput {
+
+.inputContainer {
   border: none;
   width: 80%;
   font-size: 20px;
   border-radius: 20px;
+  height: 22px;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+}
+.inputContainer:hover {
+  background: #e2e1e1;
+}
+.shareInput {
+  margin-left: 5px;
+  border: none;
+
+  font-size: 20px;
 }
 .shareInput:hover {
-  background: #cecece;
+  background: #e2e1e1;
 }
 .shareInput:focus {
   outline: none;
@@ -62,7 +76,7 @@
 }
 
 .shareOption:hover {
-  background-color: #e5e4e2;
+  background-color: #145a06;
 }
 .shareOptions {
   display: flex;

@@ -12,8 +12,10 @@ const PF = process.env.REACT_APP_PUBLIC_FOLDER;
 
 const Profile = () => {
   const [user, setUser] = useState({});
+  const [file, setFile] = useState(null);
+  const [showButton, setShowButton] = useState(false);
   const [buttonText, setButtonText] = useState('');
-  const username = useParams().username;
+  const username = useParams().username.toLowerCase();
   const { user: currentUser, chats, dispatch } = useContext(AuthContext);
 
   useEffect(() => {
@@ -27,15 +29,19 @@ const Profile = () => {
   }, [username]);
 
   const handleClick = async () => {
+    setButtonText('...');
     try {
       if (username !== currentUser.username) {
-        if (!currentUser?.friendRequest?.includes(user._id)) {
+        if (
+          !currentUser?.friendRequest?.includes(user._id) ||
+          !currentUser?.following?.includes(user._id)
+        ) {
           const data = { id: currentUser._id };
           const res = await axiosInstance.put(
             '/users/' + user._id + '/request',
             data
           );
-
+          console.log(res.data);
           setButtonText(res.data);
         }
       } else {
@@ -48,7 +54,35 @@ const Profile = () => {
       dispatch({ type: 'CHAT_START', payload: user._id });
     }
   };
+  const handleEditButton = () => {
+    setShowButton(true);
+  };
+  const handleEditButton_2 = () => {
+    setShowButton(false);
+  };
+  const handleFile = async (e) => {
+    setFile(e.target.value[0]);
 
+    if (file) {
+      const data = new FormData();
+      const fileName = Date.now() + file.name;
+
+      data.append('name', fileName);
+      data.append('file', file);
+      console.log(fileName);
+      user.profileImg = fileName;
+      try {
+        await axiosInstance.post('/upload', data);
+      } catch (error) {}
+
+      try {
+        await axiosInstance.put('/:id/update', { profilePicture: fileName });
+        window.location.reload();
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
   return (
     <div>
       <Topmenu />
@@ -58,24 +92,44 @@ const Profile = () => {
             <div className={styles.profileCover}>
               <img
                 src={
-                  !user.coverPicture ? PF + 'coverimage.jpg' : user.coverPicture
+                  !user.coverPicture
+                    ? PF + '/coverimage.jpg'
+                    : PF + '/' + user.coverPicture
                 }
                 alt=""
                 className={styles.profileCoverImg}
               />
             </div>
             <div className={styles.profileInfos}>
-              <div className={styles.imaged}>
+              <div
+                className={styles.imaged}
+                onMouseOver={handleEditButton}
+                onMouseLeave={handleEditButton_2}
+              >
                 <img
                   src={
                     !user.profilePicture
                       ? PF + 'noimage.png'
-                      : user.profilePicture
+                      : PF + '/' + user.profilePicture
                   }
                   alt=""
                   className={styles.profileImg}
                 />
-                <button>Edit</button>
+                <label htmlFor="file">
+                  <div
+                    className="editbutton"
+                    style={{ display: showButton ? 'block' : 'none' }}
+                  >
+                    Edit
+                  </div>
+                </label>
+                <input
+                  onChange={handleFile}
+                  style={{ display: 'none' }}
+                  type="file"
+                  name="upload"
+                  id="file"
+                />
               </div>
               <div className={styles.profileInfo}>
                 <span className={styles.profileName}>{user.username}</span>

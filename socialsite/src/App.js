@@ -13,18 +13,25 @@ import { AuthContextProvider, AuthContext } from './context/AuthContext';
 
 function App() {
   const { user } = useContext(AuthContext);
+  let storedUser = localStorage.getItem('user');
+  let currentUser;
+  storedUser ? (currentUser = JSON.parse(storedUser)) : (currentUser = user);
+
   return (
     <div className="wrapper">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={user === null ? <Login /> : <Home />} />
+          <Route
+            path="/"
+            element={currentUser === null ? <Login /> : <Home />}
+          />
           <Route
             path="/login"
-            element={user ? <Navigate replace to="/" /> : <Login />}
+            element={currentUser ? <Navigate replace to="/" /> : <Login />}
           />
           <Route
             path="/register"
-            element={user ? <Navigate replace to="/" /> : <Register />}
+            element={currentUser ? <Navigate replace to="/" /> : <Register />}
           />
           <Route path="/profile/:username" element={<Profile />} />
           {/* // <Home />

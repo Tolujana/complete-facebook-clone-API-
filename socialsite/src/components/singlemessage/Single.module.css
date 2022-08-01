@@ -1,6 +1,61 @@
 .wrapper {
   color: black;
+  display: flex;
+  flex-direction: column;
+}
+.username {
+  margin-left: 4px;
+  font-weight: 500;
+}
+.header {
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  -webkit-box-shadow: 0px 0px 15px -8px rgba(0, 0, 0, 0.37);
+  box-shadow: 0px 0px 15px -8px rgba(0, 0, 0, 0.37);
 }
 .none {
   display: none;
+}
+.profileImg {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-right: 4px;
+}
+.text {
+  margin-left: 3px;
+  overflow-y: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.messages {
+  height: 14rem;
+  overflow-y: scroll;
+}
+textarea {
+  resize: none;
+  border-radius: 3px;
+}
+
+.sendButton {
+  margin-left: 0.2rem;
+  padding: 7px;
+  text-align: center;
+  background-color: var(--main);
+  color: white;
+  border-radius: 3px;
+  border: none;
+}
+
+.sendButton:hover {
+  background-color: rgb(67, 126, 252);
+}
+textarea:focus::placeholder {
+  color: white;
+}
+textarea:focus {
+  outline: none;
 }

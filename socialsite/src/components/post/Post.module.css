@@ -16,7 +16,7 @@
   border-radius: 50%;
 }
 .postWrapper {
-  /* // padding: 10px; */
+  padding: 10px;
   border-top-left-radius: 5px;
   border-top-right-radius: 50x;
   width: 100%;

@@ -9,7 +9,9 @@ const CloseFriends = ({ user }) => {
       <li className={styles.leftbarFriend}>
         <img
           src={
-            user.profilePicture ? PF + user.profilePicture : PF + '/noimage.png'
+            user.profilePicture
+              ? PF + '/' + user.profilePicture
+              : PF + '/noimage.png'
           }
           alt=""
           className={styles.friendImg}
