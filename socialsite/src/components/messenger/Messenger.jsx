@@ -67,7 +67,7 @@ const Messenger = ({ show }) => {
               user={u}
               handleClickUp={handleClick}
               onClick={handleClicks}
-              value={u.id}
+              value={u}
             />
           ))}
         </ul>
