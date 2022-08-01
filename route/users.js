@@ -11,7 +11,7 @@ router.get('/', async (req, res) => {
     const user = userId
       ? await User.findById(userId)
       : await User.findOne({ username: username });
-    console.log(user);
+    // console.log(user);
     const { password, updatedAt, ...others } = user._doc;
     res.status(200).json(others);
   } catch (err) {
@@ -140,7 +140,6 @@ router.delete('/:id', async (req, res) => {
   if (req.params.id === req.body.id || req.body.isAdmin) {
     try {
       const user = await User.findByIdAndDelete(req.params.id);
-      console.log(user);
 
       res.status(200).json('Account has been deleted');
     } catch (err) {

@@ -25,6 +25,11 @@ const Messenger = ({ show }) => {
   //   }
   // };
 
+  const handleClicks = (e) => {
+    if (!chats?.includes(e.target.value)) {
+      dispatch({ type: 'CHAT_START', payload: e.target.value });
+    }
+  };
   const handleClick = (user) => {
     if (!chats?.includes(user)) {
       dispatch({ type: 'CHAT_START', payload: user });
@@ -57,7 +62,13 @@ const Messenger = ({ show }) => {
 
         <ul className={style.friendsList}>
           {friends?.map((u, id) => (
-            <FriendsOnline key={id} user={u} handleClickUp={handleClick} />
+            <FriendsOnline
+              key={id}
+              user={u}
+              handleClickUp={handleClick}
+              onClick={handleClicks}
+              value={u.id}
+            />
           ))}
         </ul>
       </div>

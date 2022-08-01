@@ -5,18 +5,19 @@ import styles from './FriendsOnline.module.css';
 const Folder = process.env.REACT_APP_PUBLIC_FOLDER;
 export const FriendsOnline = ({ user, handleClickUp }) => {
   //const [chat, setChat] = useState(false);
-  // const { state, dispatch } = useContext(AuthContext);
+  const { state, dispatch } = useContext(AuthContext);
   const handleClick = () => {
     handleClickUp(user);
   };
   return (
-    <div onClick={handleClick}>
+    // <div onClick={handleClick}>
+    <div>
       <li className={styles.friendsInfo}>
         <div className={styles.profileImgContainer}>
           <img
             src={
               user.profilePicture
-                ? Folder + '/'+ user.profilePicture
+                ? Folder + '/' + user.profilePicture
                 : Folder + '/noimage.png'
             }
             alt=""
