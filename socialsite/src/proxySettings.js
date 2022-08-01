@@ -1,6 +1,6 @@
 import axios from 'axios';
 
 export const axiosInstance = axios.create({
-  baseURL: 'http://localhost:8800/api',
+  baseURL: 'https://socialmedia-site.herokuapp.com/api/',
   // baseURL: 'https://socialmedia-site.herokuapp.com/api/',
 });

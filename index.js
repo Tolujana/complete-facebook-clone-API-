@@ -17,7 +17,7 @@ const postRoute = require('./route/posts');
 const path = require('path');
 const io = require('socket.io')(http, {
   cors: {
-    origin: 'http://localhost:3000',
+    origin: 'https://socialmedia-site.herokuapp.com/',
     methods: ['GET', 'POST'],
   },
 });
