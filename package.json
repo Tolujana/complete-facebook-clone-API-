@@ -8,7 +8,7 @@
   },
   "scripts": {
     "heroku-postbuild": "cd socialsite && npm install && npm run build",
-    "start": "nodemon index.js"
+    "start": "node index.js"
   },
   "author": "",
   "license": "ISC",
