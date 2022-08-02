@@ -26,6 +26,7 @@ const Messenger = ({ show }) => {
   // };
 
   const handleClicks = (e) => {
+    console.log(e.target.value);
     if (!chats?.includes(e.target.value)) {
       dispatch({ type: 'CHAT_START', payload: e.target.value });
     }
