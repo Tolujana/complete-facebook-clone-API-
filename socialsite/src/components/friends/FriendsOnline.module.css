@@ -6,7 +6,10 @@
 }
 
 .FriendsOnline:hover {
-  background-color: rgb(180, 178, 178);
+  background-color: var(--greyhoverlight);
+  cursor: pointer;
+  width: 100%;
+  border-radius: 3px;
 }
 .profileImgContainer {
   position: relative;

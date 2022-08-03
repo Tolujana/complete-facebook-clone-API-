@@ -8,5 +8,6 @@ body {
 * {
   --light: rgb(212, 211, 211);
   --main: #1775ee;
-  --greyhover: whitesmoke;
+  --greyhoverlight: #f5f5f5;
+  --greyhoverdark: whitesmoke;
 }
