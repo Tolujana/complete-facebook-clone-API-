@@ -5,10 +5,13 @@ import styles from './FriendsOnline.module.css';
 const Folder = process.env.REACT_APP_PUBLIC_FOLDER;
 export const FriendsOnline = ({ user }) => {
   //const [chat, setChat] = useState(false);
-  const { dispatch, chats } = useContext(AuthContext);
+  const { dispatch, chats, messages } = useContext(AuthContext);
 
   const handleClick = () => {
-    if (!chats?.includes(user)) {
+    if (
+      !chats?.includes(user)
+      //|| messages.some((message) => message.receiverId === user._id)
+    ) {
       dispatch({ type: 'CHAT_START', payload: user });
     }
   };
