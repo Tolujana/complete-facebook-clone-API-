@@ -25,18 +25,6 @@ const Messenger = ({ show }) => {
   //   }
   // };
 
-  const handleClicks = (e) => {
-    console.log(e.target.value);
-    if (!chats?.includes(e.target.value)) {
-      dispatch({ type: 'CHAT_START', payload: e.target.value });
-    }
-  };
-  const handleClick = (user) => {
-    if (!chats?.includes(user)) {
-      dispatch({ type: 'CHAT_START', payload: user });
-    }
-  };
-
   useEffect(() => {
     const fetchFriends = async () => {
       try {
@@ -63,13 +51,7 @@ const Messenger = ({ show }) => {
 
         <ul className={style.friendsList}>
           {friends?.map((u, id) => (
-            <FriendsOnline
-              key={id}
-              user={u}
-              handleClickUp={handleClick}
-              onClick={handleClicks}
-              value={u}
-            />
+            <FriendsOnline key={id} user={u} value={u} />
           ))}
         </ul>
       </div>

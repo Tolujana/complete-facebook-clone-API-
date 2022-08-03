@@ -3,31 +3,36 @@ import { AuthContext } from '../../context/AuthContext';
 import { SingleMessage } from '../messenger/Messenger';
 import styles from './FriendsOnline.module.css';
 const Folder = process.env.REACT_APP_PUBLIC_FOLDER;
-export const FriendsOnline = ({ user, handleClickUp }) => {
+export const FriendsOnline = ({ user }) => {
   //const [chat, setChat] = useState(false);
-  const { state, dispatch } = useContext(AuthContext);
-  const handleClick = () => {
-    handleClickUp(user);
-  };
-  return (
-    // <div onClick={handleClick}>
-    <div>
-      <li className={styles.friendsInfo}>
-        <div className={styles.profileImgContainer}>
-          <img
-            src={
-              user.profilePicture
-                ? Folder + '/' + user.profilePicture
-                : Folder + '/noimage.png'
-            }
-            alt=""
-            className={styles.friendsPics}
-          />
-          <div className={styles.online}></div>
-        </div>
+  const { dispatch, chats } = useContext(AuthContext);
 
-        <span className={styles.friendsName}>{user.username}</span>
-      </li>
+  const handleClick = () => {
+    if (!chats?.includes(user)) {
+      dispatch({ type: 'CHAT_START', payload: user });
+    }
+  };
+
+  return (
+    <div onClick={handleClick} className={styles.FriendsOnline}>
+      <div>
+        <li className={styles.friendsInfo}>
+          <div className={styles.profileImgContainer}>
+            <img
+              src={
+                user.profilePicture
+                  ? Folder + '/' + user.profilePicture
+                  : Folder + '/noimage.png'
+              }
+              alt=""
+              className={styles.friendsPics}
+            />
+            <div className={styles.online}></div>
+          </div>
+
+          <span className={styles.friendsName}>{user.username}</span>
+        </li>
+      </div>
     </div>
   );
 };

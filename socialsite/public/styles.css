@@ -8,4 +8,5 @@ body {
 * {
   --light: rgb(212, 211, 211);
   --main: #1775ee;
+  --greyhover: whitesmoke;
 }

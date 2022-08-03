@@ -93,7 +93,7 @@ function Share() {
               <MoodIcon htmlColor="Goldenrod" className={styles.shareIcon} />
               <span className={styles.ShareOptionText}>Feeling/Activity</span>
             </div>
-            <div className={`${styles.shareOption} ${styles.green}`}>
+            <div className={`${styles.shareOptionMain} ${styles.green}`}>
               <span onClick={submitHandler} className={styles.ShareOptionText}>
                 Share
               </span>

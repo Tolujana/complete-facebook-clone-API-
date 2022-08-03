@@ -43,7 +43,7 @@
   align-items: center;
 }
 .inputContainer:hover {
-  background: #e2e1e1;
+  background: var(--greyhover);
 }
 .shareInput {
   margin-left: 5px;
@@ -74,8 +74,10 @@
   /* margin-right: 15px; */
   cursor: pointer;
 }
-
 .shareOption:hover {
+  background-color: var(--greyhover);
+}
+.shareOptionMain:hover {
   background-color: #145a06;
 }
 .shareOptions {
