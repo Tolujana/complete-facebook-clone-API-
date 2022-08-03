@@ -116,24 +116,22 @@ const SingleMessage = ({ user }) => {
           ))}
       </ul>
       <div className={style.text}>
-        <form action="">
-          <textarea
-            name=""
-            id="message"
-            cols="30"
-            rows="3"
-            onChange={handleChange}
-            value={newMessage}
-            placeholder="send a message"
-          ></textarea>
-          <button
-            type="submit"
-            onClick={handleMessage}
-            className={style.sendButton}
-          >
-            Send
-          </button>
-        </form>
+        <textarea
+          name=""
+          id="message"
+          cols="30"
+          rows="3"
+          onChange={handleChange}
+          value={newMessage}
+          placeholder="send a message"
+        ></textarea>
+        <button
+          type="submit"
+          onClick={handleMessage}
+          className={style.sendButton}
+        >
+          Send
+        </button>
       </div>
     </div>
   );

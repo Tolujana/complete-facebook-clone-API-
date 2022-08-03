@@ -45,14 +45,14 @@
 .inputContainer:hover {
   background: #e2e1e1;
 }
+.inputContainer:hover > input {
+  background: #e2e1e1;
+}
 .shareInput {
   margin-left: 5px;
   border: none;
 
   font-size: 20px;
-}
-.shareInput:hover {
-  background: #e2e1e1;
 }
 .shareInput:focus {
   outline: none;
@@ -77,6 +77,9 @@
 
 .mainButton:hover {
   background-color: #145a06;
+}
+.shareOption:hover {
+  background-color: #d3d3d3;
 }
 .shareOptions {
   display: flex;

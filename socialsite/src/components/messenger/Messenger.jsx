@@ -51,7 +51,12 @@ const Messenger = ({ show }) => {
 
         <ul className={style.friendsList}>
           {friends?.map((u, id) => (
-            <FriendsOnline key={id} user={u} value={u} />
+            <FriendsOnline
+              key={id}
+              user={u}
+              value={u}
+              className={style.friendsOnline}
+            />
           ))}
         </ul>
       </div>

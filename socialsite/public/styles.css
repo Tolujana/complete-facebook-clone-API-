@@ -4,6 +4,7 @@ body {
   font-family: 'Roboto', sans-serif;
   height: 100%;
   width: 100%;
+  position: relative;
 }
 * {
   --light: rgb(212, 211, 211);
