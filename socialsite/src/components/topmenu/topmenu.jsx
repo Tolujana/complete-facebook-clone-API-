@@ -24,7 +24,7 @@ function Topmenu() {
   console.log(messages ? messages : '');
   useEffect(() => {});
   useEffect(() => {
-    const socket = io('ws://localhost:8800');
+    const socket = io('https://socialmedia-site.herokuapp.com/');
     dispatch({ type: 'SOCKET', payload: socket });
 
     socket.emit('addUser', user._id);
