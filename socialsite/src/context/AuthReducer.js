@@ -21,7 +21,7 @@ const AuthReducer = (state, action) => {
     case 'FRIEND_REQUEST':
       return { ...state, user: action.payload };
     case 'CHAT_START':
-      return { ...state, chats: [...state?.chats, action.payload] };
+      return { ...state, chats: [...state.chats, action.payload] };
     case 'SOCKET':
       return { ...state, socket: action.payload };
     case 'CHATMESSAGES':
