@@ -60,7 +60,12 @@ function Share() {
           <div className={styles.inputContainer}>
             <input
               ref={userInput}
-              placeholder={"what's on your " + user.username + '?'}
+              placeholder={
+                "what's on your mind " +
+                user?.username?.charAt(0).toUpperCase() +
+                user?.username?.slice(1) +
+                '?'
+              }
               className={styles.shareInput}
             />
           </div>
@@ -93,7 +98,9 @@ function Share() {
               <MoodIcon htmlColor="Goldenrod" className={styles.shareIcon} />
               <span className={styles.ShareOptionText}>Feeling/Activity</span>
             </div>
-            <div className={`${styles.shareOption} ${styles.green} ${styles.mainButton}`}>
+            <div
+              className={`${styles.shareOption} ${styles.green} ${styles.mainButton}`}
+            >
               <span onClick={submitHandler} className={styles.ShareOptionText}>
                 Share
               </span>

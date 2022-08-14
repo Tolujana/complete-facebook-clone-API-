@@ -16,7 +16,10 @@ const CloseFriends = ({ user }) => {
           alt=""
           className={styles.friendImg}
         />
-        <span className={styles.friendName}> {user.username}</span>
+        <span className={styles.friendName}>
+          {' '}
+          {user?.username.charAt(0).toUpperCase() + user?.username.slice(1)}
+        </span>
       </li>
     </Link>
   );

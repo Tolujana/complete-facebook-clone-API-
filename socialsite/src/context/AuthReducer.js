@@ -25,7 +25,7 @@ const AuthReducer = (state, action) => {
     case 'SOCKET':
       return { ...state, socket: action.payload };
     case 'CHATMESSAGES':
-      return { ...state, messages: [...state.messages, action.payload] };
+      return { ...state, messages: [...state?.messages, action.payload] };
 
     default:
       return state;

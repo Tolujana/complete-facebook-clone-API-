@@ -79,7 +79,7 @@ const Messenger = ({ show }) => {
                 backgroundImage: `url(${PF + '/' + u.profilePicture})`,
               }}
             >
-              {u.username}
+              {u.username?.charAt(0).toUpperCase() + u.username?.slice(1)}
             </div>
           ))}
         </div>

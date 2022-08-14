@@ -63,7 +63,10 @@ const Post = ({ post }) => {
             />
           </Link>
           <div className={styles.postDetail}>
-            <span className={styles.postName}>{user.username}</span>
+            <span className={styles.postName}>
+              {user?.username?.charAt(0).toUpperCase() +
+                user.username?.slice(1)}
+            </span>
             <div className={styles.time}>
               <span className={styles.timeStamp}>{format(post.createdAt)}</span>
               <span className={styles.timeStampDot}>.</span>

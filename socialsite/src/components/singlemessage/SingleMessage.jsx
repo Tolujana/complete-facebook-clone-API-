@@ -17,8 +17,7 @@ const SingleMessage = ({ user }) => {
   const [newMessage, setnewMessage] = useState('');
   //const [messages, setMessages] = useState([]);
   const [receivedMessage, setReceivedMessage] = useState('');
-  console.log(currentUser.profilePicture);
-
+  const [userMessages, setuserMessages] = useState([]);
   // useEffect(() => {
   //   socket?.on('getMessage', (data) => {
   //     const latestMessage = {
@@ -44,6 +43,14 @@ const SingleMessage = ({ user }) => {
   //     console.log(users);
   //   });
   // }, [currentUser]);
+
+  useEffect(() => {
+    setuserMessages((prev) => {
+      return messages?.filter(
+        (m) => m.receiverId === user._id || m.senderId === user._id
+      );
+    });
+  }, [messages, user._id]);
 
   const handleChange = (e) => {
     setnewMessage(e.target.value);
@@ -85,7 +92,9 @@ const SingleMessage = ({ user }) => {
             className={style.profileImg}
           />
         </div>
-        <span className={style.username}>{user.username}</span>
+        <span className={style.username}>
+          {user?.username?.charAt(0).toUpperCase() + user?.username?.slice(1)}
+        </span>
       </div>
       {/* <div className={style.messaged}>
         {messages?.map((m, index) => (
@@ -101,7 +110,7 @@ const SingleMessage = ({ user }) => {
       <ul className={style.messages}>
         {messages
           ?.filter((m) => m.receiverId === user._id || m.senderId === user._id)
-          .map((m, id) => (
+          ?.map((m, id) => (
             <Message
               key={id}
               message={m.message}
@@ -112,6 +121,7 @@ const SingleMessage = ({ user }) => {
               }
               createdAt={m.createdAt}
               owner={m.senderId === currentUser._id}
+              ref={id === m.length ? id : null}
             />
           ))}
       </ul>

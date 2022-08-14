@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { SingleMessage } from '../messenger/Messenger';
 import styles from './FriendsOnline.module.css';
@@ -9,7 +9,8 @@ export const FriendsOnline = ({ user }) => {
 
   const handleClick = () => {
     if (
-      !chats?.includes(user)
+      !chats.some((users) => users._id === user._id)
+      // !chats?.includes(user)
       //|| messages.some((message) => message.receiverId === user._id)
     ) {
       dispatch({ type: 'CHAT_START', payload: user });
@@ -33,7 +34,9 @@ export const FriendsOnline = ({ user }) => {
             <div className={styles.online}></div>
           </div>
 
-          <span className={styles.friendsName}>{user.username}</span>
+          <span className={styles.friendsName}>
+            {user?.username?.charAt(0).toUpperCase() + user?.username?.slice(1)}
+          </span>
         </li>
       </div>
     </div>

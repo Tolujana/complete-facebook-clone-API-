@@ -55,7 +55,10 @@ export const FriendRequestItem = ({ userid, handleClickUp }) => {
               />
             </div>
 
-            <span className={styles.friendsName}>{userRequest.username}</span>
+            <span className={styles.friendsName}>
+              {userRequest?.usernamecharAt(0).toUpperCase() +
+                userRequest.username?.slice(1)}
+            </span>
           </div>
           <button onClick={handleClick}>Accept</button>
         </div>

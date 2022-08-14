@@ -2,9 +2,9 @@ import React from 'react';
 import { format } from 'timeago.js';
 import style from './message.module.css';
 const PF = process.env.REACT_APP_PUBLIC_FOLDER;
-const Message = ({ message, img, createdAt, owner }) => {
+const Message = ({ message, img, createdAt, owner, ref }) => {
   return owner ? (
-    <div className={style.own}>
+    <div className={style.own} ref={ref}>
       <div className={style.messageTopOwn}>
         <p className={style.messageTextOwn}>{message}</p>
         <img className={style.messageImg} src={PF + img} alt="" />

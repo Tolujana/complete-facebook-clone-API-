@@ -49,9 +49,13 @@ const Profile = () => {
     } catch (err) {}
   };
   const handleClick2 = async () => {
-    if (!chats.includes(user._id)) {
-      // const data ={username:user.username, pic:user.profileImg, _id:user._id}
-      dispatch({ type: 'CHAT_START', payload: user._id });
+    const data = {
+      username: user.username,
+      pic: user.profileImg,
+      _id: user._id,
+    };
+    if (!chats.includes(data)) {
+      dispatch({ type: 'CHAT_START', payload: data });
     }
   };
   const handleEditButton = () => {
@@ -132,7 +136,12 @@ const Profile = () => {
                 />
               </div>
               <div className={styles.profileInfo}>
-                <span className={styles.profileName}>{user.username}</span>
+                <span className={styles.profileName}>
+                  {user?.username?.charAt(0)
+                    ? user?.username?.charAt(0)?.toUpperCase() +
+                      user?.username?.slice(1)
+                    : ''}
+                </span>
                 <span className={styles.profilefriends}>1.5k friends</span>
                 <div className={styles.friendImg}></div>
               </div>

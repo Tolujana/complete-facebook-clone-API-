@@ -1,4 +1,11 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import styles from './topmenu.module.css';
 import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 import PublicIcon from '@mui/icons-material/Public';
@@ -9,11 +16,14 @@ import { AuthContext } from '../../context/AuthContext';
 import Messenger from '../messenger/Messenger';
 import FriendRequest from '../friendRequest/FriendRequest';
 import { io } from 'socket.io-client';
+import { axiosInstance } from '../../proxySettings';
+const MessageSet = new Set();
 
 function Topmenu() {
   const {
     user,
     dispatch,
+    chats,
     messages,
     socket: savedSocket,
   } = useContext(AuthContext);
@@ -21,10 +31,14 @@ function Topmenu() {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const [showMessenger, setShowMessenger] = useState(false);
   const [showFriendRequest, setShowFriendRequest] = useState(false);
+  const [latestMessage, setlatestMessage] = useState({});
+  const lattestMessage = useRef({});
+
   console.log(messages ? messages : '');
-  useEffect(() => {});
+
   useEffect(() => {
     const socket = io('https://socialmedia-site.herokuapp.com/');
+    //const socket = io('http://localhost:8800');
     dispatch({ type: 'SOCKET', payload: socket });
 
     socket.emit('addUser', user._id);
@@ -39,17 +53,63 @@ function Topmenu() {
   }, [dispatch, user._id]);
 
   useEffect(() => {
+    messages?.forEach((message) => MessageSet.add(message.receiverId));
+  }, [messages]);
+
+  useEffect(() => {
     savedSocket?.on('getMessage', (data) => {
-      const latestMessage = {
+      lattestMessage.current = {
         senderId: data?.senderId,
         receiverId: user._id,
         message: data?.message,
         createdAt: Date.now(),
       };
+      // console.log(data?.senderId);
+      // setlatestMessage((prev) => ({
+      //   senderId: data?.senderId,
+      //   receiverId: user._id,
+      //   message: data?.message,
+      //   createdAt: Date.now(),
+      // }));
 
-      dispatch({ type: 'CHATMESSAGES', payload: latestMessage });
+      dispatch({ type: 'CHATMESSAGES', payload: lattestMessage?.current });
     });
-  }, [savedSocket, dispatch, user._id]);
+  }, [savedSocket, user._id, dispatch]);
+
+  console.log(chats);
+  console.log(lattestMessage.current);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      if (
+        !chats?.some((user) => user._id === lattestMessage.current.senderId)
+      ) {
+        const res = await axiosInstance.get(
+          `/users?userId=${lattestMessage.current.senderId}`
+        );
+
+        const userData = {
+          username: res.data.username,
+          _id: res.data._id,
+          profilePicture: res.data.profilePicture,
+        };
+
+        dispatch({ type: 'CHAT_START', payload: userData });
+      }
+    };
+
+    fetchUser();
+  }, [chats, dispatch, lattestMessage.current.senderId]);
+
+  // useEffect(() => {
+  //   if (
+  //     messages.some(
+  //       (message) => message.receiverId !== user._id && !chats?.includes(user)
+  //     )
+  //   ) {
+  //     dispatch({ type: 'CHAT_START', payload: user });
+  //   }
+  // }, [messages, dispatch, user, chats]);
 
   const toggleMessenger = () => {
     if (showFriendRequest) {
@@ -103,7 +163,14 @@ function Topmenu() {
           </div>
           <div className={styles.topmenuIconItem}>
             <ChatBubbleIcon onClick={toggleMessenger} />
-            <span className={styles.topmenuIconValue}>1</span>
+            <span
+              className={styles.topmenuIconValue}
+              style={{
+                display: MessageSet.size > 0 ? 'flex' : 'none',
+              }}
+            >
+              {MessageSet.size}
+            </span>
           </div>
           <div className={styles.topmenuIconItem}>
             <PublicIcon />
