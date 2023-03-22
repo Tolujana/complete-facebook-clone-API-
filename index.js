@@ -1,71 +1,73 @@
-const express = require('express');
-var cors = require('cors');
+const express = require("express");
+var cors = require("cors");
 
 const app = express();
-const http = require('http').Server(app);
-const bcrypt = require('bcryptjs');
-const multer = require('multer');
-const mongoose = require('mongoose');
-const morgan = require('morgan');
-const dotenv = require('dotenv');
-const helmet = require('helmet');
-const userRoute = require('./route/users');
-const conversationRoute = require('./route/conversation');
-const messageRoute = require('./route/message');
-const authRoute = require('./route/auth');
-const postRoute = require('./route/posts');
-const path = require('path');
-const io = require('socket.io')(http, {
+const http = require("http").Server(app);
+const bcrypt = require("bcryptjs");
+const multer = require("multer");
+const mongoose = require("mongoose");
+const morgan = require("morgan");
+const dotenv = require("dotenv");
+const helmet = require("helmet");
+const userRoute = require("./route/users");
+const conversationRoute = require("./route/conversation");
+const messageRoute = require("./route/message");
+const authRoute = require("./route/auth");
+const postRoute = require("./route/posts");
+const path = require("path");
+const io = require("socket.io")(http, {
   cors: {
-    origin: 'https://socialmedia-site.herokuapp.com/',
-    //origin: 'http://localhost:3000',
-    methods: ['GET', 'POST'],
+    //origin: 'https://socialmedia-site.herokuapp.com/',
+    origin: "http://localhost:3000",
+
+    methods: ["GET", "POST"],
   },
 });
 dotenv.config();
 
 mongoose.connect(process.env.MONGO_DB, (err) => {
   if (err) console.log(err.message);
-  else console.log('mongdb is connected');
+  else console.log("mongdb is connected");
 });
 // middleware
-app.use('/images', express.static(path.join(__dirname, 'public/images')));
+app.use("/images", express.static(path.join(__dirname, "public/images")));
 app.use(
-  '/images/assets',
-  express.static(path.join(__dirname, 'public/images/assets'))
+  "/images/assets",
+  express.static(path.join(__dirname, "public/images/assets"))
 );
 // cors
 app.use(cors());
 app.use(express.json());
 app.use(helmet());
-app.use(morgan('common'));
+app.use(morgan("common"));
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'public/images');
+    cb(null, "public/images");
   },
   filename: (req, file, cb) => {
     console.log(req);
-    cb(null, req.body.name);
+    cb(null, Date.now() + file.originalname);
   },
 });
 
 const upload = multer({ storage: storage });
 
 //route
-app.post('/api/upload', upload.single('file'), (req, res) => {
+app.post("/api/upload", upload.array("files", 12), (req, res) => {
   try {
-    return res.status(200).json('file uploaded successfully');
+    console.log(req);
+    return res.status(200).json("file uploaded successfully");
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
   }
 });
-app.use('/api/auth', authRoute);
-app.use('/api/users', userRoute);
-app.use('/api/posts', postRoute);
-app.use('/api/conversation', conversationRoute);
-app.use('/api/message', messageRoute);
-app.use(express.static(path.join(__dirname, '/socialsite/build')));
+app.use("/api/auth", authRoute);
+app.use("/api/users", userRoute);
+app.use("/api/posts", postRoute);
+app.use("/api/conversation", conversationRoute);
+app.use("/api/message", messageRoute);
+app.use(express.static(path.join(__dirname, "/socialsite/build")));
 let users = [];
 
 const addUser = (userId, socketId) => {
@@ -81,45 +83,38 @@ const removeUser = (socketId) => {
 const getUser = (receiverId) => {
   return users.find((user) => user.userId === receiverId);
 };
-io.on('connection', (socket) => {
-  io.emit('rebroadcastUser', socket.id);
+io.on("connection", (socket) => {
+  io.emit("rebroadcastUser", socket.id);
   //get users id and socket id from user
-  socket.on('addUser', (userId) => {
+  socket.on("addUser", (userId) => {
     addUser(userId, socket.id);
-    console.log('see users', users);
-    io.emit('users', users);
+    console.log("see users", users);
+    io.emit("users", users);
   });
-  socket.on('readdUser', (userId) => {
+  socket.on("readdUser", (userId) => {
     addUser(userId, socket.id);
-    console.log('see users', users);
-    io.emit('users', users);
+    console.log("see users", users);
+    io.emit("users", users);
   });
-  io.emit('welcome', 'welcome to Finjana. now you can chat');
+  io.emit("welcome", "welcome to Finjana. now you can chat");
 
   //when disconnectecd
 
   // Send and receive messages
-  socket.on('sendMessage', ({ senderId, receiverId, message }) => {
+  socket.on("sendMessage", ({ senderId, receiverId, message }) => {
     const user = getUser(receiverId);
-    console.log('user i am looking for', user, user?.socketId);
+    console.log("user i am looking for", user, user?.socketId);
 
-    io.to(user?.socketId).emit('getMessage', { senderId, message });
+    io.to(user?.socketId).emit("getMessage", { senderId, message });
   });
-  socket.on('disconnect', (reason) => {
+  socket.on("disconnect", (reason) => {
     socket.removeAllListeners();
     removeUser(socket.id);
-    io.emit('users', users);
+    io.emit("users", users);
   });
 });
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '/socialsite/build', 'index.html'));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "/socialsite/build", "index.html"));
 });
-http.listen(process.env.PORT || 8800, () => console.log('server runnings '));
-
-// app.get('/', (req, res) => {
-//   res.send('welcome home');
-// });
-// app.get('/users', (req, res) => {
-//   res.send('welcome homeusers');
-// });
+http.listen(process.env.PORT || 8800, () => console.log("server runnings "));
