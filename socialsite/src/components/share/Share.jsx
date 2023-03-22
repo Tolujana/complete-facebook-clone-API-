@@ -1,49 +1,30 @@
-import React, { useContext, useRef, useState } from 'react';
-import styles from './Share.module.css';
-import TheatersIcon from '@mui/icons-material/Theaters';
-import PhotoLibraryIcon from '@mui/icons-material/PhotoLibrary';
-import MoodIcon from '@mui/icons-material/Mood';
-import VideoCameraFrontIcon from '@mui/icons-material/VideoCameraFront';
-import { AuthContext } from '../../context/AuthContext';
-import axios from 'axios';
-import { axiosInstance } from '../../proxySettings';
+import React, { useContext, useRef, useState } from "react";
+import styles from "./Share.module.css";
+import TheatersIcon from "@mui/icons-material/Theaters";
+import PhotoLibraryIcon from "@mui/icons-material/PhotoLibrary";
+import MoodIcon from "@mui/icons-material/Mood";
+import VideoCameraFrontIcon from "@mui/icons-material/VideoCameraFront";
+import { AuthContext } from "../../context/AuthContext";
+import { sharePost } from "../../utils/shareServices";
+
 const PF = process.env.REACT_APP_PUBLIC_FOLDER;
 function Share() {
-  const { user } = useContext(AuthContext);
+  const { user, dispatch, modalType } = useContext(AuthContext);
   const userInput = useRef();
   const [file, setFile] = useState(null);
+  const newPost = {
+    userId: user._id,
+    // desc: userInput.current.value,
+  };
 
   const handlefile = (e) => {
     setFile(e.target.files[0]);
   };
-  const submitHandler = async (e) => {
-    e.preventDefault();
 
-    const newPost = {
-      userId: user._id,
-      desc: userInput.current.value,
-    };
-    if (file) {
-      const data = new FormData();
-      const fileName = Date.now() + file.name;
-
-      data.append('name', fileName);
-      data.append('file', file);
-
-      newPost.img = fileName;
-      try {
-        await axiosInstance.post('/upload', data);
-      } catch (error) {}
-    }
-
-    try {
-      await axiosInstance.post('/posts', newPost);
-      window.location.reload();
-    } catch (error) {
-      console.log(error);
-    }
+  const openShareDialog = () => {
+    dispatch({ type: "MODAL_TYPE", payload: "share" });
   };
-
+  console.log(modalType);
   return (
     <div className={styles.share}>
       <form className={styles.shareWrapper} encType="multipart/form-data">
@@ -51,23 +32,19 @@ function Share() {
           <img
             src={
               !user.profilePicture
-                ? PF + '/noimage.png'
-                : PF + '/' + user.profilePicture
+                ? PF + "/noimage.png"
+                : PF + "/" + user.profilePicture
             }
             alt=""
             className={styles.sharepics}
           />
-          <div className={styles.inputContainer}>
-            <input
-              ref={userInput}
-              placeholder={
-                "what's on your mind " +
+          <div className={styles.shareButton} onClick={openShareDialog}>
+            <span>
+              {"What's on your mind " +
                 user?.username?.charAt(0).toUpperCase() +
                 user?.username?.slice(1) +
-                '?'
-              }
-              className={styles.shareInput}
-            />
+                "?"}
+            </span>
           </div>
         </div>
         <hr className={styles.shareHr} />
@@ -86,7 +63,7 @@ function Share() {
                 Photo/Video
               </label>
               <input
-                style={{ display: 'none' }}
+                style={{ display: "none" }}
                 type="file"
                 id="file"
                 className=""
@@ -101,7 +78,10 @@ function Share() {
             <div
               className={`${styles.shareOption} ${styles.green} ${styles.mainButton}`}
             >
-              <span onClick={submitHandler} className={styles.ShareOptionText}>
+              <span
+                onClick={(e) => sharePost(e, newPost, file)}
+                className={styles.ShareOptionText}
+              >
                 Share
               </span>
             </div>

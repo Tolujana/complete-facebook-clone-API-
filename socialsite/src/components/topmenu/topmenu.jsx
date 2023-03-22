@@ -5,19 +5,23 @@ import React, {
   useMemo,
   useRef,
   useState,
-} from 'react';
-import styles from './topmenu.module.css';
-import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
-import PublicIcon from '@mui/icons-material/Public';
-import PersonIcon from '@mui/icons-material/Person';
-import SearchIcon from '@mui/icons-material/Search';
-import { Link } from 'react-router-dom';
-import { AuthContext } from '../../context/AuthContext';
-import Messenger from '../messenger/Messenger';
-import FriendRequest from '../friendRequest/FriendRequest';
-import { io } from 'socket.io-client';
-import { axiosInstance } from '../../proxySettings';
-const MessageSet = new Set();
+} from "react";
+import OtherHousesIcon from "@mui/icons-material/OtherHouses";
+import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
+import StorefrontIcon from "@mui/icons-material/Storefront";
+import GroupsIcon from "@mui/icons-material/Groups";
+import VideogameAssetRoundedIcon from "@mui/icons-material/VideogameAssetRounded";
+import styles from "./topmenu.module.css";
+import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
+import PublicIcon from "@mui/icons-material/Public";
+import PersonIcon from "@mui/icons-material/Person";
+import SearchIcon from "@mui/icons-material/Search";
+import { Link } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
+import Messenger from "../messenger/Messenger";
+import FriendRequest from "../friendRequest/FriendRequest";
+import { io } from "socket.io-client";
+import { axiosInstance } from "../../proxySettings";
 
 function Topmenu() {
   const {
@@ -34,20 +38,39 @@ function Topmenu() {
   const [latestMessage, setlatestMessage] = useState({});
   const lattestMessage = useRef({});
 
-  console.log(messages ? messages : '');
+  console.log(messages ? messages : "");
+
+  const MessageSet = new Set();
+  const menuItem = useRef();
+
+  const loadMenuPage = (event) => {
+    updateStyle(event);
+    //console.log(event.currentTarget.value);
+  };
+
+  const updateStyle = (event) => {
+    const menuitems = menuItem.current.querySelectorAll("li");
+    console.log(menuitems);
+    menuitems.forEach((menuItem) => {
+      menuItem.classList.remove(styles.active);
+    });
+    event.currentTarget.classList.add(styles.active);
+
+    console.log(event.currentTarget.classList);
+  };
 
   useEffect(() => {
-    const socket = io('https://socialmedia-site.herokuapp.com/');
-    //const socket = io('http://localhost:8800');
-    dispatch({ type: 'SOCKET', payload: socket });
+    //const socket = io('https://socialmedia-site.herokuapp.com/');
+    const socket = io("http://localhost:8800");
+    dispatch({ type: "SOCKET", payload: socket });
 
-    socket.emit('addUser', user._id);
-    socket.on('rebroadcastUser', (data) => {
+    socket.emit("addUser", user._id);
+    socket.on("rebroadcastUser", (data) => {
       if (socket.id !== data) {
-        socket.emit('readdUser', user._id);
+        socket.emit("readdUser", user._id);
       }
     });
-    socket.on('users', (users) => {
+    socket.on("users", (users) => {
       console.log(users);
     });
   }, [dispatch, user._id]);
@@ -57,7 +80,7 @@ function Topmenu() {
   }, [messages]);
 
   useEffect(() => {
-    savedSocket?.on('getMessage', (data) => {
+    savedSocket?.on("getMessage", (data) => {
       lattestMessage.current = {
         senderId: data?.senderId,
         receiverId: user._id,
@@ -72,7 +95,7 @@ function Topmenu() {
       //   createdAt: Date.now(),
       // }));
 
-      dispatch({ type: 'CHATMESSAGES', payload: lattestMessage?.current });
+      dispatch({ type: "CHATMESSAGES", payload: lattestMessage?.current });
     });
   }, [savedSocket, user._id, dispatch]);
 
@@ -94,7 +117,7 @@ function Topmenu() {
           profilePicture: res.data.profilePicture,
         };
 
-        dispatch({ type: 'CHAT_START', payload: userData });
+        dispatch({ type: "CHAT_START", payload: userData });
       }
     };
 
@@ -131,19 +154,48 @@ function Topmenu() {
   return (
     <div className={styles.topmenuContainer}>
       <div className={styles.topmenuLeft}>
-        <Link to="/" style={{ textDecoration: 'none' }}>
-          <span className={styles.logo}>FinJana</span>
+        <Link to="/" style={{ textDecoration: "none" }}>
+          <div className={styles.logo}>
+            <span>f</span>
+          </div>
         </Link>
-      </div>
-      <div className={styles.topmenuCenter}>
-        <div className={styles.searchBar}>
+        <div className={styles.search}>
           <SearchIcon />
-          <input
-            placeholder="Search for friends"
-            className={styles.searchInput}
-          />
+          <input placeholder="Search Facebook" className={styles.searchInput} />
         </div>
       </div>
+      <nav className={styles.topmenuCenter} ref={menuItem}>
+        <li className={styles.menuItem} onClick={loadMenuPage} value={5}>
+          <OtherHousesIcon
+            className={styles.menuIcon}
+            style={{ fill: "white", fontSize: 32 }}
+          />
+        </li>
+        <li className={styles.menuItem} onClick={loadMenuPage}>
+          <OndemandVideoIcon
+            className={styles.menuIcon}
+            // style={{ fill: "white", fontSize: 32 }}
+          />
+        </li>
+        <li className={styles.menuItem} onClick={loadMenuPage}>
+          <StorefrontIcon
+            className={styles.menuIcon}
+            style={{ fill: "white", fontSize: 32 }}
+          />
+        </li>
+        <li className={styles.menuItem} onClick={loadMenuPage}>
+          <GroupsIcon
+            className={styles.menuIcon}
+            style={{ fill: "white", fontSize: 32 }}
+          />
+        </li>
+        <li className={styles.menuItem} onClick={loadMenuPage}>
+          <VideogameAssetRoundedIcon
+            className={styles.menuIcon}
+            style={{ fill: "white", fontSize: 32 }}
+          />
+        </li>
+      </nav>
       <div className={styles.topmenuRight}>
         <div className="topmenuLinks">
           <span className={styles.toplink}> </span>
@@ -155,7 +207,7 @@ function Topmenu() {
             <span
               className={styles.topmenuIconValue}
               style={{
-                display: user.friendRequest.length > 0 ? 'flex' : 'none',
+                display: user.friendRequest.length > 0 ? "flex" : "none",
               }}
             >
               {user.friendRequest.length}
@@ -166,7 +218,7 @@ function Topmenu() {
             <span
               className={styles.topmenuIconValue}
               style={{
-                display: MessageSet.size > 0 ? 'flex' : 'none',
+                display: MessageSet.size > 0 ? "flex" : "none",
               }}
             >
               {MessageSet.size}
@@ -187,7 +239,7 @@ function Topmenu() {
           <img
             src={
               user.profilePicture
-                ? PF + '/' + user.profilePicture
+                ? PF + "/" + user.profilePicture
                 : `${PF}/noimage.png`
             }
             alt=""

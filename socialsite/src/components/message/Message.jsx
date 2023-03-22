@@ -1,6 +1,7 @@
-import React from 'react';
-import { format } from 'timeago.js';
-import style from './message.module.css';
+import React from "react";
+
+import { format } from "timeago.js";
+import style from "./message.module.css";
 const PF = process.env.REACT_APP_PUBLIC_FOLDER;
 const Message = ({ message, img, createdAt, owner, ref }) => {
   return owner ? (
@@ -9,7 +10,7 @@ const Message = ({ message, img, createdAt, owner, ref }) => {
         <p className={style.messageTextOwn}>{message}</p>
         <img className={style.messageImg} src={PF + img} alt="" />
       </div>
-      <div className={style.messageBottomOwn}>{format(createdAt)}</div>
+      <div className={style.messageBottomOwn}> {format(createdAt)}</div>
     </div>
   ) : (
     <div className={style.other}>

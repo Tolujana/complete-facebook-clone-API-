@@ -1,24 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
-import Home from './pages/home/Home';
-import Accessibility from '@mui/icons-material/Accessibility';
-import Profile from './pages/profilePage/Profile';
-import Login from './pages/login/Login';
-import { BrowserRouter, Navigate } from 'react-router-dom';
-import Register from './pages/register/Register';
-import { Route, Routes } from 'react-router-dom';
-import { useContext } from 'react';
+import logo from "./logo.svg";
+import "./App.css";
+import Home from "./pages/home/Home";
+import Accessibility from "@mui/icons-material/Accessibility";
+import Profile from "./pages/profilePage/Profile";
+import Login from "./pages/login/Login";
+import { BrowserRouter, Navigate } from "react-router-dom";
+import Register from "./pages/register/Register";
+import { Route, Routes } from "react-router-dom";
+import { useContext } from "react";
 
-import { AuthContextProvider, AuthContext } from './context/AuthContext';
+import { AuthContextProvider, AuthContext } from "./context/AuthContext";
+import Modal from "./components/modals/Modal";
 
 function App() {
-  const { user } = useContext(AuthContext);
-  let storedUser = localStorage.getItem('user');
+  const { user, modalType } = useContext(AuthContext);
+  let storedUser = localStorage.getItem("user");
   let currentUser;
   storedUser ? (currentUser = JSON.parse(storedUser)) : (currentUser = user);
 
   return (
     <div className="wrapper">
+      <Modal type={modalType} />
       <BrowserRouter>
         <Routes>
           <Route

@@ -1,10 +1,11 @@
-import style from './content.module.css';
-import React, { useContext, useEffect, useState } from 'react';
-import Share from '../share/Share';
-import Post from '../post/Post';
-import axios from 'axios';
-import { AuthContext } from '../../context/AuthContext';
-import { axiosInstance } from '../../proxySettings';
+import style from "./content.module.css";
+import React, { useContext, useEffect, useState } from "react";
+import Share from "../share/Share";
+import Post from "../post/Post";
+import axios from "axios";
+import { AuthContext } from "../../context/AuthContext";
+import { axiosInstance } from "../../proxySettings";
+import Story from "../story/Story";
 
 function Content({ username }) {
   const [posts, setPost] = useState([]);
@@ -13,7 +14,7 @@ function Content({ username }) {
   useEffect(() => {
     const fetchPost = async () => {
       const res = username
-        ? await axiosInstance.get('/posts/profile/' + username)
+        ? await axiosInstance.get("/posts/profile/" + username)
         : await axiosInstance.get(`posts/timeline/${user._id}`);
 
       setPost(
@@ -27,7 +28,12 @@ function Content({ username }) {
   return (
     <div className={style.content}>
       <div className={style.wrapper}>
-        {username === user.username && <Share />}
+        {username === user.username && (
+          <>
+            <Story />
+            <Share />
+          </>
+        )}
         {posts.map((post) => (
           <Post key={post._id} post={post} />
         ))}

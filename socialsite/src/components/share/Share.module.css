@@ -1,14 +1,23 @@
 .share {
   /* margin: 0px 20px; */
-  width: 500px;
+  width: 100%;
+  position: relative;
+}
+
+.shareModal {
+  height: 315px;
+  position: absolute;
+  background-color: #fff;
+  width: 100%;
+  top: -100px;
 }
 .shareWrapper {
   /* width: 82%; */
-  /* height: 120px; */
+  height: 112px;
   border-radius: 10px;
   -webkit-box-shadow: 0px 0px 15px -8px rgba(0, 0, 0, 0.37);
   box-shadow: 0px 0px 15px -8px rgba(0, 0, 0, 0.37);
-  padding: 10px;
+  padding: 12px 16px 10px;
   margin-bottom: 16px;
   background: white;
 }
@@ -30,22 +39,23 @@
 .shareTop {
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 
-.inputContainer {
+.shareButton {
   border: none;
-  width: 80%;
+  width: 84%;
   font-size: 20px;
   border-radius: 20px;
-  height: 22px;
   padding: 5px;
   display: flex;
   align-items: center;
+  background-color: var(--color-secondary);
 }
-.inputContainer:hover {
+.shareButton:hover {
   background: #e2e1e1;
 }
-.inputContainer:hover > input {
+.shareButton:hover > input {
   background: #e2e1e1;
 }
 .shareInput {
@@ -53,12 +63,15 @@
   border: none;
   width: 100%;
   font-size: 20px;
+  background-color: var(--color-secondary);
 }
 .shareInput:focus {
   outline: none;
 }
 .shareHr {
-  margin: 10px;
+  height: 1px;
+  background-color: var(--color-secondary);
+  border: none;
 }
 .shareButtom {
   display: flex;
@@ -81,14 +94,18 @@
 .shareOption:hover {
   background-color: #d3d3d3;
 }
+.shareOptionText {
+  font-size: 15px;
+}
 .shareOptions {
   display: flex;
   margin-left: 20px;
   justify-content: space-around;
   cursor: pointer;
 }
+
 .shareIcon {
-  font-size: 15px;
+  font-size: 20px;
   margin-right: 5px;
 }
 .chat {

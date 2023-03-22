@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import style from './Single.module.css';
-import { io } from 'socket.io-client';
-import { AuthContext } from '../../context/AuthContext';
-import e from 'cors';
-import Message from '../message/Message';
+import React, { useContext, useEffect, useRef, useState } from "react";
+import style from "./Single.module.css";
+import { io } from "socket.io-client";
+import { AuthContext } from "../../context/AuthContext";
+// import e from 'cors';
+import Message from "../message/Message";
 const PF = process.env.REACT_APP_PUBLIC_FOLDER;
 
 const SingleMessage = ({ user }) => {
@@ -14,9 +14,9 @@ const SingleMessage = ({ user }) => {
     dispatch,
   } = useContext(AuthContext);
   const [sockets, setSocket] = useState(null);
-  const [newMessage, setnewMessage] = useState('');
+  const [newMessage, setnewMessage] = useState("");
   //const [messages, setMessages] = useState([]);
-  const [receivedMessage, setReceivedMessage] = useState('');
+  const [receivedMessage, setReceivedMessage] = useState("");
   const [userMessages, setuserMessages] = useState([]);
   // useEffect(() => {
   //   socket?.on('getMessage', (data) => {
@@ -58,7 +58,7 @@ const SingleMessage = ({ user }) => {
 
   const handleMessage = (e) => {
     e.preventDefault();
-    socket?.emit('sendMessage', {
+    socket?.emit("sendMessage", {
       senderId: currentUser._id,
       receiverId: user._id,
       message: newMessage,
@@ -69,12 +69,12 @@ const SingleMessage = ({ user }) => {
       message: newMessage,
       createdAt: Date.now(),
     };
-    dispatch({ type: 'CHATMESSAGES', payload: data });
-    setnewMessage('');
+    dispatch({ type: "CHATMESSAGES", payload: data });
+    setnewMessage("");
 
     //setMessages((prev) => [...prev, data]);
     console.log(data);
-    console.log('message', messages);
+    console.log("message", messages);
   };
 
   useEffect(() => {});
@@ -85,8 +85,8 @@ const SingleMessage = ({ user }) => {
           <img
             src={
               !user.profilePicture
-                ? PF + '/noimage.png'
-                : PF + '/' + user.profilePicture
+                ? PF + "/noimage.png"
+                : PF + "/" + user.profilePicture
             }
             alt=""
             className={style.profileImg}

@@ -1,0 +1,21 @@
+.fullScreenModal {
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f0f2f5b2;
+  z-index: 10;
+}
+.modal {
+  width: 500px;
+  height: 350px;
+}
+
+.none {
+  display: none;
+}
+.share {
+  display: block;
+}

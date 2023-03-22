@@ -1,8 +1,8 @@
-import React, { useContext, useRef } from 'react';
-import styles from './Login.module.css';
-import { loginCall } from '../../apicalls';
-import { AuthContext } from '../../context/AuthContext';
-import { CircularProgress } from '@mui/material';
+import React, { useContext, useRef } from "react";
+import styles from "./Login.module.css";
+import { loginCall } from "../../apicalls";
+import { AuthContext } from "../../context/AuthContext";
+import { CircularProgress } from "@mui/material";
 const Login = () => {
   const email = useRef();
   const password = useRef();
@@ -44,7 +44,7 @@ const Login = () => {
               required
             />
             <button className={styles.loginButton}>
-              {isFetching ? <CircularProgress color="success" /> : 'Log In'}
+              {isFetching ? <CircularProgress color="success" /> : "Log In"}
             </button>
             <span className={styles.forgotPassword}>
               {

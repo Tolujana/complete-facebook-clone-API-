@@ -68,7 +68,7 @@
   /* justify-content: space-around; */
 }
 .likes {
-  flex: 2.5;
+  flex: 3;
   display: flex;
   align-items: center;
 }
@@ -85,13 +85,18 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-top: 8px;
+  border-top: 2px solid var(--color-secondary);
+  border-bottom: 2px solid var(--color-secondary);
 }
 .postBottomAction {
-  padding: 10px 40px;
+  margin: 6px 0px;
+  padding: 4px 40px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  border-radius: 6px;
 }
 .postBottomAction:hover {
-  background-color: #f3f3f3;
+  background-color: var(--color-secondary);
 }

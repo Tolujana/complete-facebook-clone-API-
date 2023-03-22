@@ -1,10 +1,14 @@
 .content {
   flex: 4.5;
+  padding: 0px 72.6px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }
 .wrapper {
   align-items: center;
   display: flex;
-  padding: 36px;
-  margin: 0px 72.6px;
+  max-width: 500px;
+
   flex-direction: column;
 }

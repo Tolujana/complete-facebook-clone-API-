@@ -1,5 +1,5 @@
-import { createContext, useReducer, useEffect } from 'react';
-import AuthReducer from './AuthReducer';
+import { createContext, useReducer, useEffect } from "react";
+import AuthReducer from "./AuthReducer";
 
 const INITIAL_STATE = {
   user: null,
@@ -8,6 +8,7 @@ const INITIAL_STATE = {
   chats: [],
   messages: [],
   socket: null,
+  modalType: "",
 };
 
 export const AuthContext = createContext();
@@ -16,10 +17,10 @@ export const AuthContextProvider = ({ children }) => {
 
   useEffect(() => {
     if (state.user) {
-      localStorage.setItem('user', JSON.stringify(state.user));
+      localStorage.setItem("user", JSON.stringify(state.user));
     }
   }, [state.user]);
-  const localData = JSON.parse(localStorage.getItem('user'));
+  const localData = JSON.parse(localStorage.getItem("user"));
   return (
     <AuthContext.Provider
       value={{
@@ -29,6 +30,7 @@ export const AuthContextProvider = ({ children }) => {
         chats: state.chats,
         socket: state.socket,
         messages: state.messages,
+        modalType: state.modalType,
         dispatch,
       }}
     >
