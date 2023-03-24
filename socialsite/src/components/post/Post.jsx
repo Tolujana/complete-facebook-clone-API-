@@ -10,6 +10,7 @@ import { format } from "timeago.js";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { axiosInstance } from "../../proxySettings";
+import DisplayData from "../display/DisplayData";
 const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
 const EXTERNAL_FOLDER = process.env.REACT_APP_EXTERNAL_FOLDER;
 
@@ -78,11 +79,16 @@ const Post = ({ post }) => {
         </div>
         <div className={styles.postMiddle}>
           <span className={styles.postText}>{post?.desc}</span>
-          <img
+          {post.img ? (
+            <DisplayData files={post.img} design={post.design} />
+          ) : (
+            ""
+          )}
+          {/* <img
             src={EXTERNAL_FOLDER + post.img}
             alt=""
             className={styles.postContentImg}
-          />
+          /> */}
         </div>
         <div className={styles.postBottom}>
           <div className={styles.postBottomStats}>

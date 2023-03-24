@@ -4,7 +4,7 @@
   flex-direction: column;
   width: 500px;
   background-color: #fff;
-  max-height: 450px;
+  height: 450px;
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px,
     rgba(0, 0, 0, 0.22) 0px 10px 10px;
@@ -50,7 +50,8 @@
   flex-direction: column;
 }
 .photoUpload {
-  height: 222px;
+  height: auto;
+  min-height: 222px;
   border: 1px solid rgb(180, 177, 177);
   border-radius: 10px;
   padding: 8px;
@@ -90,11 +91,19 @@ select {
 .label {
   display: block;
   width: 100%;
-  height: 100%;
+  height: 222px;
 }
 .display {
-  position: absolute;
   z-index: 10;
-  /* width: 100%; */
-  height: 500px;
+  width: 100%;
+  height: 100%;
+}
+
+.post {
+  border: 0.5 solid rgb(209, 206, 206);
+  cursor: pointer;
+  width: 100%;
+  margin-top: 10px;
+  padding: 8px;
+  border-radius: 6px;
 }

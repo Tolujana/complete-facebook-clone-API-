@@ -1,8 +1,8 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import style from "./sharePopup.module.css";
 import { AuthContext } from "../../context/AuthContext";
 import { axiosInstance } from "../../proxySettings";
-import DisplayData from "./DisplayData";
+import DisplayData from "../display/DisplayData";
 
 const PublicFolder = process.env.REACT_APP_PUBLIC_FOLDER;
 
@@ -11,7 +11,19 @@ const SharePopup = () => {
   const [isDragActive, setDragActive] = useState(false);
   const [isDropped, setDropActive] = useState(false);
   const [error, setError] = useState("");
+  const userInput = useRef();
   const [displayData, setDisplayData] = useState([]);
+  const [input, setInput] = useState("");
+  const designType = ["row", "column"]; //this is for css style
+  const randomNumber = Math.floor(Math.random() * 2);
+  const classNameOptions = ["one", "two", "three", "four"]; // this is for CSS styles
+  const design = designType[randomNumber];
+  const numberOfFiles = displayData.length;
+  const designPattern =
+    numberOfFiles < 5
+      ? ` ${design} ${classNameOptions[numberOfFiles - 1]} `
+      : ` ${design} multiple`;
+
   const uploadMedia = (event) => {
     event.preventDefault();
     event.stopPropagation();
@@ -35,10 +47,24 @@ const SharePopup = () => {
   };
 
   const uploadData = async (data) => {
+    const newPost = {
+      userId: user._id,
+      desc: userInput.current.value,
+      img: displayData,
+      design: designPattern,
+    };
+
     try {
-      const response = await axiosInstance.post("/upload", data);
+      const response = await axiosInstance.post("/upload", displayData);
       console.log(response.status);
     } catch (error) {}
+
+    try {
+      await axiosInstance.post("/posts", newPost);
+      window.location.reload();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleFiles = (files, fromDragnDrop = false) => {
@@ -97,6 +123,8 @@ const SharePopup = () => {
               "?"
             }
             className={style.input}
+            value={input}
+            ref={userInput}
           />
         </div>
         <div className={style.photoUpload}>
@@ -111,29 +139,34 @@ const SharePopup = () => {
           )}
           {isDropped && (
             <div className={style.display}>
-              <DisplayData data={displayData} />
+              <DisplayData files={displayData} design={designPattern} />
             </div>
           )}
-          <div
-            className={`${style.drag} ${isDragActive ? style.white : ""}`}
-            onDragEnter={uploadMedia}
-          >
-            <label className={style.label} htmlFor="fileInput"></label>
-            <input
-              type="file"
-              name="files"
-              id="fileInput"
-              accept="image/png, image/gif, image/jpeg,video/mp4"
-              className={style.fileUpload}
-              multiple
-              onChange={(e) => {
-                handleFiles(e.target.files);
-              }}
-            />
-          </div>
+          {!isDropped && (
+            <div
+              className={`${style.drag} ${isDragActive ? style.white : ""}`}
+              onDragEnter={uploadMedia}
+            >
+              <label className={style.label} htmlFor="fileInput"></label>
+              <input
+                type="file"
+                name="files"
+                id="fileInput"
+                accept="image/png, image/gif, image/jpeg,video/mp4"
+                className={style.fileUpload}
+                multiple
+                onChange={(e) => {
+                  handleFiles(e.target.files);
+                }}
+              />
+            </div>
+          )}
         </div>
         <div className={style.actionButtons}></div>
-        <button className={style.post}></button>
+        <button className={style.post} onClick={uploadData}>
+          {" "}
+          Post{" "}
+        </button>
       </div>
     </div>
   );

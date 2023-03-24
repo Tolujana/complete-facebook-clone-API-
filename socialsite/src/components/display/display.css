@@ -1,0 +1,97 @@
+.container {
+  display: grid;
+  z-index: 100;
+  /* grid-template-columns: 150px, 150px; */
+  /* grid-auto-rows: 100px; */
+  gap: 4px;
+  /*  align-items: stretch; */
+  /* justify-content: stretch; */
+  /* max-height: 400px; */
+  height: auto;
+  width: 100%;
+  border-radius: 6px;
+}
+.container.column.multiple {
+  grid-auto-flow: column;
+}
+
+.row {
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+}
+.column {
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+}
+
+.column.three > * {
+  grid-row: span 3;
+  grid-column: span 2;
+}
+.row.three > * {
+  grid-column: span 3;
+  grid-row: span 2;
+}
+.column > * {
+  grid-row: span 2;
+  grid-column: span 2;
+}
+.row > * {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+.column div:first-child {
+  grid-column: span 3;
+  grid-row: span 6;
+}
+.row div:first-child {
+  grid-column: span 6;
+  grid-row: span 3;
+}
+
+.column.multiple div:nth-child(1),
+.column.multiple div:nth-child(2) {
+  grid-column: span 3;
+  grid-row: span 3;
+}
+
+.row.multiple div:nth-child(1),
+.row.multiple div:nth-child(2) {
+  grid-column: span 3;
+  grid-row: span 3;
+}
+.row.two {
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+.column.two {
+  grid-template-rows: 1fr;
+  grid-template-columns: 1fr 1fr;
+}
+.one {
+  grid-template-rows: 1fr;
+  grid-template-columns: 1fr;
+}
+
+.two > {
+  grid-row: span 1;
+  grid-column: span 1;
+}
+
+.two div:first-child {
+  grid-column: span 1;
+  grid-row: span 1;
+}
+.grid-image {
+  max-height: 100%;
+  width: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+.image {
+  /* height: 200px;
+
+  border-radius: 3px; */
+  /* background-color: red; */
+}
