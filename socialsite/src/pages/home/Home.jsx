@@ -17,7 +17,7 @@ export default function Home() {
       <Topmenu />
       <div className={styles.content}>
         <Leftbar />
-        <Content username={user.username} />
+        <Content />
         <Rightbar />
       </div>
     </div>
