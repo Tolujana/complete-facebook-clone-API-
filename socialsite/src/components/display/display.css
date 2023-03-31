@@ -6,10 +6,14 @@
   gap: 4px;
   /*  align-items: stretch; */
   /* justify-content: stretch; */
-  /* max-height: 400px; */
+  max-height: 400px;
   height: auto;
   width: 100%;
   border-radius: 6px;
+}
+.post {
+  max-height: 400px;
+  height: auto;
 }
 .container.column.multiple {
   grid-auto-flow: column;
@@ -84,14 +88,11 @@
   grid-row: span 1;
 }
 .grid-image {
-  max-height: 100%;
+  height: 100%;
   width: 100%;
   object-fit: cover;
   object-position: top;
 }
-.image {
-  /* height: 200px;
-
-  border-radius: 3px; */
-  /* background-color: red; */
-}
+/* .image {
+  height: 100
+} */
