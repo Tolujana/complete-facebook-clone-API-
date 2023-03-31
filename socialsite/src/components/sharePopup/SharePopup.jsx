@@ -13,6 +13,8 @@ const SharePopup = () => {
   const [error, setError] = useState("");
   const userInput = useRef();
   const [displayData, setDisplayData] = useState([]);
+  const [uploadFiles, setUploadFiles] = useState(null);
+  const [fileNames, setFileNames] = useState(null);
   const [input, setInput] = useState("");
   const designType = ["row", "column"]; //this is for css style
   const randomNumber = Math.floor(Math.random() * 2);
@@ -50,17 +52,18 @@ const SharePopup = () => {
     const newPost = {
       userId: user._id,
       desc: userInput.current.value,
-      img: displayData,
-      design: designPattern,
+      files: fileNames,
+      cssName: `post ${designPattern}`,
     };
 
     try {
-      const response = await axiosInstance.post("/upload", displayData);
-      console.log(response.status);
+      const response = await axiosInstance.post("/upload", uploadFiles);
+      console.log(response);
     } catch (error) {}
 
     try {
-      await axiosInstance.post("/posts", newPost);
+      const res = await axiosInstance.post("/posts", newPost);
+
       window.location.reload();
     } catch (error) {
       console.log(error);
@@ -74,15 +77,16 @@ const SharePopup = () => {
 
     const data = new FormData();
     const filesArray = Object.values(files);
-
+    let fileNames = [];
     filesArray.forEach((file) => {
       const fileName = Date.now() + file.name;
-
+      fileNames = [...fileNames, fileName];
       console.log(file);
-      data.append("files", file);
-      data.append("name", fileName);
+      data.append("files", file, fileName);
+      // data.append("name", fileName);
     });
-    //   uploadData(data);
+    setFileNames(fileNames);
+    setUploadFiles(data);
     setDisplayData(filesArray);
   };
 
@@ -123,8 +127,9 @@ const SharePopup = () => {
               "?"
             }
             className={style.input}
-            value={input}
+            // value={input}
             ref={userInput}
+            // onchange={setUserInput}
           />
         </div>
         <div className={style.photoUpload}>
@@ -137,9 +142,9 @@ const SharePopup = () => {
               onDragLeave={uploadMedia}
             ></div>
           )}
-          {isDropped && (
+          {(isDropped || numberOfFiles > 0) && (
             <div className={style.display}>
-              <DisplayData files={displayData} design={designPattern} />
+              <DisplayData files={displayData} cssName={designPattern} />
             </div>
           )}
           {!isDropped && (
@@ -147,7 +152,11 @@ const SharePopup = () => {
               className={`${style.drag} ${isDragActive ? style.white : ""}`}
               onDragEnter={uploadMedia}
             >
-              <label className={style.label} htmlFor="fileInput"></label>
+              {numberOfFiles == 0 && (
+                <label className={style.label} htmlFor="fileInput">
+                  <div>Drag & Drop photos or Click to upload</div>
+                </label>
+              )}
               <input
                 type="file"
                 name="files"
