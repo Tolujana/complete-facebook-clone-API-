@@ -17,7 +17,7 @@ const EXTERNAL_FOLDER = process.env.REACT_APP_EXTERNAL_FOLDER;
 const Post = ({ post }) => {
   const [likes, setLike] = useState(post.likes.length);
 
-  const [isliked, setisLiked] = useState(false);
+  const [isLiked, setisLiked] = useState(false);
   const [user, setUser] = useState({});
   const { user: userinfo } = useContext(AuthContext);
 
@@ -30,10 +30,15 @@ const Post = ({ post }) => {
       const res = axiosInstance.put(`/posts/${post._id}/like`, {
         userId: userinfo._id,
       });
-
-      setLike(isliked ? likes - 1 : likes + 1);
-      setisLiked(!isliked);
+      console.log(res);
     } catch (error) {
+      if (isLiked) {
+        setLike(likes - 1);
+        setisLiked(!isLiked);
+      } else {
+        setLike(likes + 1);
+        setisLiked(isLiked);
+      }
       console.log(error);
     }
   };
@@ -79,16 +84,17 @@ const Post = ({ post }) => {
         </div>
         <div className={styles.postMiddle}>
           <span className={styles.postText}>{post?.desc}</span>
-          {post.img ? (
-            <DisplayData files={post.img} design={post.design} />
-          ) : (
-            ""
-          )}
-          {/* <img
-            src={EXTERNAL_FOLDER + post.img}
-            alt=""
-            className={styles.postContentImg}
-          /> */}
+          <div className={styles.postMedia}>
+            {post.files ? (
+              <DisplayData files={post.files} cssName={post?.cssName} />
+            ) : (
+              <img
+                src={EXTERNAL_FOLDER + post.img}
+                alt=""
+                className={styles.postContentImg}
+              />
+            )}
+          </div>
         </div>
         <div className={styles.postBottom}>
           <div className={styles.postBottomStats}>
@@ -112,7 +118,7 @@ const Post = ({ post }) => {
             <div className={styles.postBottomAction}>
               <ThumbUpIcon />
               <div onClick={likeHandler} className={styles.like} id="">
-                Like
+                {isLiked ? "Unlike" : "Like"}
               </div>
             </div>
             <div className={styles.postBottomAction}>
