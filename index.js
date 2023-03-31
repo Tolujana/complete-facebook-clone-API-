@@ -18,8 +18,8 @@ const path = require("path");
 const io = require("socket.io")(http, {
   cors: {
     //origin: 'https://socialmedia-site.herokuapp.com/',
-    origin: "http://localhost:3000",
-
+    //origin: "http://localhost:3000",
+    // origin: "*",
     methods: ["GET", "POST"],
   },
 });
@@ -47,11 +47,13 @@ const storage = multer.diskStorage({
   },
   filename: (req, file, cb) => {
     console.log(req);
-    cb(null, Date.now() + file.originalname);
+    cb(null, file.originalname);
   },
 });
 
 const upload = multer({ storage: storage });
+
+// const upload = multer({ dest: "public/images  " });
 
 //route
 app.post("/api/upload", upload.array("files", 12), (req, res) => {
