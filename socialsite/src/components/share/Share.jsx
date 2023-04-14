@@ -50,40 +50,19 @@ function Share() {
         <hr className={styles.shareHr} />
         <div className={styles.shareBottom}>
           <div className={styles.shareOptions}>
-            <div className={styles.shareOption}>
+            <div className={styles.shareOption} onClick={openShareDialog}>
               <TheatersIcon htmlColor="red" className={styles.shareIcon} />
               <span className={styles.ShareOptionText}>Live Video</span>
             </div>
-            <div className={styles.shareOption}>
+            <div className={styles.shareOption} onClick={openShareDialog}>
               <PhotoLibraryIcon
                 htmlColor="green"
                 className={styles.shareIcon}
-              />
-              <label htmlFor="file" className={styles.ShareOptionText}>
-                Photo/Video
-              </label>
-              <input
-                style={{ display: "none" }}
-                type="file"
-                id="file"
-                className=""
-                accept=".png,.jpeg,.jpg,.mp4"
-                onChange={handlefile}
               />
             </div>
             <div className={styles.shareOption}>
               <MoodIcon htmlColor="Goldenrod" className={styles.shareIcon} />
               <span className={styles.ShareOptionText}>Feeling/Activity</span>
-            </div>
-            <div
-              className={`${styles.shareOption} ${styles.green} ${styles.mainButton}`}
-            >
-              <span
-                onClick={(e) => sharePost(e, newPost, file)}
-                className={styles.ShareOptionText}
-              >
-                Share
-              </span>
             </div>
           </div>
         </div>

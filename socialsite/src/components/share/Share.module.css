@@ -82,8 +82,9 @@
   display: flex;
   width: 100%;
   align-items: center;
-  padding: 4px;
+  padding: 8px;
   border-radius: 8px;
+  justify-content: center;
   /* margin-right: 15px; */
   cursor: pointer;
 }
@@ -92,14 +93,14 @@
   background-color: #145a06;
 }
 .shareOption:hover {
-  background-color: #d3d3d3;
+  background-color: var(--color-secondary);
 }
 .shareOptionText {
   font-size: 15px;
 }
 .shareOptions {
   display: flex;
-  margin-left: 20px;
+
   justify-content: space-around;
   cursor: pointer;
 }
