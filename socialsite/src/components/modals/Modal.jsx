@@ -9,6 +9,10 @@ const Modal = ({ type }) => {
     <div className={styles.fullScreenModal}>
       <SharePopup />
     </div>
+  ) : type === "comment" ? (
+    <div className={styles.fullScreenModal}>
+      <commentPopup />
+    </div>
   ) : (
     ""
   );
