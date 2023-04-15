@@ -58,10 +58,15 @@ function Share() {
               <PhotoLibraryIcon
                 htmlColor="green"
                 className={styles.shareIcon}
-              />
+              />{" "}
+              <span className={styles.ShareOptionText}>Photos/Media</span>
             </div>
             <div className={styles.shareOption}>
-              <MoodIcon htmlColor="Goldenrod" className={styles.shareIcon} />
+              <MoodIcon
+                htmlColor="Goldenrod"
+                className={styles.shareIcon}
+                onClick={openShareDialog}
+              />
               <span className={styles.ShareOptionText}>Feeling/Activity</span>
             </div>
           </div>

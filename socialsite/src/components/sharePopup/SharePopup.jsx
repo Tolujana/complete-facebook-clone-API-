@@ -154,7 +154,9 @@ const SharePopup = () => {
             >
               {numberOfFiles == 0 && (
                 <label className={style.label} htmlFor="fileInput">
-                  <div>Drag & Drop photos or Click to upload</div>
+                  <span className={style.labelText}>
+                    Drag & Drop photos or Click to upload
+                  </span>
                 </label>
               )}
               <input

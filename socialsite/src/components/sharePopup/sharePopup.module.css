@@ -17,7 +17,6 @@
   height: 60px;
   text-align: center;
   border-bottom: 1px solid var(--color-secondary);
-
   font-weight: 700;
   font-size: 1.7em;
 }
@@ -32,6 +31,12 @@
   height: 31px;
   outline: none;
   padding-bottom: 16px;
+}
+.labelText {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
 }
 .label {
   display: flex;
@@ -110,4 +115,5 @@ select {
   margin-top: 10px;
   padding: 8px;
   border-radius: 6px;
+  margin-bottom: 10px;
 }
