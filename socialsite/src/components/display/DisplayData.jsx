@@ -3,7 +3,7 @@ import "./display.css";
 import { AuthContext } from "../../context/AuthContext";
 const DisplayData = ({ files, cssName }) => {
   const EXTERNAL_FOLDER = process.env.REACT_APP_EXTERNAL_FOLDER;
-
+  const NumOfFiles = files.length;
   return (
     <div className={`container ${cssName}`}>
       {typeof files === "string" ? (
@@ -11,7 +11,7 @@ const DisplayData = ({ files, cssName }) => {
           <img src={EXTERNAL_FOLDER + files} alt="" className="grid-image" />
         </div>
       ) : (
-        files.map((file) => {
+        files?.slice(0, 5).map((file, index) => {
           return (
             <div className="image">
               <img
@@ -23,6 +23,9 @@ const DisplayData = ({ files, cssName }) => {
                 alt=""
                 className="grid-image"
               />
+              <span className="left-over">
+                {index == 4 && NumOfFiles > 5 && `+${NumOfFiles - 5}`}
+              </span>
             </div>
           );
         })
