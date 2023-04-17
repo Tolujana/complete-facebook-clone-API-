@@ -81,9 +81,7 @@ const SharePopup = () => {
     filesArray.forEach((file) => {
       const fileName = Date.now() + file.name;
       fileNames = [...fileNames, fileName];
-      console.log(file);
       data.append("files", file, fileName);
-      // data.append("name", fileName);
     });
     setFileNames(fileNames);
     setUploadFiles(data);
@@ -117,61 +115,63 @@ const SharePopup = () => {
             </select>
           </div>
         </div>
-        <div className={style.inputbox}>
-          <input
-            type="text"
-            placeholder={
-              "What's on your mind " +
-              user?.username?.charAt(0).toUpperCase() +
-              user?.username?.slice(1) +
-              "?"
-            }
-            className={style.input}
-            // value={input}
-            ref={userInput}
-            // onchange={setUserInput}
-          />
-        </div>
-        <div className={style.photoUpload}>
-          {isDragActive && (
-            <div
-              className={style.dragElement}
-              onDragEnter={uploadMedia}
-              onDrop={uploadMedia}
-              onDragOver={uploadMedia}
-              onDragLeave={uploadMedia}
-            ></div>
-          )}
-          {(isDropped || numberOfFiles > 0) && (
-            <div className={style.display}>
-              <DisplayData files={displayData} cssName={designPattern} />
-            </div>
-          )}
-          {!isDropped && (
-            <div
-              className={`${style.drag} ${isDragActive ? style.white : ""}`}
-              onDragEnter={uploadMedia}
-            >
-              {numberOfFiles == 0 && (
-                <label className={style.label} htmlFor="fileInput">
-                  <span className={style.labelText}>
-                    Drag & Drop photos or Click to upload
-                  </span>
-                </label>
-              )}
-              <input
-                type="file"
-                name="files"
-                id="fileInput"
-                accept="image/png, image/gif, image/jpeg,video/mp4"
-                className={style.fileUpload}
-                multiple
-                onChange={(e) => {
-                  handleFiles(e.target.files);
-                }}
-              />
-            </div>
-          )}
+        <div className={style.postContent}>
+          <div className={style.inputbox}>
+            <input
+              type="text"
+              placeholder={
+                "What's on your mind " +
+                user?.username?.charAt(0).toUpperCase() +
+                user?.username?.slice(1) +
+                "?"
+              }
+              className={style.input}
+              // value={input}
+              ref={userInput}
+              // onchange={setUserInput}
+            />
+          </div>
+          <div className={style.photoUpload}>
+            {isDragActive && (
+              <div
+                className={style.dragElement}
+                onDragEnter={uploadMedia}
+                onDrop={uploadMedia}
+                onDragOver={uploadMedia}
+                onDragLeave={uploadMedia}
+              ></div>
+            )}
+            {(isDropped || numberOfFiles > 0) && (
+              <div className={style.display}>
+                <DisplayData files={displayData} cssName={designPattern} />
+              </div>
+            )}
+            {!isDropped && (
+              <div
+                className={`${style.drag} ${isDragActive ? style.white : ""}`}
+                onDragEnter={uploadMedia}
+              >
+                {numberOfFiles == 0 && (
+                  <label className={style.label} htmlFor="fileInput">
+                    <span className={style.labelText}>
+                      Drag & Drop photos or Click to upload
+                    </span>
+                  </label>
+                )}
+                <input
+                  type="file"
+                  name="files"
+                  id="fileInput"
+                  accept="image/png, image/gif, image/jpeg,video/mp4"
+                  className={style.fileUpload}
+                  multiple
+                  onChange={(e) => {
+                    handleFiles(e.target.files);
+                  }}
+                />
+              </div>
+            )}
+          </div>
         </div>
         <div className={style.actionButtons}></div>
         <button className={style.post} onClick={uploadData}>

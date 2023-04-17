@@ -8,7 +8,6 @@
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px,
     rgba(0, 0, 0, 0.22) 0px 10px 10px;
-  overflow: auto;
 }
 .shareWrapper {
   margin: 0px 20px;
@@ -37,6 +36,10 @@
   height: 100%;
   align-items: center;
   justify-content: center;
+}
+
+.labelText:hover {
+  background-color: #e0dfdf;
 }
 .label {
   display: flex;
@@ -116,4 +119,8 @@ select {
   padding: 8px;
   border-radius: 6px;
   margin-bottom: 12px;
+}
+.postContent {
+  overflow: auto;
+  height: 288px;
 }
