@@ -6,25 +6,20 @@ import MoodIcon from "@mui/icons-material/Mood";
 import VideoCameraFrontIcon from "@mui/icons-material/VideoCameraFront";
 import { AuthContext } from "../../context/AuthContext";
 import { sharePost } from "../../utils/shareServices";
+import { openPopupDialog } from "../../utils/generalServices";
 
 const PF = process.env.REACT_APP_PUBLIC_FOLDER;
 function Share() {
   const { user, dispatch, modalType } = useContext(AuthContext);
   const userInput = useRef();
   const [file, setFile] = useState(null);
-  const newPost = {
-    userId: user._id,
-    // desc: userInput.current.value,
-  };
 
-  const handlefile = (e) => {
-    setFile(e.target.files[0]);
-  };
+  const action = { type: "MODAL_TYPE", payload: { name: "share" } };
 
   const openShareDialog = () => {
-    dispatch({ type: "MODAL_TYPE", payload: "share" });
+    openPopupDialog(action, dispatch);
   };
-  console.log(modalType);
+
   return (
     <div className={styles.share}>
       <form className={styles.shareWrapper} encType="multipart/form-data">
@@ -65,7 +60,7 @@ function Share() {
               <MoodIcon
                 htmlColor="Goldenrod"
                 className={styles.shareIcon}
-                onClick={openShareDialog}
+                onClick={openPopupDialog}
               />
               <span className={styles.ShareOptionText}>Feeling/Activity</span>
             </div>
