@@ -19,3 +19,25 @@
 .share {
   display: block;
 }
+.close {
+  position: absolute;
+  top: 1%;
+  right: 3%;
+  z-index: 100;
+  border-radius: 50%;
+  background-color: var(--color-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px;
+  cursor: pointer;
+}
+
+.close:hover {
+  background-color: var(--color-darkgrey);
+}
+.container {
+  position: relative;
+  height: fit-content;
+  width: fit-content;
+}
