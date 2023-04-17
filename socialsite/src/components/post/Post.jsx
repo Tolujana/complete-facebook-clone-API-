@@ -11,6 +11,7 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { axiosInstance } from "../../proxySettings";
 import DisplayData from "../display/DisplayData";
+import { openPopupDialog } from "../../utils/generalServices";
 const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
 const EXTERNAL_FOLDER = process.env.REACT_APP_EXTERNAL_FOLDER;
 
@@ -19,7 +20,15 @@ const Post = ({ post }) => {
 
   const [isLiked, setisLiked] = useState(false);
   const [user, setUser] = useState({});
-  const { user: userinfo } = useContext(AuthContext);
+  const { user: userinfo, dispatch } = useContext(AuthContext);
+  const action = {
+    type: "MODAL_TYPE",
+    payload: { name: "comment", id: post._id },
+  };
+
+  const openCommentDialog = () => {
+    openPopupDialog(action, dispatch);
+  };
 
   useEffect(() => {
     setisLiked(post.likes.includes(userinfo._id));
@@ -51,9 +60,6 @@ const Post = ({ post }) => {
     fetchUser();
   }, [post.userId]);
 
-  // const user = Users.filter((user) => {
-  //   return user.id === post.userId;
-  // });
   return (
     <div className={styles.post}>
       <div className={styles.postWrapper}>
@@ -121,7 +127,10 @@ const Post = ({ post }) => {
                 {isLiked ? "Unlike" : "Like"}
               </div>
             </div>
-            <div className={styles.postBottomAction}>
+            <div
+              className={styles.postBottomAction}
+              onClick={openCommentDialog}
+            >
               <ChatBubbleOutlineIcon />
               <div className={styles.comment} id="">
                 Comment
