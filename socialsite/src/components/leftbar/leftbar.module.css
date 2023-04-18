@@ -2,9 +2,12 @@
   flex: 2;
   height: calc(100vh - 50px);
   overflow-y: scroll;
-  position: sticky;
+  /* position: sticky; */
   top: 50px;
   margin: 0;
+}
+.leftWrapper {
+  min-width: 300px;
 }
 
 ::-webkit-scrollbar {
@@ -74,4 +77,23 @@
 ul {
   list-style-type: none;
   padding: 0;
+}
+@media screen and (max-width: 1000px) {
+  .leftWrapper span {
+    display: none;
+  }
+  .leftbarButton {
+    display: none;
+  }
+  .leftWrapper {
+    max-width: 7vw;
+  }
+  .leftBar {
+    max-width: 7vw;
+  }
+}
+@media screen and (max-width: 700px) {
+  .leftBar {
+    display: none;
+  }
 }
