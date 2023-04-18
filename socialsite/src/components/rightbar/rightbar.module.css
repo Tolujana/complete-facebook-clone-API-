@@ -2,6 +2,8 @@
   flex: 2;
   display: flex;
   flex-direction: column;
+  flex-shrink: 0;
+  min-width: 300px;
 }
 .miniNotification {
   margin: 20px 16px;
@@ -97,4 +99,17 @@
   border-radius: 14px;
   -webkit-box-shadow: 0px 0px 15px -8px rgba(0, 0, 0, 0.37);
   box-shadow: 0px 0px 15px -8px rgba(0, 0, 0, 0.37);
+}
+
+@media screen and (max-width: 1100px) {
+  .rightBar {
+    /* display: none; */
+    max-width: 25vw;
+    min-width: 20%;
+  }
+}
+@media screen and (max-width: 700px) {
+  .rightBar {
+    display: none;
+  }
 }
