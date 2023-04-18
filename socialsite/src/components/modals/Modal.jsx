@@ -8,6 +8,7 @@ import { openPopupDialog } from "../../utils/generalServices";
 
 const Modal = ({ type }) => {
   const { dispatch } = useContext(AuthContext);
+
   const action = { type: "MODAL_TYPE", payload: "" };
   const getComponentToDisplay = (type) => {
     switch (type.name) {
@@ -16,7 +17,7 @@ const Modal = ({ type }) => {
       case "share":
         return <SharePopup />;
       case "comment":
-        return <CommentPopup id={type.id} />;
+        return <CommentPopup post={type.post} user={type.user} />;
       default:
         return "";
     }

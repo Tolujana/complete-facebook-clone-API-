@@ -7,7 +7,7 @@ import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import ReplyIcon from "@mui/icons-material/Reply";
 import axios from "axios";
 import { format } from "timeago.js";
-import { Link } from "react-router-dom";
+
 import { AuthContext } from "../../context/AuthContext";
 import { axiosInstance } from "../../proxySettings";
 import DisplayData from "../display/DisplayData";
@@ -21,11 +21,9 @@ const Post = ({ post }) => {
   const [isLiked, setisLiked] = useState(false);
   const [user, setUser] = useState({});
   const { user: userinfo, dispatch } = useContext(AuthContext);
-  const nameInUpperCase =
-    user?.username?.charAt(0).toUpperCase() + user.username?.slice(1);
   const action = {
     type: "MODAL_TYPE",
-    payload: { name: "comment", post: post, user: nameInUpperCase },
+    payload: { name: "comment", post: post },
   };
 
   const openCommentDialog = () => {
@@ -66,18 +64,20 @@ const Post = ({ post }) => {
     <div className={styles.post}>
       <div className={styles.postWrapper}>
         <div className={styles.postTop}>
-          <Link to={`/profile/${user.username}`}>
-            <img
-              src={
-                PUBLIC_FOLDER + "/" + user.profilePicture ||
-                PUBLIC_FOLDER + "noimage.png"
-              }
-              alt=""
-              className={styles.postImg}
-            />
-          </Link>
+          <img
+            src={
+              PUBLIC_FOLDER + "/" + user.profilePicture ||
+              PUBLIC_FOLDER + "noimage.png"
+            }
+            alt=""
+            className={styles.postImg}
+          />
+
           <div className={styles.postDetail}>
-            <span className={styles.postName}>{nameInUpperCase}</span>
+            <span className={styles.postName}>
+              {user?.username?.charAt(0).toUpperCase() +
+                user.username?.slice(1)}
+            </span>
             <div className={styles.time}>
               <span className={styles.timeStamp}>{format(post.createdAt)}</span>
               <span className={styles.timeStampDot}>.</span>
