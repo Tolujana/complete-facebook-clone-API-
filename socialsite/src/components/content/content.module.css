@@ -1,14 +1,31 @@
 .content {
   flex: 4.5;
-  padding: 0px 72.6px;
   display: flex;
   align-items: center;
   flex-direction: column;
+  max-width: 50vw;
 }
 .wrapper {
   align-items: center;
   display: flex;
-  max-width: 500px;
+  width: 67%;
+  min-width: 500px;
 
   flex-direction: column;
+}
+@media screen and (max-width: 1000px) {
+  .content {
+    min-width: 65vw;
+  }
+  .wrapper {
+    min-width: 90%;
+  }
+}
+@media screen and (max-width: 700px) {
+  .content {
+    min-width: 100vw;
+  }
+  .wrapper {
+    min-width: 95%;
+  }
 }
