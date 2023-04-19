@@ -20,7 +20,7 @@ const Post = ({ post }) => {
 
   const [isLiked, setisLiked] = useState(false);
   const [user, setUser] = useState({});
-  const { user: userinfo, dispatch } = useContext(AuthContext);
+  const { user: currentUser, dispatch } = useContext(AuthContext);
   const nameInUpperCase =
     user?.username?.charAt(0).toUpperCase() + user.username?.slice(1);
   const action = {
@@ -33,13 +33,13 @@ const Post = ({ post }) => {
   };
 
   useEffect(() => {
-    setisLiked(post.likes.includes(userinfo._id));
-  }, [userinfo._id, post.likes]);
+    setisLiked(post.likes.includes(currentUser._id));
+  }, [currentUser._id, post.likes]);
 
   const likeHandler = () => {
     try {
       const res = axiosInstance.put(`/posts/${post._id}/like`, {
-        userId: userinfo._id,
+        userId: currentUser._id,
       });
       console.log(res);
     } catch (error) {
@@ -143,7 +143,18 @@ const Post = ({ post }) => {
             </div>
           </div>
 
-          <div className={styles.postBottomcomments}></div>
+          <div className={styles.postBottomcomments}>
+            <div className={styles.postImg}>
+              <img
+                src={
+                  PUBLIC_FOLDER + "/" + currentUser.profilePicture ||
+                  PUBLIC_FOLDER + "noimage.png"
+                }
+                alt=""
+                className={styles.postImg}
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>
