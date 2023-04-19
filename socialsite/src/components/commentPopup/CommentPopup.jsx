@@ -6,6 +6,7 @@ const CommentPopup = ({ post, user }) => {
     <div className={styles.commentContainer}>
       <div className={styles.title}>{`${user}'s Post`}</div>
       <PostInComment post={post} />
+      <div>coomment field</div>
     </div>
   );
 };
