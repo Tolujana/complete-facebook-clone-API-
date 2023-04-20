@@ -153,6 +153,8 @@ const Post = ({ post }) => {
                 alt=""
                 className={styles.postImg}
               />
+              
+            <div classname={styles.textArea}></div>
             </div>
           </div>
         </div>
