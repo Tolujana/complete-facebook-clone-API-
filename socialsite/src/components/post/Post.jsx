@@ -144,17 +144,19 @@ const Post = ({ post }) => {
           </div>
 
           <div className={styles.postBottomcomments}>
-            <div className={styles.postImg}>
-              <img
-                src={
-                  PUBLIC_FOLDER + "/" + currentUser.profilePicture ||
-                  PUBLIC_FOLDER + "noimage.png"
-                }
-                alt=""
-                className={styles.postImg}
-              />
-              
-            <div classname={styles.textArea}></div>
+            <div className={styles.commentFIeld}>
+              <div className={styles.postImg}>
+                <img
+                  src={
+                    PUBLIC_FOLDER + "/" + currentUser.profilePicture ||
+                    PUBLIC_FOLDER + "noimage.png"
+                  }
+                  alt=""
+                  className={styles.postImg}
+                />
+
+                <div classname={styles.textArea}></div>
+              </div>
             </div>
           </div>
         </div>

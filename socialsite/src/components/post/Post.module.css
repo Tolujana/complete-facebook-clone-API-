@@ -112,3 +112,12 @@
 .postMiddle {
   width: 100%;
 }
+.commentField {
+  margin: 5px;
+  display: flex;
+  align-items: center;
+}
+
+.textArea {
+  background-color: var(--color-secondary);
+}
