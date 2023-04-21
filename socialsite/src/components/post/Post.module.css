@@ -113,11 +113,48 @@
   width: 100%;
 }
 .commentField {
-  margin: 5px;
+  margin: 10px;
   display: flex;
-  align-items: center;
+  /* align-items: center; */
+  width: 100%;
+  gap: 2.5%;
+  height: 36px;
+  min-height: fit-content;
 }
 
-.textArea {
+.textBox {
+  width: 85%;
+  height: 2.5rem;
+  border-radius: 20px;
+  background-color: var(--color-secondary);
+
+  /* display: flex;
+  align-items: center;
+  justify-content: center; */
+}
+.commentTextArea {
+  margin: 8px;
+  border: none;
+  display: block;
+  height: 15px;
+  font-family: sans-serif;
+  width: 95%;
+  margin-left: 10px;
   background-color: var(--color-secondary);
 }
+
+.commentTextArea:focus {
+  outline: none;
+}
+
+.commentTextArea:focus::placeholder {
+  color: #c3c4c8;
+  font-family: sans-serif;
+}
+.commentTextArea::placeholder {
+  font-family: sans-serif;
+  color: #c3c4c8;
+}
+/* .postImage {
+  flex: 1;
+} */
