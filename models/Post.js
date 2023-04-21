@@ -10,6 +10,7 @@ const PostSchema = new mongoose.Schema(
     files: { type: Array, default: [] },
     cssName: { type: String },
     likes: { type: Array, default: [] },
+    comment: { type: Array, default: [] },
   },
   { timestamps: true }
 );
