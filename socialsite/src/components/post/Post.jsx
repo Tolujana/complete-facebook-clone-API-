@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import styles from "./Post.module.css";
 import PublicIcon from "@mui/icons-material/Public";
 import MoreMenu from "../moreMenu/MoreMenu";
@@ -17,7 +17,9 @@ const EXTERNAL_FOLDER = process.env.REACT_APP_EXTERNAL_FOLDER;
 
 const Post = ({ post }) => {
   const [likes, setLike] = useState(post.likes.length);
-
+  const textArea = useRef();
+  const commentArea = useRef();
+  const textBox = useRef();
   const [isLiked, setisLiked] = useState(false);
   const [user, setUser] = useState({});
   const { user: currentUser, dispatch } = useContext(AuthContext);
@@ -27,6 +29,35 @@ const Post = ({ post }) => {
     type: "MODAL_TYPE",
     payload: { name: "comment", post: post, user: nameInUpperCase },
   };
+
+  const postComment = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      updateComment(event.target.value);
+      event.target.value=''
+    }
+  };
+
+  const updateComment = (comment) => {
+    try {
+      const res = axiosInstance.put(`/posts/${post._id}/comment`, {
+        userId: currentUser._id,
+        comment: comment,
+      });
+      console.log(res);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+  function autoResize() {
+    textArea.current.style.height = "";
+    textArea.current.style.height = textArea.current.scrollHeight + "px";
+    commentArea.current.style.minHeight = "";
+    commentArea.current.style.minHeight =
+      textArea.current.scrollHeight + 10 + "px";
+    textBox.current.style.minHeight = "";
+    textBox.current.style.minHeight = textArea.current.scrollHeight + 10 + "px";
+  }
 
   const openCommentDialog = () => {
     openPopupDialog(action, dispatch);
@@ -41,7 +72,6 @@ const Post = ({ post }) => {
       const res = axiosInstance.put(`/posts/${post._id}/like`, {
         userId: currentUser._id,
       });
-      console.log(res);
     } catch (error) {
       if (isLiked) {
         setLike(likes - 1);
@@ -113,7 +143,7 @@ const Post = ({ post }) => {
             </div>
             <div className={styles.counters}>
               <span className={styles.commentCounter}>
-                {post.comment} Comments
+                {post.comment.length} Comments
               </span>
               <span className={styles.shareCounter}>998 Shares</span>
             </div>
@@ -143,9 +173,11 @@ const Post = ({ post }) => {
             </div>
           </div>
 
-          <div className={styles.postBottomcomments}>
-            <div className={styles.commentFIeld}>
-              <div className={styles.postImg}>
+          <div className={styles.postBottomcomments} ref={commentArea}>
+
+            <div className={styles.comments}></div>
+            <div className={styles.commentField}>
+              <div className={styles.postImage}>
                 <img
                   src={
                     PUBLIC_FOLDER + "/" + currentUser.profilePicture ||
@@ -154,8 +186,17 @@ const Post = ({ post }) => {
                   alt=""
                   className={styles.postImg}
                 />
-
-                <div classname={styles.textArea}></div>
+              </div>
+              <div className={styles.textBox} ref={textBox}>
+                <textarea
+                  onKeyDown={postComment}
+                  onInput={autoResize}
+                  ref={textArea}
+                  type="text"
+                  rows="1"
+                  className={styles.commentTextArea}
+                  placeholder="Write a comment.."
+                ></textarea>
               </div>
             </div>
           </div>
