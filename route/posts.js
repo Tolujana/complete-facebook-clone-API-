@@ -71,6 +71,7 @@ router.put("/:id/comment", async (req, res) => {
           userId: req.body.userId,
           comment: req.body.comment,
           comments: [],
+          userImage: req.body.userImage,
         },
       },
     });
