@@ -15,8 +15,30 @@ import { openPopupDialog } from "../../utils/generalServices";
 const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
 const EXTERNAL_FOLDER = process.env.REACT_APP_EXTERNAL_FOLDER;
 
+const Comments = ({ userComments }) => {
+  const { user, userImage, comment, comments } = userComments;
+  console.log(userComments);
+  return (
+    <div className={styles.listOfComments}>
+      <img
+        src={PUBLIC_FOLDER + "/" + userImage || PUBLIC_FOLDER + "noimage.png"}
+        alt=""
+        className={styles.postImg}
+      />
+
+      <div className={styles.userComment}>
+        {comment}
+        <div className={styles.userComments}>{comments}</div>
+      </div>
+    </div>
+  );
+};
+
 const Post = ({ post }) => {
   const [likes, setLike] = useState(post.likes.length);
+  const [commentCount, setCommentCount] = useState(post.comment.length);
+  const [userComment, setUserComment] = useState("");
+  const [postComments, setPostComments] = useState(post.comment);
   const textArea = useRef();
   const commentArea = useRef();
   const textBox = useRef();
@@ -33,22 +55,31 @@ const Post = ({ post }) => {
   const postComment = (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
+      setUserComment(event.target.value);
+      setCommentCount((previous) => previous++);
       updateComment(event.target.value);
-      event.target.value=''
+      event.target.value = "";
     }
   };
 
   const updateComment = (comment) => {
+    const commentPayload = {
+      userId: currentUser._id,
+      comment: comment,
+      userImage: currentUser.profilePicture,
+    };
     try {
-      const res = axiosInstance.put(`/posts/${post._id}/comment`, {
-        userId: currentUser._id,
-        comment: comment,
-      });
-      console.log(res);
+      const res = axiosInstance.put(
+        `/posts/${post._id}/comment`,
+        commentPayload
+      );
+      if (res.status == 200) {
+      }
     } catch (error) {
       console.log(error.message);
     }
   };
+
   function autoResize() {
     textArea.current.style.height = "";
     textArea.current.style.height = textArea.current.scrollHeight + "px";
@@ -66,6 +97,18 @@ const Post = ({ post }) => {
   useEffect(() => {
     setisLiked(post.likes.includes(currentUser._id));
   }, [currentUser._id, post.likes]);
+
+  useEffect(() => {
+    if (userComment != "") {
+      const commentUpdate = {
+        userId: currentUser._id,
+        comment: userComment,
+        userImage: currentUser.profilePicture,
+      };
+      setPostComments((previous) => [...previous, commentUpdate]);
+      setCommentCount(postComments.length);
+    }
+  }, [currentUser._id, userComment, commentCount]);
 
   const likeHandler = () => {
     try {
@@ -107,7 +150,7 @@ const Post = ({ post }) => {
             />
           </Link>
           <div className={styles.postDetail}>
-            <span className={styles.postName}>{nameInUpperCase}</span>
+            <span className={styles.postName}>{"" && nameInUpperCase}</span>
             <div className={styles.time}>
               <span className={styles.timeStamp}>{format(post.createdAt)}</span>
               <span className={styles.timeStampDot}>.</span>
@@ -143,7 +186,7 @@ const Post = ({ post }) => {
             </div>
             <div className={styles.counters}>
               <span className={styles.commentCounter}>
-                {post.comment.length} Comments
+                {commentCount} Comments
               </span>
               <span className={styles.shareCounter}>998 Shares</span>
             </div>
@@ -174,8 +217,11 @@ const Post = ({ post }) => {
           </div>
 
           <div className={styles.postBottomcomments} ref={commentArea}>
-
-            <div className={styles.comments}></div>
+            <div className={styles.comments}>
+              {postComments.map((comment, index) => (
+                <Comments userComments={comment} />
+              ))}
+            </div>
             <div className={styles.commentField}>
               <div className={styles.postImage}>
                 <img
