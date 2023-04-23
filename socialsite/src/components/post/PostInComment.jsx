@@ -132,13 +132,13 @@ const Post = ({ post }) => {
             >
               <ChatBubbleOutlineIcon />
               <div className={styles.comment} id="">
-                Commented
+                Comment
               </div>
             </div>
             <div className={styles.postBottomAction}>
               <ReplyIcon />
               <div className={styles.share} id="">
-                Shared
+                Share
               </div>
             </div>
           </div>
