@@ -205,7 +205,7 @@ const Post = ({ post }) => {
             >
               <ChatBubbleOutlineIcon />
               <div className={styles.comment} id="">
-                Comment
+                Comments
               </div>
             </div>
             <div className={styles.postBottomAction}>
