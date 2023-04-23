@@ -138,7 +138,7 @@ const Post = ({ post }) => {
             <div className={styles.postBottomAction}>
               <ReplyIcon />
               <div className={styles.share} id="">
-                Sharedd
+                Shared
               </div>
             </div>
           </div>
