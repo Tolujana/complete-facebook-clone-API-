@@ -188,7 +188,7 @@ const Post = ({ post }) => {
               <span className={styles.commentCounter}>
                 {commentCount} Comments
               </span>
-              <span className={styles.shareCounter}>998 Shares</span>
+              <span className={styles.shareCounter}> Shares</span>
             </div>
           </div>
 
