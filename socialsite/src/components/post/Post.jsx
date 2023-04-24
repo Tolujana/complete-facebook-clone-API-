@@ -15,9 +15,9 @@ import { openPopupDialog } from "../../utils/generalServices";
 const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
 const EXTERNAL_FOLDER = process.env.REACT_APP_EXTERNAL_FOLDER;
 
-const Comments = ({ userComments }) => {
-  const { user, userImage, comment, comments } = userComments;
-  console.log(userComments);
+const Comments = ({ userComment }) => {
+  const { user, userImage, comment, replies } = userComment;
+ 
   return (
     <div className={styles.listOfComments}>
       <img
@@ -28,7 +28,7 @@ const Comments = ({ userComments }) => {
 
       <div className={styles.userComment}>
         {comment}
-        <div className={styles.userComments}>{comments}</div>
+        <div className={styles.userComments}>{replies}</div>
       </div>
     </div>
   );
@@ -219,7 +219,7 @@ const Post = ({ post }) => {
           <div className={styles.postBottomcomments} ref={commentArea}>
             <div className={styles.comments}>
               {postComments.map((comment, index) => (
-                <Comments userComments={comment} />
+                <Comments userComment={comment} />
               ))}
             </div>
             <div className={styles.commentField}>
