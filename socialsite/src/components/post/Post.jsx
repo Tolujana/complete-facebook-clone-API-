@@ -12,6 +12,8 @@ import { AuthContext } from "../../context/AuthContext";
 import { axiosInstance } from "../../proxySettings";
 import DisplayData from "../display/DisplayData";
 import { openPopupDialog } from "../../utils/generalServices";
+
+console.log(process.env)
 const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
 const EXTERNAL_FOLDER = process.env.REACT_APP_EXTERNAL_FOLDER;
 
