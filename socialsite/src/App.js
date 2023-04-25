@@ -20,7 +20,7 @@ function App() {
 
   return (
     <div className="wrapper">
-      <Modal type={modalType} />
+      {modalType&&<Modal type={modalType} />}
       <BrowserRouter>
         <Routes>
           <Route
