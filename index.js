@@ -18,13 +18,14 @@ const path = require("path");
 const io = require("socket.io")(http, {
   cors: {
     //origin: 'https://socialmedia-site.herokuapp.com/',
-    //origin: "http://localhost:3000",
+    origin: "http://localhost:3000",
     // origin: "*",
     methods: ["GET", "POST"],
   },
 });
 dotenv.config();
 
+console.log(process.env)
 mongoose.connect(process.env.MONGO_DB, (err) => {
   if (err) console.log(err.message);
   else console.log("mongdb is connected");
