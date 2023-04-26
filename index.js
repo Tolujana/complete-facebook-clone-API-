@@ -25,7 +25,8 @@ const io = require("socket.io")(http, {
 });
 dotenv.config();
 
-console.log(process.env)
+
+
 mongoose.connect(process.env.MONGO_DB, (err) => {
   if (err) console.log(err.message);
   else console.log("mongdb is connected");
