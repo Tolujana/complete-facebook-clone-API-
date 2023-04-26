@@ -21,15 +21,16 @@ const Comments = ({ userComment }) => {
   const { user, userImage, comment, replies } = userComment;
  
   return (
-    <div className={styles.listOfComments}>
+    <div className={styles.previousComment}>
       <img
         src={PUBLIC_FOLDER + "/" + userImage || PUBLIC_FOLDER + "noimage.png"}
         alt=""
         className={styles.postImg}
       />
 
-      <div className={styles.userComment}>
-        {comment}
+      <div className={styles.userPreviousComment}>
+        <div className={styles.name}><span>{user}</span></div>
+        <span>{comment}</span>
         <div className={styles.userComments}>{replies}</div>
       </div>
     </div>
@@ -219,7 +220,7 @@ const Post = ({ post }) => {
           </div>
 
           <div className={styles.postBottomcomments} ref={commentArea}>
-            <div className={styles.comments}>
+            <div className={styles.listOfComments}>
               {postComments.map((comment, index) => (
                 <Comments userComment={comment} />
               ))}

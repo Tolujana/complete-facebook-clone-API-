@@ -142,7 +142,22 @@
   margin-left: 10px;
   background-color: var(--color-secondary);
 }
-
+.userPreviousComment{
+  margin: 8px;
+  border: none;
+  display: block;
+  height: fit-content;
+  font-family: sans-serif;
+  width: fit-content;
+  padding:10px;
+  border-radius: 10px;
+  margin-left: 10px;
+  background-color: var(--color-secondary);
+}
+.userPreviousComment span{
+  inline-size: min-content;
+  overflow-wrap: break-word
+}
 .commentTextArea:focus {
   outline: none;
 }
@@ -155,14 +170,14 @@
   font-family: sans-serif;
   color: #c3c4c8;
 }
-.listOfComments {
+.previousComment{
   display: flex;
   align-items: center;
   justify-items: center;
-  width: 80%;
-  max-width: 80%;
+  width: 100%;
+  
   height: fit-content;
 }
-.comments {
+.listOfComments{
   width: 100%;
 }
