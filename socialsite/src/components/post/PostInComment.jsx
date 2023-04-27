@@ -119,29 +119,7 @@ const Post = ({ post }) => {
             </div>
           </div>
 
-          <div className={styles.postActions}>
-            <div className={styles.postBottomAction}>
-              <ThumbUpIcon />
-              <div onClick={likeHandler} className={styles.like} id="">
-                {isLiked ? "Unlike" : "Like"}
-              </div>
-            </div>
-            <div
-              className={styles.postBottomAction}
-              onClick={openCommentDialog}
-            >
-              <ChatBubbleOutlineIcon />
-              <div className={styles.comment} id="">
-                Comment
-              </div>
-            </div>
-            <div className={styles.postBottomAction}>
-              <ReplyIcon />
-              <div className={styles.share} id="">
-                Share
-              </div>
-            </div>
-          </div>
+          
 
           <div className={styles.postBottomcomments}></div>
         </div>
