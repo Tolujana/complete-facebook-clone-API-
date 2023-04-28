@@ -31,7 +31,8 @@ const Comments = ({ userComment }) => {
       <div className={styles.userPreviousComment}>
         <div className={styles.name}><span>{user}</span></div>
         <span>{comment}</span>
-        <div className={styles.userComments}>{replies}</div>
+        <div className="commentActionButtons"></div>
+        <div className={styles.replies}>{replies}</div>
       </div>
     </div>
   );
