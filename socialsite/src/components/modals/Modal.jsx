@@ -6,30 +6,32 @@ import CloseIcon from "@mui/icons-material/Close";
 import { AuthContext } from "../../context/AuthContext";
 import { openPopupDialog } from "../../utils/generalServices";
 
-const Modal = ({ type }) => {
+const Modal = ({ payload }) => {
   const { dispatch } = useContext(AuthContext);
 
   const action = { type: "MODAL_TYPE", payload: "" };
-  const getComponentToDisplay = (type) => {
-    switch (type.name) {
+  const getComponentToDisplay = (payload) => {
+    switch (payload.name) {
       case "register":
         return <div className={styles.fullScreenModal}></div>;
       case "share":
         return <SharePopup />;
       case "comment":
-        return <CommentPopup post={type.post} user={type.user} />;
+        return (
+          <CommentPopup post={payload.post} user={payload.user} commentList={payload.commentList} />
+        );
       default:
         return "";
     }
   };
 
-  const Component = getComponentToDisplay(type);
+  const Component = getComponentToDisplay(payload);
   const disableModal = () => {
     openPopupDialog(action, dispatch);
   };
   return (
     <>
-      {type !== "" && (
+      {payload !== "" && (
         <div className={styles.fullScreenModal}>
           <div className={styles.container}>
             <div className={styles.close} onClick={disableModal}>
