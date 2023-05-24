@@ -1,9 +1,9 @@
-const router = require('express').Router();
-const User = require('../models/User');
-const bcrypt = require('bcryptjs');
+const router = require("express").Router();
+const User = require("../models/User");
+const bcrypt = require("bcryptjs");
 
 //register
-router.post('/register', async (req, res) => {
+router.post("/register", async (req, res) => {
   try {
     //generate new password
     const salt = await bcrypt.genSalt(10);
@@ -24,19 +24,15 @@ router.post('/register', async (req, res) => {
 
 //login
 
-router.post('/login', async (req, res) => {
+router.post("/login", async (req, res) => {
   try {
-   
-    const userEmail = req.body.email
+    const userEmail = req.body.email;
     const user = await User.findOne({ email: userEmail });
-    console.log(user)
-    !user && res.status(404).json('user not found');
+    console.log("user is", user);
+    !user && res.status(404).json("user not found");
 
-    const validPassword = await bcrypt.compare(
-      req.body.password,
-      user.password
-    );
-    !validPassword && res.status(400).json('incorrect password');
+    const validPassword = await bcrypt.compare(req.body.password, user.password);
+    !validPassword && res.status(400).json("incorrect password");
     res.status(200).json(user);
   } catch (err) {
     console.log(err);

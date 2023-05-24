@@ -20,26 +20,17 @@ function App() {
 
   return (
     <div className="wrapper">
-      {modalType&&<Modal type={modalType} />}
       <BrowserRouter>
+        {modalType && <Modal payload={modalType} />}
+
         <Routes>
-          <Route
-            path="/"
-            element={currentUser === null ? <Login /> : <Home />}
-          />
-          <Route
-            path="/login"
-            element={currentUser ? <Navigate replace to="/" /> : <Login />}
-          />
+          <Route path="/" element={currentUser === null ? <Login /> : <Home />} />
+          <Route path="/login" element={currentUser ? <Navigate replace to="/" /> : <Login />} />
           <Route
             path="/register"
             element={currentUser ? <Navigate replace to="/" /> : <Register />}
           />
           <Route path="/profile/:username" element={<Profile />} />
-          {/* // <Home />
-      // <Profile />
-      // <Login />
-    <Register /> */}
         </Routes>
       </BrowserRouter>
     </div>
