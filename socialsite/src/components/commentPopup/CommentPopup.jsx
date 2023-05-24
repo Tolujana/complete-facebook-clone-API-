@@ -1,11 +1,13 @@
 import React from "react";
 import PostInComment from "../post/PostInComment";
 import styles from "./commentPopup.module.css";
-const CommentPopup = ({ post, user }) => {
+import Post from "../post/Post";
+
+const CommentPopup = ({ post, user, commentList }) => {
   return (
     <div className={styles.commentContainer}>
       <div className={styles.title}>{`${user}'s Post`}</div>
-      <PostInComment post={post} />
+      <Post post={post} commentList={commentList} />
       <div>coomment field</div>
     </div>
   );
