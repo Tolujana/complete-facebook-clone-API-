@@ -4,6 +4,36 @@
   flex-direction: column;
   flex-shrink: 0;
   min-width: 300px;
+  position: sticky;
+  top: 50px;
+  overflow-y: auto;
+  height: 100vh;
+}
+.rightBar::-webkit-scrollbar {
+  width: 16px;
+  padding: 5px;
+}
+.rightBar::-webkit-scrollbar-track {
+  background-color: none;
+  border: 0px 5px;
+}
+
+.rightBar::-webkit-scrollbar-track:hover {
+  background-color: #f1f1f1;
+  border: 0px 5px;
+}
+
+.rightBar::-webkit-scrollbar-thumb {
+  background-color: #f1f1f1;
+  border: 5px solid transparent;
+  border-radius: 16px;
+  background-clip: content-box;
+}
+.rightBar::-webkit-scrollbar-thumb:hover {
+  background-color: grey;
+  border: 5px solid transparent;
+  border-radius: 16px;
+  background-clip: content-box;
 }
 .miniNotification {
   margin: 20px 16px;
