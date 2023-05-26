@@ -15,7 +15,7 @@ import { openPopupDialog } from "../../utils/generalServices";
 const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
 const EXTERNAL_FOLDER = process.env.REACT_APP_EXTERNAL_FOLDER;
 
-const Post = ({ post }) => {
+const PostInComment = ({ post }) => {
   const [likes, setLike] = useState(post.likes.length);
 
   const [isLiked, setisLiked] = useState(false);
@@ -52,32 +52,26 @@ const Post = ({ post }) => {
     }
   };
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      const res = await axiosInstance.get(`/users?userId=${post.userId}`);
-      setUser(res.data);
-    };
-    fetchUser();
-  }, [post.userId]);
+  // useEffect(() => {
+  //   const fetchUser = async () => {
+  //     const res = await axiosInstance.get(`/users?userId=${post.userId}`);
+  //     setUser(res.data);
+  //   };
+  //   fetchUser();
+  // }, [post.userId]);
 
   return (
     <div className={styles.post}>
       <div className={styles.postWrapper}>
         <div className={styles.postTop}>
           <img
-            src={
-              PUBLIC_FOLDER + "/" + user.profilePicture ||
-              PUBLIC_FOLDER + "noimage.png"
-            }
+            src={PUBLIC_FOLDER + "/" + user.profilePicture || PUBLIC_FOLDER + "noimage.png"}
             alt=""
             className={styles.postImg}
           />
 
           <div className={styles.postDetail}>
-            <span className={styles.postName}>
-              {user?.username?.charAt(0).toUpperCase() +
-                user.username?.slice(1)}
-            </span>
+            <span className={styles.postName}>checkit</span>
             <div className={styles.time}>
               <span className={styles.timeStamp}>{format(post.createdAt)}</span>
               <span className={styles.timeStampDot}>.</span>
@@ -93,33 +87,21 @@ const Post = ({ post }) => {
             {post.files ? (
               <DisplayData files={post.files} cssName={post?.cssName} />
             ) : (
-              <img
-                src={EXTERNAL_FOLDER + post.img}
-                alt=""
-                className={styles.postContentImg}
-              />
+              <img src={EXTERNAL_FOLDER + post.img} alt="" className={styles.postContentImg} />
             )}
           </div>
         </div>
         <div className={styles.postBottom}>
           <div className={styles.postBottomStats}>
             <div className={styles.likes}>
-              <img
-                className={styles.postLike}
-                src={EXTERNAL_FOLDER + "/likes.png"}
-                alt=""
-              />
+              <img className={styles.postLike} src={EXTERNAL_FOLDER + "/likes.png"} alt="" />
               <span className={styles.likesCounter}>{likes}</span>
             </div>
             <div className={styles.counters}>
-              <span className={styles.commentCounter}>
-                {post.comment} Comments
-              </span>
+              <span className={styles.commentCounter}> Comments</span>
               <span className={styles.shareCounter}>998 Shares</span>
             </div>
           </div>
-
-          
 
           <div className={styles.postBottomcomments}></div>
         </div>
@@ -127,4 +109,4 @@ const Post = ({ post }) => {
     </div>
   );
 };
-export default Post;
+export default PostInComment;
