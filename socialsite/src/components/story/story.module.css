@@ -33,11 +33,11 @@
   margin-left: 6px;
 }
 
-.story {
-  background-color: blue;
+.story,
+.userStory {
   width: 112.5px;
   height: 200px;
-  border-radius: 8px;
+  position: relative;
 }
 .buttons {
   font-size: 20px;
@@ -53,7 +53,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-
+  z-index: 10;
   border-radius: 50%;
 }
 .nextItems {
@@ -64,4 +64,56 @@
 }
 .displayNone {
   display: none;
+}
+.profilePics,
+.userPic {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+}
+.profilePics img {
+  max-width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profilePics img:hover {
+  filter: brightness(90%);
+  transform: scale(1.03);
+}
+.friendPic {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  z-index: 2;
+  top: 8px;
+  left: 8px;
+}
+
+.friendPic img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: solid 3px;
+  border-color: var(--color-primary);
+}
+.userStory {
+  display: flex;
+  flex-direction: column;
+}
+.userPic {
+  height: 75%;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.actionButton {
+  text-align: center;
+  height: 25%;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  background: whitesmoke;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
 }
