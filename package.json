@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "My Facebook Clone",
   "main": "index.js",
-  "engines": {
-    "node": "17.6.0"
-  },
   "scripts": {
     "heroku-postbuild": "cd socialsite && npm install && npm run build",
     "start": "nodemon index.js"
