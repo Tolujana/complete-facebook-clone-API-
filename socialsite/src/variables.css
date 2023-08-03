@@ -2,7 +2,8 @@
   --color-primary: #1877f2;
   --color-secondary: #f0f2f5;
   --color-darkblue: #1660c2;
-  --color-darkgrey: #f0f2f5;
+  --color-darkgrey: #cfd1d5;
+  --color-lightgrey: #e4e6eb;
 }
 .active {
   color: black;
