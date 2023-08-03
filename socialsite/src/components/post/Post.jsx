@@ -15,17 +15,13 @@ import { openPopupDialog } from "../../utils/generalServices";
 
 const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
 const EXTERNAL_FOLDER = process.env.REACT_APP_EXTERNAL_FOLDER;
-
+const NOIMAGE = process.env.REACT_APP_NO_IMAGE;
 const ShowComments = ({ userComment }) => {
   const { user, userImage, comment, replies } = userComment;
 
   return (
     <div className={styles.previousComment}>
-      <img
-        src={PUBLIC_FOLDER + "/" + userImage || PUBLIC_FOLDER + "noimage.png"}
-        alt=""
-        className={styles.postImg}
-      />
+      <img src={PUBLIC_FOLDER + "/" + userImage || NOIMAGE} alt="" className={styles.postImg} />
       <div className={styles.commentDisplay}>
         <div className={styles.usersText}>
           <div className={styles.name}>
@@ -146,7 +142,7 @@ const Post = ({ post, commentList }) => {
         <div className={styles.postTop}>
           <Link to={`/profile/${user.username}`}>
             <img
-              src={PUBLIC_FOLDER + "/" + user.profilePicture || PUBLIC_FOLDER + "noimage.png"}
+              src={PUBLIC_FOLDER + "/" + user.profilePicture || NOIMAGE}
               alt=""
               className={styles.postImg}
             />
@@ -222,10 +218,7 @@ const Post = ({ post, commentList }) => {
             <div className={styles.commentField}>
               <div className={styles.postImage}>
                 <img
-                  src={
-                    PUBLIC_FOLDER + "/" + currentUser.profilePicture ||
-                    PUBLIC_FOLDER + "noimage.png"
-                  }
+                  src={PUBLIC_FOLDER + "/" + currentUser.profilePicture || NOIMAGE}
                   alt=""
                   className={styles.postImg}
                 />

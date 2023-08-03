@@ -14,6 +14,7 @@ import DisplayData from "../display/DisplayData";
 import { openPopupDialog } from "../../utils/generalServices";
 const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
 const EXTERNAL_FOLDER = process.env.REACT_APP_EXTERNAL_FOLDER;
+const NOIMAGE = process.env.REACT_APP_NO_IMAGE;
 
 const PostInComment = ({ post }) => {
   const [likes, setLike] = useState(post.likes.length);
@@ -65,7 +66,7 @@ const PostInComment = ({ post }) => {
       <div className={styles.postWrapper}>
         <div className={styles.postTop}>
           <img
-            src={PUBLIC_FOLDER + "/" + user.profilePicture || PUBLIC_FOLDER + "noimage.png"}
+            src={PUBLIC_FOLDER + "/" + user.profilePicture || NOIMAGE}
             alt=""
             className={styles.postImg}
           />

@@ -1,11 +1,4 @@
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import OtherHousesIcon from "@mui/icons-material/OtherHouses";
 import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
 import StorefrontIcon from "@mui/icons-material/Storefront";
@@ -24,15 +17,10 @@ import { io } from "socket.io-client";
 import { axiosInstance } from "../../proxySettings";
 
 function Topmenu() {
-  const {
-    user,
-    dispatch,
-    chats,
-    messages,
-    socket: savedSocket,
-  } = useContext(AuthContext);
+  const { user, dispatch, chats, messages, socket: savedSocket } = useContext(AuthContext);
   const socket = useRef();
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+  const NOIMAGE = process.env.REACT_APP_NO_IMAGE;
   const [showMessenger, setShowMessenger] = useState(false);
   const [showFriendRequest, setShowFriendRequest] = useState(false);
   const [latestMessage, setlatestMessage] = useState({});
@@ -104,12 +92,8 @@ function Topmenu() {
 
   useEffect(() => {
     const fetchUser = async () => {
-      if (
-        !chats?.some((user) => user._id === lattestMessage.current.senderId)
-      ) {
-        const res = await axiosInstance.get(
-          `/users?userId=${lattestMessage.current.senderId}`
-        );
+      if (!chats?.some((user) => user._id === lattestMessage.current.senderId)) {
+        const res = await axiosInstance.get(`/users?userId=${lattestMessage.current.senderId}`);
 
         const userData = {
           username: res.data.username,
@@ -166,10 +150,7 @@ function Topmenu() {
       </div>
       <nav className={styles.topmenuCenter} ref={menuItem}>
         <li className={styles.menuItem} onClick={loadMenuPage} value={5}>
-          <OtherHousesIcon
-            className={styles.menuIcon}
-            style={{ fill: "white", fontSize: 32 }}
-          />
+          <OtherHousesIcon className={styles.menuIcon} style={{ fill: "white", fontSize: 32 }} />
         </li>
         <li className={styles.menuItem} onClick={loadMenuPage}>
           <OndemandVideoIcon
@@ -178,16 +159,10 @@ function Topmenu() {
           />
         </li>
         <li className={styles.menuItem} onClick={loadMenuPage}>
-          <StorefrontIcon
-            className={styles.menuIcon}
-            style={{ fill: "white", fontSize: 32 }}
-          />
+          <StorefrontIcon className={styles.menuIcon} style={{ fill: "white", fontSize: 32 }} />
         </li>
         <li className={styles.menuItem} onClick={loadMenuPage}>
-          <GroupsIcon
-            className={styles.menuIcon}
-            style={{ fill: "white", fontSize: 32 }}
-          />
+          <GroupsIcon className={styles.menuIcon} style={{ fill: "white", fontSize: 32 }} />
         </li>
         <li className={styles.menuItem} onClick={loadMenuPage}>
           <VideogameAssetRoundedIcon
@@ -237,11 +212,7 @@ function Topmenu() {
         </div>
         <Link to={`/profile/${user.username}`}>
           <img
-            src={
-              user.profilePicture
-                ? PF + "/" + user.profilePicture
-                : `${PF}/noimage.png`
-            }
+            src={user.profilePicture ? PF + "/" + user.profilePicture : NOIMAGE}
             alt=""
             className={styles.profilepic}
           />

@@ -16,6 +16,8 @@ const Modal = ({ payload }) => {
         return <div className={styles.fullScreenModal}></div>;
       case "share":
         return <SharePopup />;
+      case "edit profile":
+        return <div>EDit profile</div>;
       case "comment":
         return (
           <CommentPopup post={payload.post} user={payload.user} commentList={payload.commentList} />

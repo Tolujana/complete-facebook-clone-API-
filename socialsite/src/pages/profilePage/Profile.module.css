@@ -74,32 +74,26 @@
 .imaged {
   flex: 2;
 }
-.Action {
+.firstAction,
+.secondAction {
   display: flex;
   width: fit-content;
   align-items: center;
-  padding: 8px;
-  margin: 2px;
-  border-radius: 8px;
-  background-color: rgb(139, 139, 145);
-  /* margin-right: 15px; */
-  cursor: pointer;
-}
-.Action2 {
-  display: flex;
-  width: fit-content;
-  align-items: center;
-  color: white;
   padding: 8px;
   margin: 2px;
   border-radius: 8px;
   background-color: #1877f2;
-  /* margin-right: 15px; */
+  color: white;
+
   cursor: pointer;
 }
+.secondAction {
+  color: black;
+  background-color: var(--color-lightgrey);
+}
 
-.Action:hover {
-  background-color: #e5e4e2;
+.secondAction:hover {
+  background-color: var(--color-darkgrey);
 }
 .dividingline {
   margin: 10px;
@@ -132,4 +126,6 @@ label > div:hover {
 }
 .none {
   display: none;
+}
+.edittedbutton {
 }

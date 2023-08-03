@@ -25,18 +25,15 @@ const io = require("socket.io")(http, {
 });
 dotenv.config();
 
+const tolu = "mongodb://127.0.0.1:27017/socialnetwork";
 
-
-mongoose.connect(process.env.MONGO_DB, (err) => {
-  if (err) console.log(err.message);
+mongoose.connect(tolu, (err) => {
+  if (err) console.log(err);
   else console.log("mongdb is connected");
 });
 // middleware
 app.use("/images", express.static(path.join(__dirname, "public/images")));
-app.use(
-  "/images/assets",
-  express.static(path.join(__dirname, "public/images/assets"))
-);
+app.use("/images/assets", express.static(path.join(__dirname, "public/images/assets")));
 // cors
 app.use(cors());
 app.use(express.json());
@@ -75,8 +72,7 @@ app.use(express.static(path.join(__dirname, "/socialsite/build")));
 let users = [];
 
 const addUser = (userId, socketId) => {
-  !users.some((user) => user.userId === userId) &&
-    users.push({ userId, socketId });
+  !users.some((user) => user.userId === userId) && users.push({ userId, socketId });
 };
 const removeUser = (socketId) => {
   users = users.filter((user) => {

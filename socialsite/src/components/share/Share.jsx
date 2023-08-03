@@ -9,6 +9,8 @@ import { sharePost } from "../../utils/shareServices";
 import { openPopupDialog } from "../../utils/generalServices";
 
 const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+const NOIMAGE = process.env.REACT_APP_NO_IMAGE;
+
 function Share() {
   const { user, dispatch, modalType } = useContext(AuthContext);
   const userInput = useRef();
@@ -25,11 +27,7 @@ function Share() {
       <form className={styles.shareWrapper} encType="multipart/form-data">
         <div className={styles.shareTop}>
           <img
-            src={
-              !user.profilePicture
-                ? PF + "/noimage.png"
-                : PF + "/" + user.profilePicture
-            }
+            src={!user.profilePicture ? NOIMAGE : PF + "/" + user.profilePicture}
             alt=""
             className={styles.sharepics}
           />
@@ -50,10 +48,7 @@ function Share() {
               <span className={styles.ShareOptionText}>Live Video</span>
             </div>
             <div className={styles.shareOption} onClick={openShareDialog}>
-              <PhotoLibraryIcon
-                htmlColor="green"
-                className={styles.shareIcon}
-              />{" "}
+              <PhotoLibraryIcon htmlColor="green" className={styles.shareIcon} />{" "}
               <span className={styles.ShareOptionText}>Photos/Media</span>
             </div>
             <div className={styles.shareOption}>
@@ -74,46 +69,22 @@ function Share() {
         </div>
         <div className={styles.friends}>
           <div className={styles.imgContainer}>
-            <img
-              src="/images/persons/1.jpg"
-              alt=""
-              className={styles.chatImg}
-            />
+            <img src="/images/persons/1.jpg" alt="" className={styles.chatImg} />
           </div>
           <div className={styles.imgContainer}>
-            <img
-              src="/images/persons/1.jpg"
-              alt=""
-              className={styles.chatImg}
-            />
+            <img src="/images/persons/1.jpg" alt="" className={styles.chatImg} />
           </div>
           <div className={styles.imgContainer}>
-            <img
-              src="/images/persons/1.jpg"
-              alt=""
-              className={styles.chatImg}
-            />
+            <img src="/images/persons/1.jpg" alt="" className={styles.chatImg} />
           </div>
           <div className={styles.imgContainer}>
-            <img
-              src="/images/persons/1.jpg"
-              alt=""
-              className={styles.chatImg}
-            />
+            <img src="/images/persons/1.jpg" alt="" className={styles.chatImg} />
           </div>
           <div className={styles.imgContainer}>
-            <img
-              src="/images/persons/1.jpg"
-              alt=""
-              className={styles.chatImg}
-            />
+            <img src="/images/persons/1.jpg" alt="" className={styles.chatImg} />
           </div>
           <div className={styles.imgContainer}>
-            <img
-              src="/images/persons/1.jpg"
-              alt=""
-              className={styles.chatImg}
-            />
+            <img src="/images/persons/1.jpg" alt="" className={styles.chatImg} />
           </div>
         </div>
       </div>

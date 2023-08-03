@@ -5,7 +5,7 @@ import { axiosInstance } from "../../proxySettings";
 import DisplayData from "../display/DisplayData";
 
 const PublicFolder = process.env.REACT_APP_PUBLIC_FOLDER;
-
+const NOIMAGE = process.env.REACT_APP_NO_IMAGE;
 const SharePopup = () => {
   const { user, dispatch, modalType } = useContext(AuthContext);
   const [isDragActive, setDragActive] = useState(false);
@@ -72,8 +72,7 @@ const SharePopup = () => {
 
   const handleFiles = (files, fromDragnDrop = false) => {
     console.log(files);
-    if (fromDragnDrop && !checkFileIsValid(files))
-      setError("file/file(s)  not an image");
+    if (fromDragnDrop && !checkFileIsValid(files)) setError("file/file(s)  not an image");
 
     const data = new FormData();
     const filesArray = Object.values(files);
@@ -94,18 +93,13 @@ const SharePopup = () => {
       <div className={style.shareWrapper}>
         <div className={style.userInfo}>
           <img
-            src={
-              !user.profilePicture
-                ? PublicFolder + "/noimage.png"
-                : PublicFolder + "/" + user.profilePicture
-            }
+            src={!user.profilePicture ? NOIMAGE : PublicFolder + "/" + user.profilePicture}
             alt=""
             className={style.shareImage}
           />
           <div className={style.details}>
             <div className={style.name}>
-              {user?.username?.charAt(0).toUpperCase() +
-                user?.username?.slice(1)}
+              {user?.username?.charAt(0).toUpperCase() + user?.username?.slice(1)}
             </div>
             <select name="" id="" className="postType">
               <option value="" selected>
@@ -153,9 +147,7 @@ const SharePopup = () => {
               >
                 {numberOfFiles == 0 && (
                   <label className={style.label} htmlFor="fileInput">
-                    <span className={style.labelText}>
-                      Drag & Drop photos or Click to upload
-                    </span>
+                    <span className={style.labelText}>Drag & Drop photos or Click to upload</span>
                   </label>
                 )}
                 <input

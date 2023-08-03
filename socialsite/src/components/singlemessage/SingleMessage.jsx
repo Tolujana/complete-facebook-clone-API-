@@ -5,14 +5,10 @@ import { AuthContext } from "../../context/AuthContext";
 // import e from 'cors';
 import Message from "../message/Message";
 const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+const NOIMAGE = process.env.REACT_APP_NO_IMAGE;
 
 const SingleMessage = ({ user }) => {
-  const {
-    user: currentUser,
-    socket,
-    messages,
-    dispatch,
-  } = useContext(AuthContext);
+  const { user: currentUser, socket, messages, dispatch } = useContext(AuthContext);
   const [sockets, setSocket] = useState(null);
   const [newMessage, setnewMessage] = useState("");
   //const [messages, setMessages] = useState([]);
@@ -46,9 +42,7 @@ const SingleMessage = ({ user }) => {
 
   useEffect(() => {
     setuserMessages((prev) => {
-      return messages?.filter(
-        (m) => m.receiverId === user._id || m.senderId === user._id
-      );
+      return messages?.filter((m) => m.receiverId === user._id || m.senderId === user._id);
     });
   }, [messages, user._id]);
 
@@ -83,11 +77,7 @@ const SingleMessage = ({ user }) => {
       <div className={style.header}>
         <div className={style.img}>
           <img
-            src={
-              !user.profilePicture
-                ? PF + "/noimage.png"
-                : PF + "/" + user.profilePicture
-            }
+            src={!user.profilePicture ? NOIMAGE : PF + "/" + user.profilePicture}
             alt=""
             className={style.profileImg}
           />
@@ -115,9 +105,7 @@ const SingleMessage = ({ user }) => {
               key={id}
               message={m.message}
               img={
-                m.senderId === currentUser._id
-                  ? currentUser.profilePicture
-                  : user.profilePicture
+                m.senderId === currentUser._id ? currentUser.profilePicture : user.profilePicture
               }
               createdAt={m.createdAt}
               owner={m.senderId === currentUser._id}
@@ -135,11 +123,7 @@ const SingleMessage = ({ user }) => {
           value={newMessage}
           placeholder="send a message"
         ></textarea>
-        <button
-          type="submit"
-          onClick={handleMessage}
-          className={style.sendButton}
-        >
+        <button type="submit" onClick={handleMessage} className={style.sendButton}>
           Send
         </button>
       </div>
