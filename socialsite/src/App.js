@@ -11,6 +11,7 @@ import { useContext } from "react";
 
 import { AuthContextProvider, AuthContext } from "./context/AuthContext";
 import Modal from "./components/modals/Modal";
+import StoryEditor from "./components/story/StoryEditor";
 
 function App() {
   const { user, modalType } = useContext(AuthContext);
@@ -31,6 +32,7 @@ function App() {
             element={currentUser ? <Navigate replace to="/" /> : <Register />}
           />
           <Route path="/profile/:username" element={<Profile />} />
+          <Route path="create-story" element={<StoryEditor />} />
         </Routes>
       </BrowserRouter>
     </div>

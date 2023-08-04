@@ -1,14 +1,23 @@
 import React from "react";
-
+import styles from "./storyeditor.module.css";
+import Topmenu from "../topmenu/topmenu";
 const StoryEditor = () => {
   return (
-    <div>
-      <div className="letmenu"></div>
-      <div className="maincontent">
-        <div className="uploadimage"></div>
-        <div className="addtext"></div>
+    <>
+      <Topmenu />
+      <div className={styles.storyEditor}>
+        <div className={styles.leftmenu}>
+          <div className={styles.bottom}>
+            <h1 className={styles.title}>Your Story</h1>
+            <div className={styles.profileImage}></div>
+          </div>
+        </div>
+        <div className={styles.maincontent}>
+          <div className={styles.uploadimage}>Create a Photo story</div>
+          <div className={styles.addtext}>Create a Text Story</div>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

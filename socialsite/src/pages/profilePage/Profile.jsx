@@ -9,6 +9,8 @@ import { useParams } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { axiosInstance } from "../../proxySettings";
 import { openPopupDialog } from "../../utils/generalServices";
+import StoryEditor from "../../components/story/StoryEditor";
+import { useNavigate } from "react-router-dom";
 
 const PF = process.env.REACT_APP_PUBLIC_FOLDER;
 const coverImage = process.env.REACT_APP_NO_COVERIMAGE;
@@ -20,44 +22,68 @@ const Profile = () => {
   const [buttonText, setButtonText] = useState("");
   const username = useParams().username.toLowerCase();
   const { user: currentUser, chats, dispatch } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-  const action = { type: "MODAL_TYPE", payload: { name: "editProfile" } };
+  const editProfileAction = { type: "MODAL_TYPE", payload: { name: "editProfile" } };
+  const friendStatusAction = { type: "MODAL_TYPE", payload: { name: "Update Friend status" } };
+  const openEditProfileDialog = () => {
+    openPopupDialog(editProfileAction, dispatch);
+  };
 
-  const openShareDialog = () => {
-    openPopupDialog(action, dispatch);
+  const openFriendStatusDialog = () => {
+    openPopupDialog(friendStatusAction, dispatch);
   };
 
   useEffect(() => {
     const fetchUser = async () => {
       const res = await axiosInstance.get(`/users?username=${username}`);
-
+      updateFriendStatus(res.data);
       setUser(res.data);
     };
 
     fetchUser();
-  }, [username]);
+  }, []);
 
-  const HandleEditAndFriendClick = async () => {
-    setButtonText("...");
+  const updateFriendStatus = (user) => {
+    if (user?.friendRequest?.includes(currentUser._id)) {
+      setButtonText("Cancel-Request");
+    }
+
+    if (currentUser?.following?.includes(user._id)) {
+      setButtonText("Friends");
+    }
+  };
+
+  const AddToStoryOrUpdateFriendship = () => {
+    if (username !== currentUser.username) {
+      //send friend request or remove friend
+      updateFriendship();
+    } else {
+      navigate("/create-story");
+    }
+  };
+  const EditProfileOrSendMessage = () => {
+    if (username === currentUser.username) {
+      openEditProfileDialog();
+    } else {
+      sendMessage();
+    }
+  };
+
+  const updateFriendship = async () => {
     try {
-      if (username !== currentUser.username) {
-        //send friend request or remove friend
+      if (
+        !currentUser?.friendRequest?.includes(user._id) ||
+        !currentUser?.following?.includes(user._id)
+      ) {
+        const data = { id: currentUser._id };
+        const res = await axiosInstance.put("/users/" + user._id + "/request", data);
 
-        if (
-          !currentUser?.friendRequest?.includes(user._id) ||
-          !currentUser?.following?.includes(user._id)
-        ) {
-          const data = { id: currentUser._id };
-          const res = await axiosInstance.put("/users/" + user._id + "/request", data);
-          console.log(res.data);
-          setButtonText(res.data);
-        }
-      } else {
-        openShareDialog();
+        setButtonText(res.data);
       }
     } catch (err) {}
   };
-  const handleClick2 = async () => {
+  const sendMessage = async () => {
     const data = {
       username: user.username,
       pic: user.profileImg,
@@ -96,6 +122,7 @@ const Profile = () => {
       }
     }
   };
+
   return (
     <div>
       <Topmenu />
@@ -112,8 +139,8 @@ const Profile = () => {
             <div className={styles.profileInfos}>
               <div
                 className={styles.imaged}
-                onMouseOver={handleEditButton}
-                onMouseLeave={handleEditButton_2}
+                // onMouseOver={handleEditButton}
+                // onMouseLeave={handleEditButton_2}
               >
                 <img
                   src={!user.profilePicture ? NOIMAGE : PF + "/" + user.profilePicture}
@@ -121,20 +148,11 @@ const Profile = () => {
                   className={styles.profileImg}
                 />
                 <label htmlFor="file">
-                  <div
-                    className={styles.editbutton}
-                    style={{ display: showButton ? "block" : "none" }}
-                  >
+                  <div className={styles.editbutton} style={{ display: "block" }}>
                     Edit
                   </div>
                 </label>
-                <input
-                  onChange={handleFile}
-                  style={{ display: "none" }}
-                  type="file"
-                  name="upload"
-                  id="file"
-                />
+                <input hidden onChange={handleFile} type="file" name="upload" id="file" />
               </div>
               <div className={styles.profileInfo}>
                 <span className={styles.profileName}>
@@ -145,15 +163,25 @@ const Profile = () => {
                 <span className={styles.profilefriends}>1.5k friends</span>
                 <div className={styles.friendImg}></div>
               </div>
-              <div className={styles.profileButtons} onClick={handleClick}>
-                <span className={styles.firstAction} onClick={HandleEditAndFriendClick}>
+              <div className={styles.profileButtons}>
+                <span
+                  className={
+                    username === currentUser.username ? styles.firstAction : styles.secondAction
+                  }
+                  onClick={AddToStoryOrUpdateFriendship}
+                >
                   {username === currentUser.username
                     ? "Add To Story"
-                    : buttonText === "friend added"
-                    ? "Cancel Request"
+                    : buttonText !== ""
+                    ? buttonText
                     : "Add Friend"}
                 </span>
-                <span className={styles.secondAction} onClick={handleClick}>
+                <span
+                  className={
+                    username === currentUser.username ? styles.secondAction : styles.firstAction
+                  }
+                  onClick={EditProfileOrSendMessage}
+                >
                   {username === currentUser.username ? "Edit Profile" : "Message"}
                 </span>
               </div>

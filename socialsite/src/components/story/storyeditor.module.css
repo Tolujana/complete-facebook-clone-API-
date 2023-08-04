@@ -1,0 +1,59 @@
+.storyEditor {
+  width: 100%;
+  height: 100vh;
+
+  display: flex;
+}
+.leftmenu {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 0px 8px 0px;
+}
+.buttom,
+.top {
+  height: 20%;
+  display: flex;
+  flex-direction: column;
+}
+.maincontent {
+  display: flex;
+  flex: 4;
+}
+.profileImage {
+  border-radius: 50%;
+  width: 50px;
+  background: green;
+}
+
+.uploadimage,
+.addtext {
+  width: 220px;
+  height: 300px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 900;
+}
+
+.uploadimage,
+.addtext {
+  background: linear-gradient(
+    196deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(9, 9, 121, 1) 27%,
+    rgba(0, 212, 255, 1) 100%
+  );
+}
+.addtext {
+  background: linear-gradient(196deg, rgb(161, 69, 203), rgb(210, 78, 135));
+}
+
+.maincontent {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  justify-content: center;
+}

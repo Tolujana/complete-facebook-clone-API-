@@ -5,13 +5,13 @@ import styles from "./FriendRequest.module.css";
 const Folder = process.env.REACT_APP_PUBLIC_FOLDER;
 const NOIMAGE = process.env.REACT_APP_NO_IMAGE;
 export const FriendRequestItem = ({ userid, handleClickUp }) => {
-  const [userRequest, setUserRequest] = useState("");
+  const [userWithRequest, setUserWithRequest] = useState("");
   const { user, dispatch } = useContext(AuthContext);
   useEffect(() => {
     const fetchUser = async () => {
       const res = await axiosInstance.get(`/users?userId=${userid}`);
 
-      setUserRequest(res.data);
+      setUserWithRequest(res.data);
     };
     fetchUser();
   }, [userid]);
@@ -47,7 +47,9 @@ export const FriendRequestItem = ({ userid, handleClickUp }) => {
             <div className={styles.profileImgContainer}>
               <img
                 src={
-                  userRequest.profilePicture ? Folder + "/" + userRequest?.profilePicture : NOIMAGE
+                  userWithRequest.profilePicture
+                    ? Folder + "/" + userWithRequest?.profilePicture
+                    : NOIMAGE
                 }
                 alt=""
                 className={styles.friendsPics}
@@ -55,7 +57,8 @@ export const FriendRequestItem = ({ userid, handleClickUp }) => {
             </div>
 
             <span className={styles.friendsName}>
-              {userRequest?.usernamecharAt(0).toUpperCase() + userRequest.username?.slice(1)}
+              {userWithRequest?.username?.charAt(0).toUpperCase() +
+                userWithRequest?.username?.slice(1)}
             </span>
           </div>
           <button onClick={handleClick}>Accept</button>
