@@ -8,9 +8,14 @@ import styles from "./Profile.module.css";
 import { useParams } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { axiosInstance } from "../../proxySettings";
-import { openPopupDialog } from "../../utils/generalServices";
+import {
+  cancelFriendRequest,
+  confirmFriendRequest,
+  openPopupDialog,
+} from "../../utils/generalServices";
 import StoryEditor from "../../components/story/StoryEditor";
 import { useNavigate } from "react-router-dom";
+import FriendRequest from "../../components/friendRequest/FriendRequest";
 
 const PF = process.env.REACT_APP_PUBLIC_FOLDER;
 const coverImage = process.env.REACT_APP_NO_COVERIMAGE;
@@ -18,11 +23,13 @@ const NOIMAGE = process.env.REACT_APP_NO_IMAGE;
 const Profile = () => {
   const [user, setUser] = useState({});
   const [file, setFile] = useState(null);
+  const [isFriendRequest, setIsFriendRequest] = useState(false);
   const [showButton, setShowButton] = useState(false);
   const [buttonText, setButtonText] = useState("");
   const username = useParams().username.toLowerCase();
   const { user: currentUser, chats, dispatch } = useContext(AuthContext);
   const navigate = useNavigate();
+  const usernameCapitalised = user?.username?.charAt(0)?.toUpperCase() + user?.username?.slice(1);
 
   const editProfileAction = { type: "MODAL_TYPE", payload: { name: "editProfile" } };
   const friendStatusAction = { type: "MODAL_TYPE", payload: { name: "Update Friend status" } };
@@ -37,20 +44,25 @@ const Profile = () => {
   useEffect(() => {
     const fetchUser = async () => {
       const res = await axiosInstance.get(`/users?username=${username}`);
-      updateFriendStatus(res.data);
+      const friendrequest = await axiosInstance.get(`/users/friendrequests/${currentUser._id}`);
+      updateButtonText(res.data, friendrequest.data);
+      console.log("check", friendrequest.data);
       setUser(res.data);
     };
 
     fetchUser();
   }, []);
 
-  const updateFriendStatus = (user) => {
+  const updateButtonText = (user, recievedRequest) => {
     if (user?.friendRequest?.includes(currentUser._id)) {
-      setButtonText("Cancel-Request");
-    }
-
-    if (currentUser?.following?.includes(user._id)) {
+      setButtonText("Cancel Request");
+      setIsFriendRequest(true);
+    } else if (user?.friends?.includes(currentUser._id)) {
       setButtonText("Friends");
+    } else if (recievedRequest?.includes(user._id)) {
+      setButtonText("Respond");
+    } else {
+      setButtonText("Add Friender");
     }
   };
 
@@ -62,6 +74,7 @@ const Profile = () => {
       navigate("/create-story");
     }
   };
+
   const EditProfileOrSendMessage = () => {
     if (username === currentUser.username) {
       openEditProfileDialog();
@@ -73,13 +86,20 @@ const Profile = () => {
   const updateFriendship = async () => {
     try {
       if (
-        !currentUser?.friendRequest?.includes(user._id) ||
-        !currentUser?.following?.includes(user._id)
+        !currentUser?.friendRequest?.includes(user._id) &&
+        !currentUser?.friends?.includes(user._id)
       ) {
         const data = { id: currentUser._id };
         const res = await axiosInstance.put("/users/" + user._id + "/request", data);
 
         setButtonText(res.data);
+      }
+
+      if (currentUser?.friends?.includes(user._id)) {
+        const data = { id: currentUser._id };
+        const res = await axiosInstance.put("/users/" + user._id + "/unfriend", data);
+        console.log("ia in");
+        setButtonText("Add Friends");
       }
     } catch (err) {}
   };
@@ -92,6 +112,11 @@ const Profile = () => {
     if (!chats.includes(data)) {
       dispatch({ type: "CHAT_START", payload: data });
     }
+  };
+
+  const confirmFriend = () => {
+    confirmFriendRequest(user._id, currentUser, dispatch);
+    cancelFriendRequest(user._id, currentUser, dispatch);
   };
   const handleEditButton = () => {
     setShowButton(true);
@@ -136,56 +161,73 @@ const Profile = () => {
                 className={styles.profileCoverImg}
               />
             </div>
-            <div className={styles.profileInfos}>
-              <div
-                className={styles.imaged}
-                // onMouseOver={handleEditButton}
-                // onMouseLeave={handleEditButton_2}
-              >
-                <img
-                  src={!user.profilePicture ? NOIMAGE : PF + "/" + user.profilePicture}
-                  alt=""
-                  className={styles.profileImg}
-                />
-                <label htmlFor="file">
-                  <div className={styles.editbutton} style={{ display: "block" }}>
-                    Edit
+            <div className="profilecontainer">
+              <div className={styles.profileInfos}>
+                <div className={styles.imaged}>
+                  <img
+                    src={!user.profilePicture ? NOIMAGE : PF + "/" + user.profilePicture}
+                    alt=""
+                    className={styles.profileImg}
+                  />
+                  <label htmlFor="file">
+                    <div className={styles.editbutton} style={{ display: "block" }}>
+                      Edit
+                    </div>
+                  </label>
+                  <input hidden onChange={handleFile} type="file" name="upload" id="file" />
+                </div>
+                <div className={styles.profileInfo}>
+                  <span className={styles.profileName}>
+                    {user?.username?.charAt(0)
+                      ? user?.username?.charAt(0)?.toUpperCase() + user?.username?.slice(1)
+                      : ""}
+                  </span>
+                  <span className={styles.profilefriends}>1.5k friends</span>
+                  <div className={styles.friendImg}></div>
+                </div>
+                <div className={styles.profileButtons}>
+                  <div
+                    className={buttonText !== "Friends" ? styles.firstAction : styles.secondAction}
+                    onClick={AddToStoryOrUpdateFriendship}
+                  >
+                    {username === currentUser.username ? "Add To Story" : buttonText}
                   </div>
-                </label>
-                <input hidden onChange={handleFile} type="file" name="upload" id="file" />
+                  <div
+                    className={buttonText !== "Friends" ? styles.secondAction : styles.firstAction}
+                    onClick={EditProfileOrSendMessage}
+                  >
+                    {username === currentUser.username ? "Edit Profile" : "Message"}
+                  </div>
+                </div>
               </div>
-              <div className={styles.profileInfo}>
-                <span className={styles.profileName}>
-                  {user?.username?.charAt(0)
-                    ? user?.username?.charAt(0)?.toUpperCase() + user?.username?.slice(1)
-                    : ""}
-                </span>
-                <span className={styles.profilefriends}>1.5k friends</span>
-                <div className={styles.friendImg}></div>
-              </div>
-              <div className={styles.profileButtons}>
-                <span
-                  className={
-                    username === currentUser.username ? styles.firstAction : styles.secondAction
-                  }
-                  onClick={AddToStoryOrUpdateFriendship}
-                >
-                  {username === currentUser.username
-                    ? "Add To Story"
-                    : buttonText !== ""
-                    ? buttonText
-                    : "Add Friend"}
-                </span>
-                <span
-                  className={
-                    username === currentUser.username ? styles.secondAction : styles.firstAction
-                  }
-                  onClick={EditProfileOrSendMessage}
-                >
-                  {username === currentUser.username ? "Edit Profile" : "Message"}
-                </span>
-              </div>
+              {buttonText === "Respond" && (
+                <div className={styles.friendRequest}>
+                  <div className={styles.requestInfo}>
+                    <h3>{usernameCapitalised} sent you a request</h3>
+                  </div>
+                  <div className={styles.requestButton}>
+                    <div
+                      className={styles.confirmButton}
+                      onClick={() => {
+                        confirmFriend(user._id, currentUser, dispatch);
+                      }}
+                    >
+                      Confirm Request
+                    </div>
+                    <div
+                      className={styles.deleteButton}
+                      onClick={() => {
+                        cancelFriendRequest(user._id, currentUser, dispatch);
+                      }}
+                    >
+                      {" "}
+                      Delete Request
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
+
             <hr className={styles.dividingline} />
             <div className={styles.profileMenu}>
               <span className={styles.miniMenu}>Posts</span>
