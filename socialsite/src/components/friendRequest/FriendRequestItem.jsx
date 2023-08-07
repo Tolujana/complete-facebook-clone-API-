@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { axiosInstance } from "../../proxySettings";
 import styles from "./FriendRequest.module.css";
+import { cancelFriendRequest, confirmFriendRequest } from "../../utils/generalServices";
 const Folder = process.env.REACT_APP_PUBLIC_FOLDER;
 const NOIMAGE = process.env.REACT_APP_NO_IMAGE;
 export const FriendRequestItem = ({ userid, handleClickUp }) => {
@@ -16,6 +17,11 @@ export const FriendRequestItem = ({ userid, handleClickUp }) => {
     fetchUser();
   }, [userid]);
 
+  const confirmRequest = () => {
+    confirmFriendRequest(userid, user, dispatch);
+    cancelFriendRequest(userid, user, dispatch);
+  };
+
   const handleClick = async () => {
     try {
       const res = await axiosInstance.put(`users/${userid}/cancelrequest`, {
@@ -29,7 +35,7 @@ export const FriendRequestItem = ({ userid, handleClickUp }) => {
         });
 
         try {
-          const res = await axiosInstance.put(`users/${userid}/follow`, {
+          const res = await axiosInstance.put(`users/${userid}/friend`, {
             userId: user._id,
           });
           console.log(res.data);
@@ -40,7 +46,7 @@ export const FriendRequestItem = ({ userid, handleClickUp }) => {
     }
   };
   return (
-    <div onClick={handleClick}>
+    <div>
       <li className={styles.friendsInfo}>
         <div className={styles.fulldetails}>
           <div className={styles.details}>
@@ -61,7 +67,8 @@ export const FriendRequestItem = ({ userid, handleClickUp }) => {
                 userWithRequest?.username?.slice(1)}
             </span>
           </div>
-          <button onClick={handleClick}>Accept</button>
+          <button onClick={confirmRequest}>Accept</button>
+          <button onClick={cancelFriendRequest}>cancel</button>
         </div>
       </li>
     </div>
