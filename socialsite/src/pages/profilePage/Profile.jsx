@@ -9,7 +9,7 @@ import { useParams } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { axiosInstance } from "../../proxySettings";
 import {
-  cancelFriendRequest,
+  DeleteFriendRequest,
   confirmFriendRequest,
   openPopupDialog,
 } from "../../utils/generalServices";
@@ -23,7 +23,9 @@ const NOIMAGE = process.env.REACT_APP_NO_IMAGE;
 const Profile = () => {
   const [user, setUser] = useState({});
   const [file, setFile] = useState(null);
+  const [friendRequest, setFriendRequest] = useState([]);
   const [isFriendRequest, setIsFriendRequest] = useState(false);
+
   const [showButton, setShowButton] = useState(false);
   const [buttonText, setButtonText] = useState("");
   const username = useParams().username.toLowerCase();
@@ -43,11 +45,12 @@ const Profile = () => {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const res = await axiosInstance.get(`/users?username=${username}`);
-      const friendrequest = await axiosInstance.get(`/users/friendrequests/${currentUser._id}`);
-      updateButtonText(res.data, friendrequest.data);
-      console.log("check", friendrequest.data);
-      setUser(res.data);
+      const response = await axiosInstance.get(`/users?username=${username}`);
+      const friendRequest = await axiosInstance.get(`/users/friendrequests/${currentUser._id}`);
+      setFriendRequest(friendRequest.data);
+      setUser(response.data);
+
+      updateButtonText(response.data, friendRequest.data);
     };
 
     fetchUser();
@@ -62,14 +65,20 @@ const Profile = () => {
     } else if (recievedRequest?.includes(user._id)) {
       setButtonText("Respond");
     } else {
-      setButtonText("Add Friender");
+      setButtonText("Add Friend");
     }
   };
 
+  const deleteRequest = () => {
+    const isDeleted = DeleteFriendRequest(user._id, currentUser);
+    if (isDeleted) {
+      setButtonText("AddFriend");
+    }
+  };
   const AddToStoryOrUpdateFriendship = () => {
     if (username !== currentUser.username) {
       //send friend request or remove friend
-      updateFriendship();
+      updateFriendship(user, friendRequest);
     } else {
       navigate("/create-story");
     }
@@ -83,19 +92,16 @@ const Profile = () => {
     }
   };
 
-  const updateFriendship = async () => {
+  const updateFriendship = async (user, friendRequests) => {
     try {
-      if (
-        !currentUser?.friendRequest?.includes(user._id) &&
-        !currentUser?.friends?.includes(user._id)
-      ) {
+      if (!friendRequests.includes(user._id) && !user?.friends?.includes(currentUser._id)) {
         const data = { id: currentUser._id };
         const res = await axiosInstance.put("/users/" + user._id + "/request", data);
-
+        // console.log("step one", res.data);
         setButtonText(res.data);
       }
 
-      if (currentUser?.friends?.includes(user._id)) {
+      if (user.friends?.includes(currentUser._id)) {
         const data = { id: currentUser._id };
         const res = await axiosInstance.put("/users/" + user._id + "/unfriend", data);
         console.log("ia in");
@@ -115,8 +121,12 @@ const Profile = () => {
   };
 
   const confirmFriend = () => {
-    confirmFriendRequest(user._id, currentUser, dispatch);
-    cancelFriendRequest(user._id, currentUser, dispatch);
+    const isConfirmed = confirmFriendRequest(user._id, currentUser, dispatch);
+
+    if (isConfirmed) {
+      DeleteFriendRequest(user._id, currentUser, dispatch);
+      setButtonText("Friends");
+    }
   };
   const handleEditButton = () => {
     setShowButton(true);
@@ -214,13 +224,7 @@ const Profile = () => {
                     >
                       Confirm Request
                     </div>
-                    <div
-                      className={styles.deleteButton}
-                      onClick={() => {
-                        cancelFriendRequest(user._id, currentUser, dispatch);
-                      }}
-                    >
-                      {" "}
+                    <div className={styles.deleteButton} onClick={deleteRequest}>
                       Delete Request
                     </div>
                   </div>
