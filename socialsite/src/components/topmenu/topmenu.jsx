@@ -109,14 +109,17 @@ function Topmenu() {
   }, [chats, dispatch, lattestMessage.current.senderId]);
 
   // useEffect(() => {
-  //   if (
-  //     messages.some(
-  //       (message) => message.receiverId !== user._id && !chats?.includes(user)
-  //     )
-  //   ) {
-  //     dispatch({ type: 'CHAT_START', payload: user });
-  //   }
-  // }, [messages, dispatch, user, chats]);
+  //   //update currentuser friend request on every load
+  //   const updateFriendship = async () => {
+  //     const res = await axiosInstance.get(`/users/friendrequests/${user._id}`);
+
+  //     if (JSON.stringify(res.data) !== JSON.stringify(user.friendRequest)) {
+  //       console.log("friendrequest", res.data);
+  //       dispatch({ type: "UPDATE_FRIENDREQUEST", payload: "tolu" });
+  //     }
+  //   };
+  //   updateFriendship();
+  // }, []);
 
   const toggleMessenger = () => {
     if (showFriendRequest) {
@@ -182,7 +185,7 @@ function Topmenu() {
             <span
               className={styles.topmenuIconValue}
               style={{
-                display: user.friendRequest.length > 0 ? "flex" : "none",
+                display: user?.friendRequest?.length > 0 ? "flex" : "none",
               }}
             >
               {user.friendRequest.length}
