@@ -3,6 +3,7 @@ import style from "./sharePopup.module.css";
 import { AuthContext } from "../../context/AuthContext";
 import { axiosInstance } from "../../proxySettings";
 import DisplayData from "../display/DisplayData";
+import { handleFiles } from "../../utils/generalServices";
 
 const PublicFolder = process.env.REACT_APP_PUBLIC_FOLDER;
 const NOIMAGE = process.env.REACT_APP_NO_IMAGE;
@@ -26,6 +27,18 @@ const SharePopup = () => {
       ? ` ${design} ${classNameOptions[numberOfFiles - 1]} `
       : ` ${design} multiple`;
 
+  const handleFileUpload = (event) => {
+    const [fileNames, data, filesArray, errorMessage] = handleFiles(
+      event.target.files,
+      false,
+      checkFileIsValid
+    );
+    setFileNames(fileNames);
+    setUploadFiles(data);
+    setDisplayData(filesArray);
+    setError(errorMessage);
+  };
+
   const uploadMedia = (event) => {
     event.preventDefault();
     event.stopPropagation();
@@ -35,7 +48,15 @@ const SharePopup = () => {
       setDragActive(false);
     }
     if (event.type === "drop") {
-      handleFiles(event.dataTransfer.files, true);
+      const [fileNames, data, filesArray, errorMessage] = handleFiles(
+        event.dataTransfer.files,
+        true,
+        checkFileIsValid
+      );
+      setFileNames(fileNames);
+      setUploadFiles(data);
+      setDisplayData(filesArray);
+      setError(errorMessage);
       setDropActive(true);
     }
   };
@@ -58,6 +79,7 @@ const SharePopup = () => {
 
     try {
       const response = await axiosInstance.post("/upload", uploadFiles);
+      console.log("whywhywhy");
       console.log(response);
     } catch (error) {}
 
@@ -68,23 +90,6 @@ const SharePopup = () => {
     } catch (error) {
       console.log(error);
     }
-  };
-
-  const handleFiles = (files, fromDragnDrop = false) => {
-    console.log(files);
-    if (fromDragnDrop && !checkFileIsValid(files)) setError("file/file(s)  not an image");
-
-    const data = new FormData();
-    const filesArray = Object.values(files);
-    let fileNames = [];
-    filesArray.forEach((file) => {
-      const fileName = Date.now() + file.name;
-      fileNames = [...fileNames, fileName];
-      data.append("files", file, fileName);
-    });
-    setFileNames(fileNames);
-    setUploadFiles(data);
-    setDisplayData(filesArray);
   };
 
   return (
@@ -157,9 +162,7 @@ const SharePopup = () => {
                   accept="image/png, image/gif, image/jpeg,video/mp4"
                   className={style.fileUpload}
                   multiple
-                  onChange={(e) => {
-                    handleFiles(e.target.files);
-                  }}
+                  onChange={handleFileUpload}
                 />
               </div>
             )}
