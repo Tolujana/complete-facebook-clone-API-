@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const UserSchema = new mongoose.Schema(
   {
     username: {
@@ -36,13 +36,17 @@ const UserSchema = new mongoose.Schema(
     },
     profilePicture: {
       type: String,
-      default: '',
+      default: "",
     },
     coverPicture: {
       type: String,
-      default: '',
+      default: "",
     },
     followers: {
+      type: Array,
+      default: [],
+    },
+    friends: {
       type: Array,
       default: [],
     },
@@ -54,8 +58,13 @@ const UserSchema = new mongoose.Schema(
       type: Array,
       default: [],
     },
+
+    sentRequest: {
+      type: Array,
+      default: [],
+    },
     isAdmin: { type: Boolean, required: true, default: false },
   },
   { timestamps: true }
 );
-module.exports = mongoose.model('User', UserSchema);
+module.exports = mongoose.model("User", UserSchema);
