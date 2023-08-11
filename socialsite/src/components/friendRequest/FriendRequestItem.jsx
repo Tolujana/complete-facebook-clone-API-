@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { axiosInstance } from "../../proxySettings";
 import styles from "./FriendRequest.module.css";
-import { cancelFriendRequest, confirmFriendRequest } from "../../utils/generalServices";
+import { DeleteFriendRequest, confirmFriendRequest } from "../../utils/generalServices";
 const Folder = process.env.REACT_APP_PUBLIC_FOLDER;
 const NOIMAGE = process.env.REACT_APP_NO_IMAGE;
 export const FriendRequestItem = ({ userid, handleClickUp }) => {
@@ -19,7 +19,7 @@ export const FriendRequestItem = ({ userid, handleClickUp }) => {
 
   const confirmRequest = () => {
     confirmFriendRequest(userid, user, dispatch);
-    cancelFriendRequest(userid, user, dispatch);
+    DeleteFriendRequest(userid, user, dispatch);
   };
 
   const handleClick = async () => {
@@ -68,7 +68,7 @@ export const FriendRequestItem = ({ userid, handleClickUp }) => {
             </span>
           </div>
           <button onClick={confirmRequest}>Accept</button>
-          <button onClick={cancelFriendRequest}>cancel</button>
+          <button onClick={DeleteFriendRequest}>cancel</button>
         </div>
       </li>
     </div>
