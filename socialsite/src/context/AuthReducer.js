@@ -18,12 +18,16 @@ const AuthReducer = (state, action) => {
         isFetching: false,
         error: action.payload,
       };
-    case "FRIEND_REQUEST":
+    case "UPDATE_FRIEND":
+      return { ...state, user: action.payload };
+
+    case "UPDATE_FRIENDREQUEST":
       return { ...state, user: action.payload };
     case "CHAT_START":
       return { ...state, chats: [...state.chats, action.payload] };
     case "SOCKET":
       return { ...state, socket: action.payload };
+
     case "CHATMESSAGES":
       return { ...state, messages: [...state?.messages, action.payload] };
     case "MODAL_TYPE":

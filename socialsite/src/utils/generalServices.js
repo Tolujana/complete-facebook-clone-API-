@@ -59,9 +59,18 @@ export const confirmFriend = (userId, currentUser, dispatch, setButtonText) => {
 //   setDisplayData(filesArray);
 // };
 
-export const handleFiles = (files, fromDragnDrop = false, checkFile) => {
+const checkFileIsValid = (files) => {
+  const check = !Object.values(files).some((file) => {
+    const { type } = file;
+
+    return !/mp4|jpg|jpeg|gif|png/.test(type);
+  });
+  return check;
+};
+
+export const handleFiles = (files, fromDragnDrop = false) => {
   let errorMessage = "";
-  if (fromDragnDrop && !checkFile(files)) {
+  if (fromDragnDrop && !checkFileIsValid(files)) {
     errorMessage = "file/file(s)  not an image";
   }
 

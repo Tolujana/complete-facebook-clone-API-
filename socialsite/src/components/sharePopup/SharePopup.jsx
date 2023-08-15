@@ -28,11 +28,7 @@ const SharePopup = () => {
       : ` ${design} multiple`;
 
   const handleFileUpload = (event) => {
-    const [fileNames, data, filesArray, errorMessage] = handleFiles(
-      event.target.files,
-      false,
-      checkFileIsValid
-    );
+    const [fileNames, data, filesArray, errorMessage] = handleFiles(event.target.files, false);
     setFileNames(fileNames);
     setUploadFiles(data);
     setDisplayData(filesArray);
@@ -50,8 +46,7 @@ const SharePopup = () => {
     if (event.type === "drop") {
       const [fileNames, data, filesArray, errorMessage] = handleFiles(
         event.dataTransfer.files,
-        true,
-        checkFileIsValid
+        true
       );
       setFileNames(fileNames);
       setUploadFiles(data);
@@ -59,14 +54,6 @@ const SharePopup = () => {
       setError(errorMessage);
       setDropActive(true);
     }
-  };
-  const checkFileIsValid = (files) => {
-    const check = !Object.values(files).some((file) => {
-      const { type } = file;
-
-      return !/mp4|jpg|jpeg|gif|png/.test(type);
-    });
-    return check;
   };
 
   const uploadData = async (data) => {

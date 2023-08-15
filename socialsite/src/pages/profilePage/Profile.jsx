@@ -10,12 +10,15 @@ import { AuthContext } from "../../context/AuthContext";
 import { axiosInstance } from "../../proxySettings";
 import {
   DeleteFriendRequest,
+  confirmFriend,
   confirmFriendRequest,
+  handleFiles,
   openPopupDialog,
 } from "../../utils/generalServices";
 import StoryEditor from "../../components/story/StoryEditor";
 import { useNavigate } from "react-router-dom";
 import FriendRequest from "../../components/friendRequest/FriendRequest";
+import { sendMessage, updateFriendship } from "../../utils/profileServices";
 
 const PF = process.env.REACT_APP_PUBLIC_FOLDER;
 const coverImage = process.env.REACT_APP_NO_COVERIMAGE;
@@ -78,7 +81,7 @@ const Profile = () => {
   const AddToStoryOrUpdateFriendship = () => {
     if (username !== currentUser.username) {
       //send friend request or remove friend
-      updateFriendship(user, friendRequest);
+      updateFriendship(user, friendRequest, currentUser._id, setButtonText);
     } else {
       navigate("/create-story");
     }
@@ -88,75 +91,49 @@ const Profile = () => {
     if (username === currentUser.username) {
       openEditProfileDialog();
     } else {
-      sendMessage();
+      const data = {
+        username: user.username,
+        pic: user.profileImg,
+        _id: user._id,
+      };
+      sendMessage(data, chats, dispatch);
     }
   };
 
-  const updateFriendship = async (user, friendRequests) => {
-    try {
-      if (!friendRequests.includes(user._id) && !user?.friends?.includes(currentUser._id)) {
-        const data = { id: currentUser._id };
-        const res = await axiosInstance.put("/users/" + user._id + "/request", data);
-        // console.log("step one", res.data);
-        setButtonText(res.data);
-      }
-
-      if (user.friends?.includes(currentUser._id)) {
-        const data = { id: currentUser._id };
-        const res = await axiosInstance.put("/users/" + user._id + "/unfriend", data);
-        console.log("ia in");
-        setButtonText("Add Friends");
-      }
-    } catch (err) {}
-  };
-  const sendMessage = async () => {
-    const data = {
-      username: user.username,
-      pic: user.profileImg,
-      _id: user._id,
-    };
-    if (!chats.includes(data)) {
-      dispatch({ type: "CHAT_START", payload: data });
-    }
-  };
-
-  const confirmFriend = () => {
-    const isConfirmed = confirmFriendRequest(user._id, currentUser, dispatch);
-
-    if (isConfirmed) {
-      DeleteFriendRequest(user._id, currentUser, dispatch);
-      setButtonText("Friends");
-    }
-  };
-  const handleEditButton = () => {
-    setShowButton(true);
-  };
-  const handleEditButton_2 = () => {
-    setShowButton(false);
-  };
   const handleFile = async (e) => {
-    setFile(e.target.value[0]);
+    const [fileNames, data, profilepics, errorMessage] = handleFiles(e.target.files[0], false);
 
-    if (file) {
-      const data = new FormData();
-      const fileName = Date.now() + file.name;
-
-      data.append("name", fileName);
-      data.append("file", file);
-      console.log(fileName);
-      user.profileImg = fileName;
-      try {
-        await axiosInstance.post("/upload", data);
-      } catch (error) {}
-
-      try {
-        await axiosInstance.put("/:id/update", { profilePicture: fileName });
-        window.location.reload();
-      } catch (error) {
-        console.log(error);
-      }
+    try {
+      await axiosInstance.put(`/${currentUser._id}/update`, { profilePicture: fileNames });
+      window.location.reload();
+    } catch (error) {
+      console.log(error);
     }
   };
+
+  // const handleFile = async (e) => {
+  //   const fileData = e.target.files[0];
+
+  //   if (fileData) {
+  //     const data = new FormData();
+  //     const fileName = Date.now() + fileData.name;
+  //     console.log("thisis", fileName);
+  //     data.append("name", fileName);
+  //     data.append("file", file);
+
+  //     user.profileImg = fileName;
+  //     try {
+  //       await axiosInstance.post("/upload", data);
+  //     } catch (error) {}
+
+  //     try {
+  //       await axiosInstance.put(`/${currentUser._id}/update`, { profilePicture: fileName });
+  //       window.location.reload();
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   }
+  // };
 
   return (
     <div>
@@ -219,7 +196,7 @@ const Profile = () => {
                     <div
                       className={styles.confirmButton}
                       onClick={() => {
-                        confirmFriend(user._id, currentUser, dispatch);
+                        confirmFriend(user._id, currentUser, dispatch, setButtonText);
                       }}
                     >
                       Confirm Request
