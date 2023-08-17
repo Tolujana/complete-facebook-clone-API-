@@ -103,3 +103,18 @@
   left: 50%;
   transform: translate(-50%, 50%);
 }
+
+.story {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40vw;
+  height: 60vh;
+  padding: 20px;
+  background-color: white;
+}
+.story.image {
+  border-radius: 10px;
+  width: 15vw;
+  margin: 200px;
+}

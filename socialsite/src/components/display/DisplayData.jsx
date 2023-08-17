@@ -15,11 +15,7 @@ const DisplayData = ({ files, cssName }) => {
           return (
             <div className="image">
               <img
-                src={
-                  cssName.includes("post")
-                    ? EXTERNAL_FOLDER + file
-                    : URL.createObjectURL(file)
-                }
+                src={cssName.includes("post") ? EXTERNAL_FOLDER + file : URL.createObjectURL(file)}
                 alt=""
                 className="grid-image"
               />
