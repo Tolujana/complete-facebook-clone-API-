@@ -146,7 +146,7 @@ router.put("/:id/request", async (req, res) => {
   }
 });
 
-// cancel Friend request
+// cancel Friend request by reciever
 
 router.put("/:id/cancelrequest", async (req, res) => {
   if (req.params.id !== req.body.id) {
@@ -206,5 +206,7 @@ router.put("/:id/update", async (req, res) => {
     }
   }
 });
+
+//add story
 
 module.exports = router;
