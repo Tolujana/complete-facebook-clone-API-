@@ -1,13 +1,8 @@
-import style from './FriendRequest.module.css';
-import { VideoCall, MoreVert, Create } from '@mui/icons-material';
+import style from "./FriendRequest.module.css";
+import { FriendRequestItem } from "../friendRequest/FriendRequestItem";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../../context/AuthContext";
 
-import { FriendRequestItem } from '../friendRequest/FriendRequestItem';
-import { useContext, useEffect, useState } from 'react';
-import { AuthContext } from '../../context/AuthContext';
-import axios from 'axios';
-import SingleMessage from '../singlemessage/SingleMessage';
-import { formLabelClasses } from '@mui/material';
-import { axiosInstance } from '../../proxySettings';
 const FriendRequest = ({ show }) => {
   const { user } = useContext(AuthContext);
 

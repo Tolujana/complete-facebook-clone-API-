@@ -22,29 +22,29 @@ export const FriendRequestItem = ({ userid, handleClickUp }) => {
     DeleteFriendRequest(userid, user, dispatch);
   };
 
-  const handleClick = async () => {
-    try {
-      const res = await axiosInstance.put(`users/${userid}/cancelrequest`, {
-        id: user._id,
-      });
-      console.log(res.data);
-      if (res.status === 200) {
-        dispatch({
-          type: "FRIEND_REQUEST",
-          payload: { ...user, friendRequest: res.data },
-        });
+  // const handleClick = async () => {
+  //   try {
+  //     const res = await axiosInstance.put(`users/${userid}/cancelrequest`, {
+  //       id: user._id,
+  //     });
+  //     console.log(res.data);
+  //     if (res.status === 200) {
+  //       dispatch({
+  //         type: "FRIEND_REQUEST",
+  //         payload: { ...user, friendRequest: res.data },
+  //       });
 
-        try {
-          const res = await axiosInstance.put(`users/${userid}/friend`, {
-            userId: user._id,
-          });
-          console.log(res.data);
-        } catch (error) {}
-      }
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
+  //       try {
+  //         const res = await axiosInstance.put(`users/${userid}/friend`, {
+  //           userId: user._id,
+  //         });
+  //         console.log(res.data);
+  //       } catch (error) {}
+  //     }
+  //   } catch (error) {
+  //     console.log(error.message);
+  //   }
+  // };
   return (
     <div>
       <li className={styles.friendsInfo}>
