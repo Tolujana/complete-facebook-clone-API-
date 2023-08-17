@@ -59,7 +59,7 @@ const UserSchema = new mongoose.Schema(
       default: [],
     },
 
-    sentRequest: {
+    story: {
       type: Array,
       default: [],
     },
