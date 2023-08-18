@@ -3,12 +3,12 @@ import style from "./sharePopup.module.css";
 import { AuthContext } from "../../context/AuthContext";
 import { axiosInstance } from "../../proxySettings";
 import DisplayData from "../display/DisplayData";
-import { handleFiles } from "../../utils/generalServices";
+import { handleFiles, processDragNDrop, uploadData } from "../../utils/generalServices";
 
 const PublicFolder = process.env.REACT_APP_PUBLIC_FOLDER;
 const NOIMAGE = process.env.REACT_APP_NO_IMAGE;
 const SharePopup = () => {
-  const { user, dispatch, modalType } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const [isDragActive, setDragActive] = useState(false);
   const [isDropped, setDropActive] = useState(false);
   const [error, setError] = useState("");
@@ -27,56 +27,22 @@ const SharePopup = () => {
       ? ` ${design} ${classNameOptions[numberOfFiles - 1]} `
       : ` ${design} multiple`;
 
+  const newPost = {
+    userId: user._id,
+    desc: userInput?.current?.value,
+    files: fileNames,
+    cssName: `post ${designPattern}`,
+  };
+
   const handleFileUpload = (event) => {
-    const [fileNames, data, filesArray, errorMessage] = handleFiles(event.target.files, false);
+    const dropActive = event.type === "drop" ? true : false;
+    const files = dropActive ? event.dataTransfer.files : event.target.files;
+    const [fileNames, data, filesArray, errorMessage] = handleFiles(files, dropActive);
+    console.log(event);
     setFileNames(fileNames);
     setUploadFiles(data);
     setDisplayData(filesArray);
     setError(errorMessage);
-  };
-
-  const uploadMedia = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    if (event.type === "dragenter" || event.type === "dragover") {
-      setDragActive(true);
-    } else {
-      setDragActive(false);
-    }
-    if (event.type === "drop") {
-      const [fileNames, data, filesArray, errorMessage] = handleFiles(
-        event.dataTransfer.files,
-        true
-      );
-      setFileNames(fileNames);
-      setUploadFiles(data);
-      setDisplayData(filesArray);
-      setError(errorMessage);
-      setDropActive(true);
-    }
-  };
-
-  const uploadData = async (data) => {
-    const newPost = {
-      userId: user._id,
-      desc: userInput.current.value,
-      files: fileNames,
-      cssName: `post ${designPattern}`,
-    };
-
-    try {
-      const response = await axiosInstance.post("/upload", uploadFiles);
-      console.log("whywhywhy");
-      console.log(response);
-    } catch (error) {}
-
-    try {
-      const res = await axiosInstance.post("/posts", newPost);
-
-      window.location.reload();
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   return (
@@ -121,10 +87,18 @@ const SharePopup = () => {
             {isDragActive && (
               <div
                 className={style.dragElement}
-                onDragEnter={uploadMedia}
-                onDrop={uploadMedia}
-                onDragOver={uploadMedia}
-                onDragLeave={uploadMedia}
+                onDragEnter={(e) => {
+                  processDragNDrop(e, setDragActive, handleFileUpload);
+                }}
+                onDrop={(e) => {
+                  processDragNDrop(e, setDragActive, handleFileUpload);
+                }}
+                onDragOver={(e) => {
+                  processDragNDrop(e, setDragActive, handleFileUpload);
+                }}
+                onDragLeave={(e) => {
+                  processDragNDrop(e, setDragActive, handleFileUpload);
+                }}
               ></div>
             )}
             {(isDropped || numberOfFiles > 0) && (
@@ -135,7 +109,9 @@ const SharePopup = () => {
             {!isDropped && (
               <div
                 className={`${style.drag} ${isDragActive ? style.white : ""}`}
-                onDragEnter={uploadMedia}
+                onDragEnter={(e) => {
+                  processDragNDrop(e, setDragActive, handleFileUpload);
+                }}
               >
                 {numberOfFiles == 0 && (
                   <label className={style.label} htmlFor="fileInput">
@@ -156,7 +132,12 @@ const SharePopup = () => {
           </div>
         </div>
         <div className={style.actionButtons}></div>
-        <button className={style.post} onClick={uploadData}>
+        <button
+          className={style.post}
+          onClick={(e) => {
+            uploadData("posts", uploadFiles, newPost);
+          }}
+        >
           {" "}
           Post{" "}
         </button>
