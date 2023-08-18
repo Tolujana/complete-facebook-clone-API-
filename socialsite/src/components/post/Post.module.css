@@ -141,6 +141,7 @@
   width: 95%;
   margin-left: 10px;
   background-color: var(--color-secondary);
+  overflow: hidden;
 }
 .usersText {
   margin: 0 8px;
