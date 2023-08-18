@@ -1,12 +1,13 @@
 .storyEditor {
   width: 100%;
-  height: 100vh;
+  height: 90vh;
 
   display: flex;
 }
 .leftmenu {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   flex: 1;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 0px 8px 0px;
 }
@@ -18,12 +19,18 @@
 }
 .maincontent {
   display: flex;
-  flex: 4;
+  height: 80%;
 }
 .profileImage {
   border-radius: 50%;
   width: 50px;
   background: green;
+}
+.outerContainer {
+  flex: 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .uploadimage,
@@ -51,9 +58,72 @@
   background: linear-gradient(196deg, rgb(161, 69, 203), rgb(210, 78, 135));
 }
 
+.uploadimage > div {
+  background-color: inherit;
+  border: none;
+}
 .maincontent {
   display: flex;
   align-items: center;
   gap: 20px;
   justify-content: center;
+}
+.label {
+  width: 100%;
+  height: 100%;
+}
+.story {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 75%;
+  height: 85%;
+  padding: 20px;
+  padding-top: 40px;
+  border-radius: 6px;
+  background-color: white;
+}
+
+.storyImageContainer {
+  border-radius: 6px;
+  height: 100%;
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: black;
+}
+.storyImage {
+  border-radius: 4px;
+  object-fit: cover;
+  width: 30%;
+  height: 95%;
+  border: solid 0.5px white;
+}
+
+.innerContainer {
+  background: white;
+  height: 100%;
+  display: flex;
+}
+.createStory {
+  display: flex;
+  gap: 0.3rem;
+}
+.createStory > button {
+  padding: 5px 15px;
+  border-radius: 4px;
+  min-width: 40%;
+  cursor: pointer;
+  border-color: grey;
+  background-color: grey;
+}
+
+.discard {
+  background-color: var(--color-lightgrey);
+}
+.shareStory {
+  background-color: var(--color-primary);
 }
