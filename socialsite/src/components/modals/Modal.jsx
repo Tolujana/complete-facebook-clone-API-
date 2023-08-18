@@ -5,6 +5,7 @@ import CommentPopup from "../commentPopup/CommentPopup";
 import CloseIcon from "@mui/icons-material/Close";
 import { AuthContext } from "../../context/AuthContext";
 import { openPopupDialog } from "../../utils/generalServices";
+import DisplayData from "../display/DisplayData";
 
 const Modal = ({ payload }) => {
   const { dispatch } = useContext(AuthContext);
@@ -22,6 +23,13 @@ const Modal = ({ payload }) => {
         return (
           <CommentPopup post={payload.post} user={payload.user} commentList={payload.commentList} />
         );
+      case "story":
+        return (
+          <div className={styles.story}>
+            <DisplayData files={payload.data} cssName={"story"} />
+          </div>
+        );
+
       default:
         return "";
     }
@@ -45,20 +53,6 @@ const Modal = ({ payload }) => {
       )}
     </>
   );
-
-  // return type === "register" ? (
-  //   <div className={styles.fullScreenModal}></div>
-  // ) : type === "share" ? (
-  //   <div className={styles.fullScreenModal}>
-  //     <SharePopup />
-  //   </div>
-  // ) : type === "comment" ? (
-  //   <div className={styles.fullScreenModal}>
-  //     <CommentPopup />
-  //   </div>
-  // ) : (
-  //   ""
-  // );
 };
 
 export default Modal;
