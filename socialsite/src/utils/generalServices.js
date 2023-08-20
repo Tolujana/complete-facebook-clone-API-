@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import { axiosInstance } from "../proxySettings";
 
 export const openPopupDialog = (action, dispatch) => {
@@ -19,13 +21,17 @@ export const confirmFriendRequest = async (userId, currentUser, dispatch) => {
   } catch (error) {}
 };
 
-export const DeleteFriendRequest = async (userId, currentUser) => {
+export const DeleteFriendRequest = async (userId, currentUser, dispatch) => {
   try {
     const res = await axiosInstance.put(`users/${userId}/cancelrequest`, {
       id: currentUser._id,
     });
 
     if (res.status === 200) {
+      dispatch({
+        type: "UPDATE_FRIENDREQUEST",
+        payload: { ...currentUser, friendRequest: res.data },
+      });
       return true;
     }
   } catch (error) {
@@ -33,7 +39,7 @@ export const DeleteFriendRequest = async (userId, currentUser) => {
   }
 };
 
-export const confirmFriend = (userId, currentUser, dispatch, setButtonText) => {
+export const confirmFriend = (userId, currentUser, dispatch, setButtonText = null) => {
   const isConfirmed = confirmFriendRequest(userId, currentUser, dispatch);
 
   if (isConfirmed) {
@@ -42,22 +48,19 @@ export const confirmFriend = (userId, currentUser, dispatch, setButtonText) => {
   }
 };
 
-// export const handleFiless = (files, fromDragnDrop = false) => {
-//   console.log(files);
-//   if (fromDragnDrop && !checkFileIsValid(files)) setError("file/file(s)  not an image");
+export const uploadData = async (uri, uploadFiles, newPost = "") => {
+  try {
+    const response = await axiosInstance.post("/upload", uploadFiles);
+  } catch (error) {}
 
-//   const data = new FormData();
-//   const filesArray = Object.values(files);
-//   let fileNames = [];
-//   filesArray.forEach((file) => {
-//     const fileName = Date.now() + file.name;
-//     fileNames = [...fileNames, fileName];
-//     data.append("files", file, fileName);
-//   });
-//   setFileNames(fileNames);
-//   setUploadFiles(data);
-//   setDisplayData(filesArray);
-// };
+  try {
+    const res = await axiosInstance.post(`/${uri}`, newPost);
+
+    window.location.reload();
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 const checkFileIsValid = (files) => {
   const check = !Object.values(files).some((file) => {
@@ -84,4 +87,30 @@ export const handleFiles = (files, fromDragnDrop = false) => {
   });
 
   return [fileNames, data, filesArray, errorMessage];
+};
+
+export const processDragNDrop = (event, setDragActive, handleFileUpload = null) => {
+  event.preventDefault();
+  event.stopPropagation();
+  if (event.type === "dragenter" || event.type === "dragover") {
+    setDragActive(true);
+  } else {
+    setDragActive(false);
+  }
+  if (event.type === "drop") {
+    handleFileUpload(event, true);
+  }
+};
+
+const formeruploadmediat = (event, setDragActive, handleFileUpload) => {
+  event.preventDefault();
+  event.stopPropagation();
+  if (event.type === "dragenter" || event.type === "dragover") {
+    setDragActive(true);
+  } else {
+    setDragActive(false);
+  }
+  if (event.type === "drop") {
+    handleFileUpload(event);
+  }
 };
