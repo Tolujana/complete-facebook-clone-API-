@@ -38,11 +38,11 @@ const StoryEditor = () => {
               <button className={styles.discard}>Discard</button>
               <button
                 onclick={(e) => {
-                  uploadData("story", uploadData);
+                  uploadData("user/story", uploadData, newStory);
                 }}
                 className={styles.shareStory}
               >
-                Share to Story{" "}
+                Share to Story
               </button>
             </div>
           )}
