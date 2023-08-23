@@ -146,6 +146,33 @@ router.put("/:id/request", async (req, res) => {
   }
 });
 
+//updated friendRequest
+router.put("/:id/requests", async (req, res) => {
+  if (req.params.id !== req.body.id) {
+    try {
+      const user = await User.findById(req.body.id);
+      const currentUser = await User.findById(req.params.id);
+
+      const hasUserId = currentUser.friendRequest.some((request) => request.id === req.body.id);
+      if (!hasUserId) {
+        await currentUser.updateOne({
+          $push: { friendRequest: req.body },
+        });
+        res.status(200).json("Cancel Request");
+        // await currentUser.updateOne({
+        //   $push: { sentRequest: req.params.id },
+        // });
+      } else {
+        await currentUser.updateOne({ $pull: { friendRequest: req.body } });
+        res.status(200).json("Add friend");
+      }
+    } catch (err) {
+      res.status(500).json(err.message);
+    }
+  } else {
+    res.status(403).json("you cannot friend yoursel");
+  }
+});
 // cancel Friend request by reciever
 
 router.put("/:id/cancelrequest", async (req, res) => {
@@ -186,6 +213,7 @@ router.delete("/:id", async (req, res) => {
 });
 
 //update user
+
 router.put("/:id/update", async (req, res) => {
   if (req.params.id === req.body.id || req.body.isAdmin) {
     if (req.body.password) {
@@ -201,12 +229,60 @@ router.put("/:id/update", async (req, res) => {
         $set: req.body,
       });
       res.status(200).json(user);
+      console.log("test");
     } catch (e) {
       console.error(e.message);
     }
   }
 });
 
+//update profile picture
+
+router.put("/:id/updatepics", async (req, res) => {
+  try {
+    const currentUser = await User.findById(req.params.id);
+
+    await currentUser.updateOne({
+      $set: { profilePicture: req.body.profilePicture },
+    });
+    res.status(200).json("profile updated");
+  } catch (err) {
+    res.status(500).json(err.message);
+  }
+});
+
+{
+  $set: {
+    stringValue: "New Value";
+  }
+}
+
 //add story
+
+router.put("/:id/story", async (req, res) => {
+  if (req.params.id !== req.body.id) {
+    try {
+      const currentUser = await User.findById(req.body.id);
+      const user = await User.findById(req.params.id);
+      if (!user.friendRequest.includes(req.body.id)) {
+        await user.updateOne({
+          $push: { friendRequest: req.body.id },
+        });
+        res.status(200).json("Cancel Request");
+        // await currentUser.updateOne({
+        //   $push: { sentRequest: req.params.id },
+        // });
+      } else {
+        await user.updateOne({ $pull: { friendRequest: req.body.id } });
+        res.status(200).json("Add friend");
+        await currentUser.updateOne({ $pull: { sentRequest: req.params.id } });
+      }
+    } catch (err) {
+      res.status(500).json(err.message);
+    }
+  } else {
+    res.status(403).json("you cannot friend yoursel");
+  }
+});
 
 module.exports = router;
