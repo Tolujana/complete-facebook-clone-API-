@@ -14,13 +14,15 @@ import {
   confirmFriendRequest,
   handleFiles,
   openPopupDialog,
+  uploadData,
+  uploadtoServer,
 } from "../../utils/generalServices";
 import StoryEditor from "../../components/story/StoryEditor";
 import { useNavigate } from "react-router-dom";
 import FriendRequest from "../../components/friendRequest/FriendRequest";
-import { sendMessage, updateFriendship } from "../../utils/profileServices";
+import { hasFriendRequest, sendMessage, updateFriendship } from "../../utils/profileServices";
 
-const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+const PUBLIC_UPLOAD_FOLDER = process.env.REACT_APP_EXTERNAL_FOLDER;
 const coverImage = process.env.REACT_APP_NO_COVERIMAGE;
 const NOIMAGE = process.env.REACT_APP_NO_IMAGE;
 const Profile = () => {
@@ -60,7 +62,9 @@ const Profile = () => {
   }, []);
 
   const updateButtonText = (user, recievedRequest) => {
-    if (user?.friendRequest?.includes(currentUser._id)) {
+    const hasSentRequest = hasFriendRequest(user.friendRequest, currentUser._id);
+
+    if (hasSentRequest) {
       setButtonText("Cancel Request");
       setIsFriendRequest(true);
     } else if (user?.friends?.includes(currentUser._id)) {
@@ -100,15 +104,10 @@ const Profile = () => {
     }
   };
 
-  const handleFile = async (e) => {
-    const [fileNames, data, profilepics, errorMessage] = handleFiles(e.target.files[0], false);
+  const updateProfilePic = (e) => {
+    const [fileNames, data, filesArray, errorMessage] = handleFiles(e.target.files);
 
-    try {
-      await axiosInstance.put(`/${currentUser._id}/update`, { profilePicture: fileNames });
-      window.location.reload();
-    } catch (error) {
-      console.log(error);
-    }
+    uploadtoServer(`/users/${currentUser._id}/updatepics`, data, { profilePicture: fileNames[0] });
   };
 
   // const handleFile = async (e) => {
@@ -143,7 +142,11 @@ const Profile = () => {
           <div className={styles.profileRightTop}>
             <div className={styles.profileCover}>
               <img
-                src={!user.coverPicture ? PF + coverImage : PF + "/" + user.coverPicture}
+                src={
+                  !user.coverPicture
+                    ? PUBLIC_UPLOAD_FOLDER + coverImage
+                    : PUBLIC_UPLOAD_FOLDER + "/" + user.coverPicture
+                }
                 alt=""
                 className={styles.profileCoverImg}
               />
@@ -152,16 +155,22 @@ const Profile = () => {
               <div className={styles.profileInfos}>
                 <div className={styles.imaged}>
                   <img
-                    src={!user.profilePicture ? NOIMAGE : PF + "/" + user.profilePicture}
+                    src={
+                      user.profilePicture
+                        ? PUBLIC_UPLOAD_FOLDER + "/" + user.profilePicture
+                        : NOIMAGE
+                    }
                     alt=""
                     className={styles.profileImg}
                   />
-                  <label htmlFor="file">
-                    <div className={styles.editbutton} style={{ display: "block" }}>
-                      Edit
-                    </div>
-                  </label>
-                  <input hidden onChange={handleFile} type="file" name="upload" id="file" />
+                  {user._id === currentUser._id && (
+                    <label htmlFor="file">
+                      <div className={styles.editbutton} style={{ display: "block" }}>
+                        Edit
+                      </div>
+                    </label>
+                  )}
+                  <input hidden onChange={updateProfilePic} type="file" name="upload" id="file" />
                 </div>
                 <div className={styles.profileInfo}>
                   <span className={styles.profileName}>
