@@ -1,7 +1,9 @@
 import { useState } from "react";
 
 import { axiosInstance } from "../proxySettings";
+import axios from "axios";
 
+const baseURL = "http://localhost:8800/api";
 export const openPopupDialog = (action, dispatch) => {
   dispatch(action);
 };
@@ -51,10 +53,29 @@ export const confirmFriend = (userId, currentUser, dispatch, setButtonText = nul
 export const uploadData = async (uri, uploadFiles, newPost = "") => {
   try {
     const response = await axiosInstance.post("/upload", uploadFiles);
+    console.log(response);
   } catch (error) {}
 
   try {
-    const res = await axiosInstance.post(`/${uri}`, newPost);
+    const res = await axiosInstance.post(`${uri}`, newPost);
+
+    window.location.reload();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const uploadtoServer = async (uri, uploadFiles, newPost = "", method = "put") => {
+  const url = baseURL + uri;
+  let response;
+  try {
+    response = await axiosInstance.post("/upload", uploadFiles);
+  } catch (error) {}
+
+  try {
+    if (response.status === 200) {
+      const res = makeAPIRequest(url, method, newPost);
+    }
 
     window.location.reload();
   } catch (error) {
@@ -113,4 +134,19 @@ const formeruploadmediat = (event, setDragActive, handleFileUpload) => {
   if (event.type === "drop") {
     handleFileUpload(event);
   }
+};
+const makeAPIRequest = async (url, method, data) => {
+  const config = {
+    method: method,
+    url: url,
+    data: data,
+  };
+
+  return axios(config)
+    .then((response) => {
+      console.log("Response:", response.data);
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
 };
