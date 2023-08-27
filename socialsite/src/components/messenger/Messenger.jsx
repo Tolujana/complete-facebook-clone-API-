@@ -1,16 +1,16 @@
-import style from './Messenger.module.css';
-import { VideoCall, MoreVert, Create } from '@mui/icons-material';
+import style from "./Messenger.module.css";
+import { VideoCall, MoreVert, Create } from "@mui/icons-material";
 
-import { FriendsOnline } from '../friends/FriendsOnline';
-import { useContext, useEffect, useState } from 'react';
-import { AuthContext } from '../../context/AuthContext';
-import axios from 'axios';
-import SingleMessage from '../singlemessage/SingleMessage';
-import { formLabelClasses } from '@mui/material';
-import { axiosInstance } from '../../proxySettings';
+import { FriendsOnline } from "../friends/FriendsOnline";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../../context/AuthContext";
+import axios from "axios";
+import SingleMessage from "../singlemessage/SingleMessage";
+import { formLabelClasses } from "@mui/material";
+import { axiosInstance } from "../../proxySettings";
 const Messenger = ({ show }) => {
   const { user, chats, dispatch } = useContext(AuthContext);
-  const PF = process.env.REACT_APP_EXTERNAL_FOLDER;
+  const PF = process.env.REACT_APP_IMAGES_FOLDER;
 
   const [friends, setFriends] = useState([]);
   //const [chats, setChat] = useState([]);
@@ -28,7 +28,7 @@ const Messenger = ({ show }) => {
   useEffect(() => {
     const fetchFriends = async () => {
       try {
-        const res = await axiosInstance.get('/users/friend/' + user._id);
+        const res = await axiosInstance.get("/users/friend/" + user._id);
         setFriends(res.data);
         console.log(res.data);
       } catch (error) {
@@ -51,12 +51,7 @@ const Messenger = ({ show }) => {
 
         <ul className={style.friendsList}>
           {friends?.map((u, id) => (
-            <FriendsOnline
-              key={id}
-              user={u}
-              value={u}
-              className={style.friendsOnline}
-            />
+            <FriendsOnline key={id} user={u} value={u} className={style.friendsOnline} />
           ))}
         </ul>
       </div>
@@ -75,8 +70,8 @@ const Messenger = ({ show }) => {
               className={style.remainingChat}
               key={u._id}
               style={{
-                backgroundSize: 'contain',
-                backgroundImage: `url(${PF + '/' + u.profilePicture})`,
+                backgroundSize: "contain",
+                backgroundImage: `url(${PF + "/" + u.profilePicture})`,
               }}
             >
               {u.username?.charAt(0).toUpperCase() + u.username?.slice(1)}

@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styles from "./CloseFriends.module.css";
-const PF = process.env.REACT_APP_EXTERNAL_FOLDER;
+const PF = process.env.REACT_APP_IMAGES_FOLDER;
 const NOIMAGE = process.env.REACT_APP_NO_IMAGE;
 
 const CloseFriends = ({ user }) => {

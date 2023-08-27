@@ -13,8 +13,8 @@ import { axiosInstance } from "../../proxySettings";
 import DisplayData from "../display/DisplayData";
 import { openPopupDialog } from "../../utils/generalServices";
 
-const PUBLIC_FOLDER = process.env.REACT_APP_EXTERNAL_FOLDER;
-const EXTERNAL_FOLDER = process.env.REACT_APP_EXTERNAL_FOLDER;
+const PUBLIC_FOLDER = process.env.REACT_APP_IMAGES_FOLDER;
+const EXTERNAL_FOLDER = process.env.REACT_APP_IMAGES_FOLDER;
 const NOIMAGE = process.env.REACT_APP_NO_IMAGE;
 const ShowComments = ({ userComment }) => {
   const { user, userImage, comment, replies } = userComment;

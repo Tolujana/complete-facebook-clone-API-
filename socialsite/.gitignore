@@ -1,0 +1,10 @@
+node_modules
+socialz
+social
+socialsite/node_modules
+socialsite/nodemodule
+socialsite/Social*
+*.log
+.env
+.eslint*
+.pret*

@@ -22,7 +22,7 @@ import { useNavigate } from "react-router-dom";
 import FriendRequest from "../../components/friendRequest/FriendRequest";
 import { hasFriendRequest, sendMessage, updateFriendship } from "../../utils/profileServices";
 
-const PUBLIC_UPLOAD_FOLDER = process.env.REACT_APP_EXTERNAL_FOLDER;
+const PUBLIC_UPLOAD_FOLDER = process.env.REACT_APP_IMAGES_FOLDER;
 const coverImage = process.env.REACT_APP_NO_COVERIMAGE;
 const NOIMAGE = process.env.REACT_APP_NO_IMAGE;
 const Profile = () => {
