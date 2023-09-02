@@ -17,15 +17,12 @@ const postRoute = require("./route/posts");
 const path = require("path");
 const io = require("socket.io")(http, {
   cors: {
-    origin: "https://facebook-clone-apizz.onrender.com/",
-    origin: "http://localhost:3000",
-    // origin: "*",
-    methods: ["GET", "POST"],
+    origin: "*",
+
+    methods: ["GET", "POST", "PUT"],
   },
 });
 dotenv.config();
-
-const tolu = "mongodb://127.0.0.1:27017/socialnetwork";
 
 mongoose.connect(process.env.MONGO_DB, (err) => {
   if (err) console.log(err);
