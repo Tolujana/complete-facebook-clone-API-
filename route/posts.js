@@ -91,17 +91,16 @@ router.get("/timeline/:id", async (req, res) => {
     const userPost = await Post.find({ userId: currentUser._id })
       .sort({ updatedAt: -1 })
       .skip(offset)
-      .limit(3);
+      .limit(2);
 
     const dateOfLastPost = userPost.at(-1).updatedAt;
-
+    console.log(dateOfLastPost, "date");
     const friendPost = await Promise.all(
-      currentUser.following.map((friendId) => {
-        return Post.find({ userId: friendId })
-          .where("updatedAt")
-          .gte(dateOfLastPost);
+      currentUser?.following.map((friendId) => {
+        return Post.find({ userId: friendId }).where("updatedAt").gte(dateOfLastPost);
       })
     );
+    console.log(friendPost, "friendthings");
 
     res.json(userPost.concat(...friendPost));
   } catch (error) {}
@@ -122,6 +121,7 @@ router.get("/profile/:username", async (req, res) => {
     // res.json(userPost);
   } catch (error) {}
 });
+
 //get a post
 router.get("/:id", async (req, res) => {
   try {
