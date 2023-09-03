@@ -82,7 +82,30 @@ router.put("/:id/comment", async (req, res) => {
   }
 });
 
-//get timeline post
+// friends post
+
+router.get("/timelinepost/:id", async (req, res) => {
+  let postArray = [];
+  const offset = req.query.offset;
+  try {
+    const currentUser = await User.findById(req.params.id);
+    const { following, friends, _id } = currentUser;
+
+    const postUserId = [...friends, _id];
+
+    const AllPost = await Promise.all(
+      postUserId.map((Id) => {
+        return Post.find({ userId: Id }).sort({ updatedAt: -1 }).skip(offset).limit(3);
+      })
+    );
+
+    res.json(AllPost);
+  } catch (error) {
+    res.status(500).json("errror occured loading timeline post");
+  }
+});
+
+//get timeline post (user post and friends post )
 router.get("/timeline/:id", async (req, res) => {
   let postArray = [];
   const offset = req.query.offset;
@@ -94,16 +117,17 @@ router.get("/timeline/:id", async (req, res) => {
       .limit(2);
 
     const dateOfLastPost = userPost.at(-1).updatedAt;
-    console.log(dateOfLastPost, "date");
+
     const friendPost = await Promise.all(
-      currentUser?.following.map((friendId) => {
+      currentUser?.friends.map((friendId) => {
         return Post.find({ userId: friendId }).where("updatedAt").gte(dateOfLastPost);
       })
     );
-    console.log(friendPost, "friendthings");
 
     res.json(userPost.concat(...friendPost));
-  } catch (error) {}
+  } catch (error) {
+    res.status(500).json("error occured loading post");
+  }
 });
 
 //get user post
