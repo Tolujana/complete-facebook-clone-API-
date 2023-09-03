@@ -93,13 +93,17 @@ router.get("/timelinepost/:id", async (req, res) => {
 
     const postUserId = [...friends, _id];
 
-    const AllPost = await Promise.all(
+    const allPost = await Promise.all(
       postUserId.map((Id) => {
-        return Post.find({ userId: Id }).sort({ updatedAt: -1 }).skip(offset).limit(3);
+        return Post.find({ userId: Id }).sort({ updatedAt: -1 }).limit(3);
       })
     );
 
-    res.json(AllPost);
+    const finalUserPost = allPost.reduce((acc, post) => {
+      return [...acc, ...post];
+    }, []);
+
+    res.json(finalUserPost);
   } catch (error) {
     res.status(500).json("errror occured loading timeline post");
   }
