@@ -6,7 +6,7 @@
   "scripts": {
     "heroku-postbuild": "cd socialsite && npm install && npm run build",
     "start": "nodemon index.js",
-    "build": "npm install && npm run build"
+    "build": "npm install"
   },
   "author": "",
   "license": "ISC",
