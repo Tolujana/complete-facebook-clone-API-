@@ -259,29 +259,19 @@ router.put("/:id/updatepics", async (req, res) => {
 
 //add story
 
-router.put("/:id/story", async (req, res) => {
-  if (req.params.id !== req.body.id) {
-    try {
-      const currentUser = await User.findById(req.body.id);
-      const user = await User.findById(req.params.id);
-      if (!user.friendRequest.includes(req.body.id)) {
-        await user.updateOne({
-          $push: { friendRequest: req.body.id },
-        });
-        res.status(200).json("Cancel Request");
-        // await currentUser.updateOne({
-        //   $push: { sentRequest: req.params.id },
-        // });
-      } else {
-        await user.updateOne({ $pull: { friendRequest: req.body.id } });
-        res.status(200).json("Add friend");
-        await currentUser.updateOne({ $pull: { sentRequest: req.params.id } });
-      }
-    } catch (err) {
-      res.status(500).json(err.message);
-    }
-  } else {
-    res.status(403).json("you cannot friend yoursel");
+router.put("/story", async (req, res) => {
+  try {
+    const currentUser = await User.findById(req.body.userId);
+
+    await currentUser.updateOne({
+      $push: { story: req.body.file },
+    });
+    res.status(200).json("story  uploaded");
+    // await currentUser.updateOne({
+    //   $push: { sentRequest: req.params.id },
+    // });
+  } catch (err) {
+    res.status(500).json(err.message);
   }
 });
 
