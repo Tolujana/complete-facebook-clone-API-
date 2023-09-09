@@ -1,19 +1,5 @@
 const mongoose = require("mongoose");
 
-const IdSchema = new mongoose.Schema();
-
-// const FriendRequestSchema = new mongoose.Schema({
-//   profilePicture:String {
-//     type: String,
-//     default: "",
-//   },
-//   username: {
-//     type: String,
-//     default: "",
-//   },
-//   id: { type: String, default: "" },
-// });
-
 const UserSchema = new mongoose.Schema(
   {
     username: {
