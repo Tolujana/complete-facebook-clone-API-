@@ -14,6 +14,7 @@ const conversationRoute = require("./route/conversation");
 const messageRoute = require("./route/message");
 const authRoute = require("./route/auth");
 const postRoute = require("./route/posts");
+
 const path = require("path");
 const io = require("socket.io")(http, {
   cors: {
@@ -65,6 +66,7 @@ app.use("/api/users", userRoute);
 app.use("/api/posts", postRoute);
 app.use("/api/conversation", conversationRoute);
 app.use("/api/message", messageRoute);
+
 app.use(express.static(path.join(__dirname, "/socialsite/build")));
 let users = [];
 
