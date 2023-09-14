@@ -275,4 +275,30 @@ router.put("/story", async (req, res) => {
   }
 });
 
+//get story
+
+router.get("/story/:id", async (req, res) => {
+  const offset = req.query.offset;
+  try {
+    const currentUser = await User.findById(req.params.id);
+
+    const friends = currentUser.friends;
+
+    const friendstory = await Promise.all(
+      friends.map((friend) => {
+        const user = User.findById(friend);
+
+        return user.story;
+      })
+    );
+
+    res.status(200).json(friendstory);
+    // await currentUser.updateOne({
+    //   $push: { sentRequest: req.params.id },
+    // });
+  } catch (err) {
+    res.status(500).json(err.message);
+  }
+});
+
 module.exports = router;

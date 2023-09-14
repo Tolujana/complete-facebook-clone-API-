@@ -164,7 +164,7 @@ const Post = ({ post, commentList }) => {
             {post.files ? (
               <DisplayData files={post.files} cssName={post?.cssName} />
             ) : (
-              <img src={EXTERNAL_FOLDER + post.img} alt="" className={styles.postContentImg} />
+              <img src={post.img} alt="" className={styles.postContentImg} />
             )}
           </div>
         </div>

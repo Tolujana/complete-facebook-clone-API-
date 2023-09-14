@@ -95,7 +95,7 @@ router.get("/timelinepost/:id", async (req, res) => {
 
     const allPost = await Promise.all(
       postUserId.map((Id) => {
-        return Post.find({ userId: Id }).sort({ updatedAt: -1 }).limit(3);
+        return Post.find({ userId: Id }).sort({ updatedAt: -1 }).skip(offset).limit(2);
       })
     );
 
