@@ -84,7 +84,7 @@ router.put("/:id/comment", async (req, res) => {
 
 // friends post
 
-router.get("/timelinepost/:id", async (req, res) => {
+router.get("/timeline/:id", async (req, res) => {
   let postArray = [];
   const offset = req.query.offset;
   try {
@@ -93,24 +93,19 @@ router.get("/timelinepost/:id", async (req, res) => {
 
     const postUserId = [...friends, _id];
 
-    const allPost = await Promise.all(
-      postUserId.map((Id) => {
-        return Post.find({ userId: Id }).sort({ updatedAt: -1 }).skip(offset).limit(2);
-      })
-    );
+    const posts = await Post.find({ userId: { $in: postUserId } })
+      .sort({ updatedAt: -1 })
+      .skip(offset)
+      .limit(4);
 
-    const finalUserPost = allPost.reduce((acc, post) => {
-      return [...acc, ...post];
-    }, []);
-
-    res.json(finalUserPost);
+    res.json(posts);
   } catch (error) {
     res.status(500).json("errror occured loading timeline post");
   }
 });
 
 //get timeline post (user post and friends post )
-router.get("/timeline/:id", async (req, res) => {
+router.get("/timelinepost/:id", async (req, res) => {
   let postArray = [];
   const offset = req.query.offset;
   try {
