@@ -279,16 +279,21 @@ router.put("/story", async (req, res) => {
 
 router.get("/story/:id", async (req, res) => {
   const offset = req.query.offset;
+  //const friend= req.body
   try {
     const currentUser = await User.findById(req.params.id);
 
-    const friends = currentUser.friends;
+    const friendsId = currentUser.friends;
+
+    const friends = await Promise.all(
+      friendsId.map((friend) => {
+        return (user = User.findById(friend));
+      })
+    );
 
     const friendstory = await Promise.all(
       friends.map((friend) => {
-        const user = User.findById(friend);
-
-        return user.story;
+        return friend.story;
       })
     );
 
