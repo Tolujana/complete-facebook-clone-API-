@@ -8,7 +8,6 @@ router.post("/", async (req, res) => {
   try {
     const savedPost = await newPost.save();
     res.status(200).json(savedPost);
-    console.log(res);
   } catch (error) {}
 });
 
@@ -65,20 +64,18 @@ router.put("/:id/comment", async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
 
+    const comment = req.body.comment;
+    //const comment = JSON.parse(req.body.comment);
+
     await post.updateOne({
       $push: {
-        comment: {
-          userId: req.body.userId,
-          comment: req.body.comment,
-          replies: [],
-          userImage: req.body.userImage,
-        },
+        comment: { $each: comment },
       },
     });
-    console.log(req.body.comment);
+
     res.status(200).json("post commented");
   } catch (error) {
-    res.status(403).json(error);
+    res.status(403).json(error.message);
   }
 });
 
