@@ -2,6 +2,7 @@ const router = require("express").Router();
 const bcryptjs = require("bcryptjs");
 const { findById } = require("../models/User");
 const User = require("../models/User");
+const Post = require("../models/Post");
 
 //get a user
 router.get("/", async (req, res) => {
@@ -9,7 +10,7 @@ router.get("/", async (req, res) => {
   const userId = req.query.userId;
   try {
     const user = userId ? await User.findById(userId) : await User.findOne({ username: username });
-    // console.log(user);
+
     const { password, updatedAt, ...others } = user._doc;
     res.status(200).json(others);
   } catch (err) {
@@ -23,7 +24,7 @@ router.get("/friend/:id", async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
     const friends = await Promise.all(
-      user.following.map((friend) => {
+      user.friends.map((friend) => {
         return User.findById(friend);
       })
     );
@@ -34,9 +35,7 @@ router.get("/friend/:id", async (req, res) => {
       friendList.push({ username, _id, profilePicture });
     });
     res.status(200).json(friendList);
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 });
 
 // get friendrequest
@@ -47,9 +46,7 @@ router.get("/friendrequests/:id", async (req, res) => {
 
     const friendRequests = user.friendRequest;
     res.status(200).json(friendRequests);
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 });
 
 //confirm friends
@@ -229,7 +226,6 @@ router.put("/:id/update", async (req, res) => {
         $set: req.body,
       });
       res.status(200).json(user);
-      console.log("test");
     } catch (e) {
       console.error(e.message);
     }
@@ -251,12 +247,17 @@ router.put("/:id/updatepics", async (req, res) => {
   }
 });
 
-{
-  $set: {
-    stringValue: "New Value";
-  }
-}
+//get profile picture
 
+router.get("/pics/:id/", async (req, res) => {
+  try {
+    const currentUser = await User.findById(req.params.id);
+
+    res.json(currentUser.profilePicture);
+  } catch (err) {
+    res.status(500).json(err.message);
+  }
+});
 //add story
 
 router.put("/story", async (req, res) => {
