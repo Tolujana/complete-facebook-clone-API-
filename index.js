@@ -26,7 +26,7 @@ const io = require("socket.io")(http, {
 dotenv.config();
 
 mongoose.connect(process.env.MONGO_DB, (err) => {
-  if (err) console.log(err);
+  if (err) console.log(err.message);
   else console.log("mongdb is connected");
 });
 // middleware
@@ -43,7 +43,6 @@ const storage = multer.diskStorage({
     cb(null, "public/images");
   },
   filename: (req, file, cb) => {
-    console.log("thisis waht i want", req);
     cb(null, file.originalname);
   },
 });
@@ -55,11 +54,8 @@ const upload = multer({ storage: storage });
 //route
 app.post("/api/upload", upload.array("files", 12), (req, res) => {
   try {
-    console.log(req);
     return res.status(200).json("file uploaded successfully");
-  } catch (error) {
-    console.log(error.message);
-  }
+  } catch (error) {}
 });
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
@@ -87,12 +83,12 @@ io.on("connection", (socket) => {
   //get users id and socket id from user
   socket.on("addUser", (userId) => {
     addUser(userId, socket.id);
-    console.log("see users", users);
+
     io.emit("users", users);
   });
   socket.on("readdUser", (userId) => {
     addUser(userId, socket.id);
-    console.log("see users", users);
+
     io.emit("users", users);
   });
   io.emit("welcome", "welcome to Finjana. now you can chat");
@@ -102,7 +98,6 @@ io.on("connection", (socket) => {
   // Send and receive messages
   socket.on("sendMessage", ({ senderId, receiverId, message }) => {
     const user = getUser(receiverId);
-    console.log("user i am looking for", user, user?.socketId);
 
     io.to(user?.socketId).emit("getMessage", { senderId, message });
   });
